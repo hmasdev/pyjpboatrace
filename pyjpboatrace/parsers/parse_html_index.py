@@ -111,7 +111,7 @@ def parse_html_index(html: str):
     )
 
     # table
-    table = soup.select('div.table1 > table > tbody')
+    table = soup.select_one('div.table1').select('table > tbody')
 
     # parse
     dic = dict([
