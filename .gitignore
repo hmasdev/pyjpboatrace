@@ -127,3 +127,10 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# settings of vscode
+.vscode
+
+# private data
+tests/mock_html
+tests/data
