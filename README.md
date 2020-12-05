@@ -1,5 +1,10 @@
 # PyJPBoatRace: Python-based Japanese boatrace tools
 
+![GitHub top language](https://img.shields.io/github/languages/top/hmasdev/pyjpboatrace)
+![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/hmasdev/pyjpboatrace?sort=semver)
+![GitHub](https://img.shields.io/github/license/hmasdev/pyjpboatrace)
+![GitHub last commit](https://img.shields.io/github/last-commit/hmasdev/pyjpboatrace)
+
 Japanese boat race is extremely exciting sports.
 It is also fun to predict the results of races.
 Prediction like machine learning method requires data.
