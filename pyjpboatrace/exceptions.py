@@ -1,0 +1,3 @@
+
+class NoDataException(Exception):
+    pass
