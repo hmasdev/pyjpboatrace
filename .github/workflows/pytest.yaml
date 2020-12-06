@@ -1,4 +1,4 @@
-name: Pytest for Pull request
+name: Pytest
 
 on:
   push:
