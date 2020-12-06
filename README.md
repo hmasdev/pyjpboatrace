@@ -1,9 +1,10 @@
 # PyJPBoatRace: Python-based Japanese boatrace tools
 
-![GitHub top language](https://img.shields.io/github/languages/top/hmasdev/pyjpboatrace)
-![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/hmasdev/pyjpboatrace?sort=semver)
-![GitHub](https://img.shields.io/github/license/hmasdev/pyjpboatrace)
-![GitHub last commit](https://img.shields.io/github/last-commit/hmasdev/pyjpboatrace)
+![GitHub top language](https://img.shields.io/github/languages/top/hmasdev/pyjpboatrace?style=plastic)
+![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/hmasdev/pyjpboatrace?sort=semver&style=plastic)
+![GitHub](https://img.shields.io/github/license/hmasdev/pyjpboatrace?style=plastic)
+![GitHub last commit](https://img.shields.io/github/last-commit/hmasdev/pyjpboatrace?style=plastic)
+[![](https://github.com/hmasdev/pyjpboatrace/workflows/Pytest/badge.svg?branch=main&event=push)](https://github.com/hmasdev/pyjpboatrace/actions?query=workflow%3APytest)
 
 Japanese boat race is extremely exciting sports.
 It is also fun to predict the results of races.
@@ -15,8 +16,8 @@ Thus, this package provides you with useful tools for data analysis for boatrace
 ### Dependencies
 
 - python >= 3.7
-- requests>=2.25.0
-- beautifulsoup4>=4.9.3
+- requests >= 2.25.0
+- beautifulsoup4 >= 4.9.3
 
 ### User installation
 
@@ -71,9 +72,15 @@ with open('data.json', 'w', encoding='utf-8') as f:
 
 ### NOTE
 
-The map between integers and stadiums is given by `STADIUMS_MAP` in `const.py`.
+The map between integers and stadiums is defined as `STADIUMS_MAP` in `const.py`.
 
 ## Contribution
+
+1. Fork ([https://github.com/hmasdev/pyjpboatrace/fork](https://github.com/hmasdev/pyjpboatrace/fork));
+2. Create your feature branch (`git checkout -b feautre/xxxx`);
+3. Commit your changes (`git commit -am 'Add xxxx feature`);
+4. Push to the branch (`git push origin feature/xxxx`)
+5. Create new Pull Request
 
 ## LICENSE
 
