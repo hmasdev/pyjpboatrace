@@ -4,6 +4,7 @@ import os
 import json
 from logging import getLogger
 from pyjpboatrace.requestors import BoatracejpRequestor
+from pyjpboatrace.exceptions import LoginFailException
 
 _login_info_file = './.secrets.json'
 _login_info_not_found = not os.path.exists(_login_info_file)
@@ -35,6 +36,16 @@ class TestRequestorWithLogin(unittest.TestCase):
         requestor2 = BoatracejpRequestor(login_info_json=_login_info_file)
         # check
         self.assertTrue(requestor2.check_login_status())
+
+    def test_create_requestor_invalid_id_pass(self):
+        # create
+        with self.assertRaises(LoginFailException):
+            BoatracejpRequestor(
+                userid='invalid',
+                pin='invalid',
+                auth_pass='invalid',
+                vote_pass='invalid',
+            )
 
     def tearDown(self):
         pass
