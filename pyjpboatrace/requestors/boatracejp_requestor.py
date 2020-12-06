@@ -8,6 +8,7 @@ from logging import getLogger
 
 from ..config import RequestorConfig
 from .base_requestor import BaseRequestor
+from ..exceptions import LoginFailException
 
 
 class BoatracejpRequestor(BaseRequestor):
@@ -84,8 +85,9 @@ class BoatracejpRequestor(BaseRequestor):
         # try login
         self.logger.info('Trying to login...')
         if not self.__login():
-            # TODO create exception
-            raise Exception(f'Failed to login into {self.__login_url}')
+            raise LoginFailException(
+                f'Failed to login into {self.__login_url}'
+            )
         self.logger.info('Succeeded in login.')
 
     def get(self, url: str):
