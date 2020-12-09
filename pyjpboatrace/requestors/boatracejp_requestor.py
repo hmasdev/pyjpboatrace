@@ -1,4 +1,5 @@
 import requests
+from requests.models import Response
 import time
 import os
 import json
@@ -90,11 +91,11 @@ class BoatracejpRequestor(BaseRequestor):
             )
         self.logger.info('Succeeded in login.')
 
-    def get(self, url: str):
+    def get(self, url: str) -> Response:
         time.sleep(max(0, 1-time.time()+self.previous_called))
         http_response = self.__session.get(url)
         self.previous_called = time.time()
-        return http_response.text
+        return http_response
 
     def __login(self):
         # preparation
