@@ -1,4 +1,5 @@
 import requests
+from requests.models import Response
 import time
 from ..config import RequestorConfig
 from .base_requestor import BaseRequestor
@@ -12,8 +13,8 @@ class Requestor(BaseRequestor):
         self.interval_time = interval_time
         self.previous_called = 0
 
-    def get(self, url: str) -> str:
+    def get(self, url: str) -> Response:
         time.sleep(max(0, 1-time.time()+self.previous_called))
         http_response = requests.get(url)
         self.previous_called = time.time()
-        return http_response.text
+        return http_response

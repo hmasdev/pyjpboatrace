@@ -27,7 +27,7 @@ class TestRequestor(unittest.TestCase):
         with open(path, 'r', encoding='utf-8-sig') as f:
             expected = f.read()
         # actual
-        actual = self.requestor.get(url)
+        actual = self.requestor.get(url).text
         # assert
         self.assertEqual(actual, expected)
 

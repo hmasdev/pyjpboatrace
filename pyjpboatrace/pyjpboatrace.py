@@ -24,7 +24,7 @@ class PyJPBoatrace(object):
     def __baseget(self, url: str, parser) -> dict:
 
         self.__logger.debug(f'Start requesting {url}')
-        html = self.__requestor.get(url)
+        html = self.__requestor.get(url).text
         self.__logger.debug('Completed request')
 
         self.__logger.debug('Start validate html')
