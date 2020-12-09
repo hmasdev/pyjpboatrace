@@ -2,6 +2,7 @@ import unittest
 from unittest import mock
 import os
 import json
+from collections import namedtuple
 from datetime import date, datetime, timedelta
 from logging import getLogger
 from pyjpboatrace import PyJPBoatrace
@@ -10,6 +11,8 @@ from pyjpboatrace import PyJPBoatrace
 # TODO add test for get function of racer's last 3sections info
 # TODO add test for get function of racer's season info
 # TODO add test for get function of racer's course-wise info
+
+MockResponse = namedtuple('MockResponse', 'text')
 
 
 class TestPyjpboatrace(unittest.TestCase):
@@ -58,7 +61,7 @@ class TestPyjpboatrace(unittest.TestCase):
             self.logger.warning(f'{path} not found. Skip it.')
             return None
         with open(path, 'r', encoding='utf-8') as f:
-            mock_get.return_value = f.read()
+            mock_get.return_value = MockResponse(f.read())
 
         # expectation
         path = os.path.join(self.expected_direc, 'expected_today_index.json')
@@ -110,7 +113,7 @@ class TestPyjpboatrace(unittest.TestCase):
             self.logger.warning(f'{path} not found. Skip it.')
             return None
         with open(path, 'r', encoding='utf-8') as f:
-            mock_get.return_value = f.read()
+            mock_get.return_value = MockResponse(f.read())
 
         # expectation
         path = os.path.join(
@@ -451,7 +454,7 @@ class TestPyjpboatrace(unittest.TestCase):
             self.logger.warning(f'{path} not found. Skip it.')
             return None
         with open(path, 'r', encoding='utf-8') as f:
-            mock_get.return_value = f.read()
+            mock_get.return_value = MockResponse(f.read())
         # expectation
         path = os.path.join(
             self.expected_direc,
@@ -524,7 +527,7 @@ class TestPyjpboatrace(unittest.TestCase):
             self.logger.warning(f'{path} not found. Skip it.')
             return None
         with open(path, 'r', encoding='utf-8') as f:
-            mock_get.return_value = f.read()
+            mock_get.return_value = MockResponse(f.read())
         # expectation
         path = os.path.join(
             self.expected_direc,
