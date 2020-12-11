@@ -7,7 +7,7 @@ from requests.exceptions import ConnectionError
 from pyjpboatrace.requestors import BoatracejpRequestor
 from pyjpboatrace.exceptions import LoginFailException
 
-_login_info_file = './.secrets.json'
+_login_info_file = './.secrets.json'  # TODO pytest framework on github actions
 _login_info_not_found = not os.path.exists(_login_info_file)
 
 
@@ -18,15 +18,17 @@ class TestRequestorWithLogin(unittest.TestCase):
         cls.expected_direc = 'tests/data'
         cls.logger = getLogger(__name__)
 
-        cls.__login_info = None
+        cls.__login_info = {}
         if not _login_info_not_found:
+            # login info
             with open(_login_info_file, 'r', encoding='utf-8-sig') as f:
                 cls.__login_info = json.load(f)
 
-        try:
-            cls.requestor = BoatracejpRequestor(**cls.__login_info)
-        except LoginFailException:
-            cls.requestor = None
+            # try to create requestor
+            try:
+                cls.requestor = BoatracejpRequestor(**cls.__login_info)
+            except LoginFailException:
+                cls.requestor = None
 
     def setUp(self):
         pass
