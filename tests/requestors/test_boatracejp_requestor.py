@@ -75,6 +75,17 @@ class TestRequestorWithLogin(unittest.TestCase):
         with self.assertRaises(ConnectionError):
             self.requestor.get(url)
 
+    @pytest.mark.skipif(_login_info_not_found, reason="login info not found")
+    def test_requestor_post(self):
+        # preparation
+        url = 'https://httpbin.org/post'
+        expected = {'val': '1', 'name': 'First Last'}
+        # actual
+        response = self.requestor.post(url, data=expected)
+        actual = json.loads(response.text)
+        # assert
+        self.assertDictEqual(actual['form'], expected)
+
     def tearDown(self):
         pass
 
