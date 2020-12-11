@@ -97,6 +97,14 @@ class BoatracejpRequestor(BaseRequestor):
         self.previous_called = time.time()
         return http_response
 
+    # TODO add test
+    def post(self, url: str, data: dict = {}) -> Response:
+        time.sleep(max(0, 1-time.time()+self.previous_called))
+        http_response = self.__session.post(
+            url, data=data, cookies=self.__session.cookies)
+        self.previous_called = time.time()
+        return http_response
+
     def __login(self):
         # preparation
         html = self.__session.get(self.__login_url).text
@@ -118,7 +126,7 @@ class BoatracejpRequestor(BaseRequestor):
         payload = {
             'org.apache.struts.taglib.html.TOKEN': token,
             'orteusPrevForward': orteusPF,
-            'orteusElements': True,
+            'orteusElements': 'true',
             'com.nec.jp.orteusActionMethod.login': 'controlLogin',
             'login': 'Submit',
             'in_AuthAfterUrl': '/',
