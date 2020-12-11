@@ -84,6 +84,7 @@ class BoatracejpRequestor(BaseRequestor):
         self.__session = requests.Session()
 
         # try login
+        # TODO login sometimes fails although valid login info is used.
         self.logger.info('Trying to login...')
         if not self.__login():
             raise LoginFailException(
@@ -97,7 +98,6 @@ class BoatracejpRequestor(BaseRequestor):
         self.previous_called = time.time()
         return http_response
 
-    # TODO add test
     def post(self, url: str, data: dict = {}) -> Response:
         time.sleep(max(0, 1-time.time()+self.previous_called))
         http_response = self.__session.post(
