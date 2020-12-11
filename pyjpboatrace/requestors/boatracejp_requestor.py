@@ -93,7 +93,7 @@ class BoatracejpRequestor(BaseRequestor):
 
     def get(self, url: str) -> Response:
         time.sleep(max(0, 1-time.time()+self.previous_called))
-        http_response = self.__session.get(url)
+        http_response = self.__session.get(url, cookies=self.__session.cookies)
         self.previous_called = time.time()
         return http_response
 
