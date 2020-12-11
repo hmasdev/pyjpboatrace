@@ -3,6 +3,7 @@ import pytest
 import os
 import json
 from logging import getLogger
+from requests.exceptions import ConnectionError
 from pyjpboatrace.requestors import BoatracejpRequestor
 from pyjpboatrace.exceptions import LoginFailException
 
@@ -21,6 +22,11 @@ class TestRequestorWithLogin(unittest.TestCase):
         if not _login_info_not_found:
             with open(_login_info_file, 'r', encoding='utf-8-sig') as f:
                 cls.__login_info = json.load(f)
+
+        try:
+            cls.requestor = BoatracejpRequestor(**cls.__login_info)
+        except LoginFailException:
+            cls.requestor = None
 
     def setUp(self):
         pass
@@ -46,6 +52,28 @@ class TestRequestorWithLogin(unittest.TestCase):
                 auth_pass='invalid',
                 vote_pass='invalid',
             )
+
+    @pytest.mark.skipif(_login_info_not_found, reason="login info not found")
+    def test_requestor_get(self):
+        # preparation
+        url = 'https://example.com'
+        # expected
+        path = os.path.join(self.expected_direc, "expected_example.com.html")
+        if not os.path.exists(path):
+            self.logger.warning(f'{path} not found. Skip it.')
+            return None
+        with open(path, 'r', encoding='utf-8-sig') as f:
+            expected = f.read()
+        # actual
+        actual = self.requestor.get(url).text
+        # assert
+        self.assertEqual(actual, expected)
+
+    @pytest.mark.skipif(_login_info_not_found, reason="login info not found")
+    def test_requestor_get_404notfound(self):
+        url = 'https://this_does_not_exists_hogehogehogehoge'
+        with self.assertRaises(ConnectionError):
+            self.requestor.get(url)
 
     def tearDown(self):
         pass
