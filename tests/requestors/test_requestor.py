@@ -1,5 +1,6 @@
 import unittest
 import os
+import json
 from logging import getLogger
 from pyjpboatrace.requestors import Requestor
 from requests.exceptions import ConnectionError
@@ -16,7 +17,7 @@ class TestRequestor(unittest.TestCase):
     def setUp(self):
         pass
 
-    def test_requestor(self):
+    def test_requestor_get(self):
         # preparation
         url = 'https://example.com'
         # expected
@@ -31,10 +32,20 @@ class TestRequestor(unittest.TestCase):
         # assert
         self.assertEqual(actual, expected)
 
-    def test_requestor_404notfound(self):
+    def test_requestor_get_404notfound(self):
         url = 'https://this_does_not_exists_hogehogehogehoge'
         with self.assertRaises(ConnectionError):
             self.requestor.get(url)
+
+    def test_requestor_post(self):
+        # preparation
+        url = 'https://httpbin.org/post'
+        expected = {'val': '1', 'name': 'First Last'}
+        # actual
+        response = self.requestor.post(url, data=expected)
+        actual = json.loads(response.text)
+        # assert
+        self.assertDictEqual(actual['form'], expected)
 
     def tearDown(self):
         pass
