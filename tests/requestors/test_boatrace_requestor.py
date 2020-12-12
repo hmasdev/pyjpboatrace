@@ -9,6 +9,7 @@ from requests.exceptions import ConnectionError
 # TODO add test for the argument of post
 # TODO add test for login info
 
+
 @pytest.mark.skipif(
     not os.path.exists('.secrets.json'),
     reason='Login-info file not found'
