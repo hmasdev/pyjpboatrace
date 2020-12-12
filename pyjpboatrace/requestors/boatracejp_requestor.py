@@ -86,19 +86,38 @@ class BoatracejpRequestor(BaseRequestor):
         # try login
         # TODO login sometimes fails although valid login info is used.
         self.logger.info('Trying to login...')
-        if not self.__login():
-            raise LoginFailException(
-                f'Failed to login into {self.__login_url}'
-            )
+        self.__login()
         self.logger.info('Succeeded in login.')
 
-    def get(self, url: str) -> Response:
+    def get(
+        self,
+        url: str,
+        login_check_and_try: bool = True
+    ) -> Response:
+        # login check
+        # TODO reduce # of requests
+        if login_check_and_try and not self.check_login_status():
+            self.__login()
+
+        # get
         time.sleep(max(0, 1-time.time()+self.previous_called))
         http_response = self.__session.get(url, cookies=self.__session.cookies)
         self.previous_called = time.time()
         return http_response
 
-    def post(self, url: str, data: dict = {}) -> Response:
+    def post(
+        self,
+        url: str,
+        data: dict = {},
+        login_check_and_try: bool = True
+    ) -> Response:
+
+        # login check
+        # TODO reduce # of requests
+        if login_check_and_try and not self.check_login_status():
+            self.__login()
+
+        # post
         time.sleep(max(0, 1-time.time()+self.previous_called))
         http_response = self.__session.post(
             url, data=data, cookies=self.__session.cookies)
@@ -107,7 +126,7 @@ class BoatracejpRequestor(BaseRequestor):
 
     def __login(self):
         # preparation
-        html = self.__session.get(self.__login_url).text
+        html = self.get(self.__login_url, login_check_and_try=False).text
         soup = BeautifulSoup(html, 'html.parser')
         self.logger.debug(f'HTTP GET {self.__login_url}')
 
@@ -136,14 +155,19 @@ class BoatracejpRequestor(BaseRequestor):
         }
 
         # login
-        self.post(self.__login_url, data=payload)
+        self.post(self.__login_url, data=payload, login_check_and_try=False)
         self.logger.debug('Tried to login')
 
-        return self.check_login_status()
+        if not self.check_login_status():
+            raise LoginFailException(
+                f'Failed to login into {self.__login_url}'
+            )
+
+        return None
 
     def check_login_status(self):
         # try to get main page
-        html = self.get(self.__main_url).text
+        html = self.get(self.__main_url, login_check_and_try=False).text
         self.logger.debug(f'HTTP GET {self.__main_url}')
         # extract spans related to login information
         soup = BeautifulSoup(html, 'html.parser')
