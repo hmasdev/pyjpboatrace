@@ -136,14 +136,14 @@ class BoatracejpRequestor(BaseRequestor):
         }
 
         # login
-        self.__session.post(self.__login_url, data=payload)
+        self.post(self.__login_url, data=payload)
         self.logger.debug('Tried to login')
 
         return self.check_login_status()
 
     def check_login_status(self):
         # try to get main page
-        html = self.__session.get(self.__main_url).text
+        html = self.get(self.__main_url).text
         self.logger.debug(f'HTTP GET {self.__main_url}')
         # extract spans related to login information
         soup = BeautifulSoup(html, 'html.parser')
