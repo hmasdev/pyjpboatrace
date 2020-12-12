@@ -16,22 +16,22 @@ class SessionRequestor(BaseRequestor):
         self.previous_called = 0
 
         # create session
-        self.__session = requests.Session()
+        self._session = requests.Session()
 
     def get(self, url: str) -> Response:
         # get
         time.sleep(max(0, 1-time.time()+self.previous_called))
-        http_response = self.__session.get(url, cookies=self.__session.cookies)
+        http_response = self._session.get(url, cookies=self._session.cookies)
         self.previous_called = time.time()
         return http_response
 
     def post(self, url: str, data: dict = {}) -> Response:
         # post
         time.sleep(max(0, 1-time.time()+self.previous_called))
-        http_response = self.__session.post(
+        http_response = self._session.post(
             url,
             data=data,
-            cookies=self.__session.cookies
+            cookies=self._session.cookies
         )
         self.previous_called = time.time()
         return http_response
