@@ -134,3 +134,6 @@ dmypy.json
 # private data
 tests/mock_html
 tests/data
+
+# secret file
+.secrets.json

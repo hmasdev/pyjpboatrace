@@ -2,16 +2,16 @@ import unittest
 import os
 import json
 from logging import getLogger
-from pyjpboatrace.requestors import Requestor
+from pyjpboatrace.requestors import SessionRequestor
 from requests.exceptions import ConnectionError
 
 
-class TestRequestor(unittest.TestCase):
+class TestSessionRequestor(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
         cls.expected_direc = 'tests/data'
-        cls.requestor = Requestor()
+        cls.requestor = SessionRequestor()
         cls.logger = getLogger(__name__)
 
     def setUp(self):
