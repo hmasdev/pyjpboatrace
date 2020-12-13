@@ -35,3 +35,6 @@ class SessionRequestor(BaseRequestor):
         )
         self.previous_called = time.time()
         return http_response
+
+    def close(self):
+        self._session.close()
