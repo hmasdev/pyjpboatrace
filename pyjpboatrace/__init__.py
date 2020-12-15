@@ -1,5 +1,4 @@
 from .pyjpboatrace import PyJPBoatrace
-from . import check_html
 from . import exceptions
 from . import parsers
 from . import utils
@@ -16,6 +15,5 @@ __all__ = [
     'pyjpboatrace',
     'parsers',
     'utils',
-    'check_html',
     'exceptions'
 ]

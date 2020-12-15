@@ -2,11 +2,11 @@ import datetime
 from logging import getLogger
 import sys
 
+from bs4 import BeautifulSoup
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 
 from . import parsers
-from .check_html import check_html
 from .exceptions import NoDataException
 from .const import BASE_URL, NUM_RACES, NUM_STADIUMS
 
@@ -32,7 +32,7 @@ class PyJPBoatrace(object):
 
         self.__logger.debug('Start validate html')
         try:
-            check_html(html)
+            self.__validate_contents(html)
         except NoDataException:
             # No data found
             self.__logger.warning('No data in html')
@@ -63,6 +63,26 @@ class PyJPBoatrace(object):
             raise ValueError(
                 f'Race must be between 1 and {NUM_RACES}. {race} is given.'
             )
+
+    def __validate_contents(self, html: str):
+        # preparation
+        soup = BeautifulSoup(html, 'html.parser')
+
+        # whether the dataset has not been displayed
+        texts = map(
+            lambda e: e.text,
+            soup.select('h3.title12_title')
+        )
+        if '※ データはありません。' in texts:
+            raise NoDataException()
+
+        # whether the dataset is not found
+        texts = map(
+            lambda e: e.text,
+            soup.select('span.heading1_mainLabel')
+        )
+        if 'データがありません。' in texts:
+            raise NoDataException()
 
     def get_stadiums(self, d: datetime.date) -> dict:
 
