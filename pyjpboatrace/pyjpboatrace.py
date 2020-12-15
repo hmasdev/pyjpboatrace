@@ -4,18 +4,18 @@ import sys
 
 from bs4 import BeautifulSoup
 from selenium import webdriver
-from webdriver_manager.chrome import ChromeDriverManager
 
 from . import parsers
 from .exceptions import NoDataException
 from .const import BASE_URL, NUM_RACES, NUM_STADIUMS
+from pyjpboatrace.drivers import create_chrome_driver
 
 
 class PyJPBoatrace(object):
 
     def __init__(
         self,
-        driver: webdriver = webdriver.Chrome(ChromeDriverManager().install()),
+        driver: webdriver.remote.webdriver.WebDriver = create_chrome_driver(),
         base_url: str = BASE_URL,
         logger=getLogger(__name__),
     ):
