@@ -47,8 +47,8 @@ class TestPyjpboatrace(unittest.TestCase):
         # assertion
         self.assertDictEqual(actual, expected)
 
-    @mock.patch('pyjpboatrace.requestors.Requestor.get')
-    def test_get_stadiums_today(self, mock_get):
+    @mock.patch('selenium.webdriver.Chrome')
+    def test_get_stadiums_today(self, mock_chrome):
         # TODAY (=2020/11/30) CASE #
         # preparation
         d = date(2020, 11, 30)
@@ -58,7 +58,7 @@ class TestPyjpboatrace(unittest.TestCase):
             self.logger.warning(f'{path} not found. Skip it.')
             return None
         with open(path, 'r', encoding='utf-8') as f:
-            mock_get.return_value = f.read()
+            mock_chrome.page_source = f.read()
 
         # expectation
         path = os.path.join(self.expected_direc, 'expected_today_index.json')
@@ -69,7 +69,7 @@ class TestPyjpboatrace(unittest.TestCase):
             expected = json.load(f)
 
         # actual
-        actual = self.pyjpboatrace.get_stadiums(d)
+        actual = PyJPBoatrace(driver=mock_chrome).get_stadiums(d)
 
         # assert
         self.assertEqual(actual, expected)
@@ -98,8 +98,8 @@ class TestPyjpboatrace(unittest.TestCase):
         # assertion
         self.assertDictEqual(actual, expected)
 
-    @mock.patch('pyjpboatrace.requestors.Requestor.get')
-    def test_get_12races_today(self, mock_get):
+    @mock.patch('selenium.webdriver.Chrome')
+    def test_get_12races_today(self, mock_chrome):
         # TODAY (=2020/12/01) CASE #
         # preparation
         d = date(2020, 12, 1)
@@ -110,7 +110,7 @@ class TestPyjpboatrace(unittest.TestCase):
             self.logger.warning(f'{path} not found. Skip it.')
             return None
         with open(path, 'r', encoding='utf-8') as f:
-            mock_get.return_value = f.read()
+            mock_chrome.page_source = f.read()
 
         # expectation
         path = os.path.join(
@@ -124,7 +124,7 @@ class TestPyjpboatrace(unittest.TestCase):
             expected = json.load(f)
 
         # actual
-        actual = self.pyjpboatrace.get_12races(d, stadium)
+        actual = PyJPBoatrace(driver=mock_chrome).get_12races(d, stadium)
 
         # assert
         self.assertEqual(actual, expected)
@@ -438,8 +438,8 @@ class TestPyjpboatrace(unittest.TestCase):
         # assertion
         self.assertDictEqual(actual, expected)
 
-    @mock.patch('pyjpboatrace.requestors.Requestor.get')
-    def test_get_just_before_info_not_yet(self, mock_get):
+    @mock.patch('selenium.webdriver.Chrome')
+    def test_get_just_before_info_not_yet(self, mock_chrome):
         # NOT YET DISPLAYED CASE#
         # preparation: anything OK
         d = date(2020, 11, 29)
@@ -451,7 +451,8 @@ class TestPyjpboatrace(unittest.TestCase):
             self.logger.warning(f'{path} not found. Skip it.')
             return None
         with open(path, 'r', encoding='utf-8') as f:
-            mock_get.return_value = f.read()
+            mock_chrome.page_source = f.read()
+
         # expectation
         path = os.path.join(
             self.expected_direc,
@@ -463,7 +464,8 @@ class TestPyjpboatrace(unittest.TestCase):
         with open(path, 'r', encoding='utf-8-sig') as f:
             expected = json.load(f)
         # actual
-        actual = self.pyjpboatrace.get_just_before_info(d, stadium, race)
+        pyjpboatrace = PyJPBoatrace(driver=mock_chrome)
+        actual = pyjpboatrace.get_just_before_info(d, stadium, race)
         # assertion
         self.assertDictEqual(actual, expected)
 
@@ -511,8 +513,8 @@ class TestPyjpboatrace(unittest.TestCase):
         # assertion
         self.assertDictEqual(actual, expected)
 
-    @mock.patch('pyjpboatrace.requestors.Requestor.get')
-    def test_get_race_result_not_yet(self, mock_get):
+    @mock.patch('selenium.webdriver.Chrome')
+    def test_get_race_result_not_yet(self, mock_chrome):
         # NOT YET DISPLAYED CASE#
         # preparation: anything OK
         d = date(2020, 11, 29)
@@ -524,7 +526,8 @@ class TestPyjpboatrace(unittest.TestCase):
             self.logger.warning(f'{path} not found. Skip it.')
             return None
         with open(path, 'r', encoding='utf-8') as f:
-            mock_get.return_value = f.read()
+            mock_chrome.page_source = f.read()
+
         # expectation
         path = os.path.join(
             self.expected_direc,
@@ -536,7 +539,8 @@ class TestPyjpboatrace(unittest.TestCase):
         with open(path, 'r', encoding='utf-8-sig') as f:
             expected = json.load(f)
         # actual
-        actual = self.pyjpboatrace.get_race_result(d, stadium, race)
+        pyjpboatrace = PyJPBoatrace(driver=mock_chrome)
+        actual = pyjpboatrace.get_race_result(d, stadium, race)
         # assertion
         self.assertDictEqual(actual, expected)
 

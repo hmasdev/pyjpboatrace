@@ -2,7 +2,6 @@ from .pyjpboatrace import PyJPBoatrace
 from . import check_html
 from . import exceptions
 from . import parsers
-from . import requestors
 from . import utils
 
 __copyright__ = 'Copyright (C) 2020 hmasdev'
@@ -16,7 +15,6 @@ __all__ = [
     'PyJPBoatrace',
     'pyjpboatrace',
     'parsers',
-    'requestors',
     'utils',
     'check_html',
     'exceptions'

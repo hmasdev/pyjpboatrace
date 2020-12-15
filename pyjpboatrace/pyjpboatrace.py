@@ -2,8 +2,10 @@ import datetime
 from logging import getLogger
 import sys
 
+from selenium import webdriver
+from webdriver_manager.chrome import ChromeDriverManager
+
 from . import parsers
-from .requestors import BaseRequestor, Requestor
 from .check_html import check_html
 from .exceptions import NoDataException
 from .const import BASE_URL, NUM_RACES, NUM_STADIUMS
@@ -13,18 +15,19 @@ class PyJPBoatrace(object):
 
     def __init__(
         self,
-        requestor: BaseRequestor = Requestor(),
+        driver: webdriver = webdriver.Chrome(ChromeDriverManager().install()),
         base_url: str = BASE_URL,
         logger=getLogger(__name__),
     ):
-        self.__requestor = requestor
+        self.__driver = driver
         self.__base_url = base_url
         self.__logger = logger
 
     def __baseget(self, url: str, parser) -> dict:
 
         self.__logger.debug(f'Start requesting {url}')
-        html = self.__requestor.get(url)
+        self.__driver.get(url)
+        html = self.__driver.page_source
         self.__logger.debug('Completed request')
 
         self.__logger.debug('Start validate html')
