@@ -1,9 +1,9 @@
 import unittest
 from unittest import mock
+import pytest
 import os
 import json
 from datetime import date, datetime, timedelta
-from logging import getLogger
 from pyjpboatrace import PyJPBoatrace
 
 # TODO add test for get function of racer's basic info
@@ -14,16 +14,20 @@ from pyjpboatrace import PyJPBoatrace
 
 class TestPyjpboatrace(unittest.TestCase):
 
+    expected_direc = 'tests/data'
+    mock_html = 'tests/mock_html'
+
     @classmethod
     def setUpClass(cls):
         cls.pyjpboatrace = PyJPBoatrace()
-        cls.expected_direc = 'tests/data'
-        cls.mock_html = 'tests/mock_html'
-        cls.logger = getLogger(__name__)
 
     def setUp(self):
         pass
 
+    @pytest.mark.skipif(
+        not os.path.exists(expected_direc),
+        reason=f'{expected_direc} not found'
+    )
     def test_get_stadiums(self):
 
         # preparation
@@ -35,9 +39,6 @@ class TestPyjpboatrace(unittest.TestCase):
             self.expected_direc,
             f"expected_index.hd={dstr}.json"
         )
-        if not os.path.exists(path):
-            self.logger.warning(f'{path} not found. Skip it.')
-            return None
         with open(path, 'r', encoding='utf-8-sig') as f:
             expected = json.load(f)
 
@@ -47,6 +48,14 @@ class TestPyjpboatrace(unittest.TestCase):
         # assertion
         self.assertDictEqual(actual, expected)
 
+    @pytest.mark.skipif(
+        not os.path.exists(expected_direc),
+        reason=f'{expected_direc} not found'
+    )
+    @pytest.mark.skipif(
+        not os.path.exists(mock_html),
+        reason=f'{mock_html} not found'
+    )
     @mock.patch('selenium.webdriver.Chrome')
     def test_get_stadiums_today(self, mock_chrome):
         # TODAY (=2020/11/30) CASE #
@@ -54,17 +63,11 @@ class TestPyjpboatrace(unittest.TestCase):
         d = date(2020, 11, 30)
         # set mock
         path = os.path.join(self.mock_html, 'today_index.html')
-        if not os.path.exists(path):
-            self.logger.warning(f'{path} not found. Skip it.')
-            return None
         with open(path, 'r', encoding='utf-8') as f:
             mock_chrome.page_source = f.read()
 
         # expectation
         path = os.path.join(self.expected_direc, 'expected_today_index.json')
-        if not os.path.exists(path):
-            self.logger.warning(f'{path} not found. Skip it.')
-            return None
         with open(path, 'r', encoding='utf-8-sig') as f:
             expected = json.load(f)
 
@@ -74,6 +77,10 @@ class TestPyjpboatrace(unittest.TestCase):
         # assert
         self.assertEqual(actual, expected)
 
+    @pytest.mark.skipif(
+        not os.path.exists(expected_direc),
+        reason=f'{expected_direc} not found'
+    )
     def test_get_12races(self):
 
         # preparation
@@ -86,9 +93,6 @@ class TestPyjpboatrace(unittest.TestCase):
             self.expected_direc,
             f"expected_raceindex.jcd={stadium:02d}&hd={dstr}.json"
         )
-        if not os.path.exists(path):
-            self.logger.warning(f'{path} not found. Skip it.')
-            return None
         with open(path, 'r', encoding='utf-8-sig') as f:
             expected = json.load(f)
 
@@ -98,6 +102,14 @@ class TestPyjpboatrace(unittest.TestCase):
         # assertion
         self.assertDictEqual(actual, expected)
 
+    @pytest.mark.skipif(
+        not os.path.exists(expected_direc),
+        reason=f'{expected_direc} not found'
+    )
+    @pytest.mark.skipif(
+        not os.path.exists(mock_html),
+        reason=f'{mock_html} not found'
+    )
     @mock.patch('selenium.webdriver.Chrome')
     def test_get_12races_today(self, mock_chrome):
         # TODAY (=2020/12/01) CASE #
@@ -106,9 +118,6 @@ class TestPyjpboatrace(unittest.TestCase):
         stadium = 1
         # set mock
         path = os.path.join(self.mock_html, 'today_raceindex.html')
-        if not os.path.exists(path):
-            self.logger.warning(f'{path} not found. Skip it.')
-            return None
         with open(path, 'r', encoding='utf-8') as f:
             mock_chrome.page_source = f.read()
 
@@ -117,9 +126,6 @@ class TestPyjpboatrace(unittest.TestCase):
             self.expected_direc,
             'expected_today_raceindex.json'
         )
-        if not os.path.exists(path):
-            self.logger.warning(f'{path} not found. Skip it.')
-            return None
         with open(path, 'r', encoding='utf-8-sig') as f:
             expected = json.load(f)
 
@@ -129,6 +135,10 @@ class TestPyjpboatrace(unittest.TestCase):
         # assert
         self.assertEqual(actual, expected)
 
+    @pytest.mark.skipif(
+        not os.path.exists(expected_direc),
+        reason=f'{expected_direc} not found'
+    )
     def test_get_race_info(self):
 
         # USUAL CASE #
@@ -142,9 +152,6 @@ class TestPyjpboatrace(unittest.TestCase):
             self.expected_direc,
             f"expected_racelist.rno={race}&jcd={stadium:02d}&hd={dstr}.json"
         )
-        if not os.path.exists(path):
-            self.logger.warning(f'{path} not found. Skip it.')
-            return None
         with open(path, 'r', encoding='utf-8-sig') as f:
             expected = json.load(f)
         # actual
@@ -152,6 +159,10 @@ class TestPyjpboatrace(unittest.TestCase):
         # assertion
         self.assertDictEqual(actual, expected)
 
+    @pytest.mark.skipif(
+        not os.path.exists(expected_direc),
+        reason=f'{expected_direc} not found'
+    )
     def test_get_race_info_missing_racer(self):
         # MISSING RACERS CASE #
         # preparation
@@ -164,9 +175,6 @@ class TestPyjpboatrace(unittest.TestCase):
             self.expected_direc,
             f"expected_racelist.rno={race}&jcd={stadium:02d}&hd={dstr}.json"
         )
-        if not os.path.exists(path):
-            self.logger.warning(f'{path} not found. Skip it.')
-            return None
         with open(path, 'r', encoding='utf-8-sig') as f:
             expected = json.load(f)
         # actual
@@ -174,6 +182,10 @@ class TestPyjpboatrace(unittest.TestCase):
         # assertion
         self.assertDictEqual(actual, expected)
 
+    @pytest.mark.skipif(
+        not os.path.exists(expected_direc),
+        reason=f'{expected_direc} not found'
+    )
     def test_get_odds_win_placeshow(self):
         # USUAL CASE #
         # preparation
@@ -186,9 +198,6 @@ class TestPyjpboatrace(unittest.TestCase):
             self.expected_direc,
             f"expected_oddstf.rno={race}&jcd={stadium:02d}&hd={dstr}.json"
         )
-        if not os.path.exists(path):
-            self.logger.warning(f'{path} not found. Skip it.')
-            return None
         with open(path, 'r', encoding='utf-8-sig') as f:
             expected = json.load(f)
         # actual data
@@ -196,6 +205,10 @@ class TestPyjpboatrace(unittest.TestCase):
         # assertion
         self.assertDictEqual(actual, expected)
 
+    @pytest.mark.skipif(
+        not os.path.exists(expected_direc),
+        reason=f'{expected_direc} not found'
+    )
     def test_get_odds_win_placeshow_missing_racer(self):
         # MISSING RACERS CASE #
         # preparation
@@ -208,9 +221,6 @@ class TestPyjpboatrace(unittest.TestCase):
             self.expected_direc,
             f"expected_oddstf.rno={race}&jcd={stadium:02d}&hd={dstr}.json"
         )
-        if not os.path.exists(path):
-            self.logger.warning(f'{path} not found. Skip it.')
-            return None
         with open(path, 'r', encoding='utf-8-sig') as f:
             expected = json.load(f)
         # actual
@@ -218,6 +228,10 @@ class TestPyjpboatrace(unittest.TestCase):
         # assertion
         self.assertDictEqual(actual, expected)
 
+    @pytest.mark.skipif(
+        not os.path.exists(expected_direc),
+        reason=f'{expected_direc} not found'
+    )
     def test_get_odds_quinellaplace(self):
         # USUAL CASE #
         # preparation
@@ -230,9 +244,6 @@ class TestPyjpboatrace(unittest.TestCase):
             self.expected_direc,
             f"expected_oddsk.rno={race}&jcd={stadium:02d}&hd={dstr}.json"
         )
-        if not os.path.exists(path):
-            self.logger.warning(f'{path} not found. Skip it.')
-            return None
         with open(path, 'r', encoding='utf-8-sig') as f:
             expected = json.load(f)
         # actual data
@@ -240,6 +251,10 @@ class TestPyjpboatrace(unittest.TestCase):
         # assertion
         self.assertDictEqual(actual, expected)
 
+    @pytest.mark.skipif(
+        not os.path.exists(expected_direc),
+        reason=f'{expected_direc} not found'
+    )
     def test_get_odds_quinellaplace_missing_racer(self):
         # MISSING RACERS CASE #
         # preparation
@@ -252,9 +267,6 @@ class TestPyjpboatrace(unittest.TestCase):
             self.expected_direc,
             f"expected_oddsk.rno={race}&jcd={stadium:02d}&hd={dstr}.json"
         )
-        if not os.path.exists(path):
-            self.logger.warning(f'{path} not found. Skip it.')
-            return None
         with open(path, 'r', encoding='utf-8-sig') as f:
             expected = json.load(f)
         # actual
@@ -262,6 +274,10 @@ class TestPyjpboatrace(unittest.TestCase):
         # assertion
         self.assertDictEqual(actual, expected)
 
+    @pytest.mark.skipif(
+        not os.path.exists(expected_direc),
+        reason=f'{expected_direc} not found'
+    )
     def test_get_odds_exacta_quinella(self):
         # USUAL CASE #
         # preparation
@@ -274,9 +290,6 @@ class TestPyjpboatrace(unittest.TestCase):
             self.expected_direc,
             f"expected_odds2tf.rno={race}&jcd={stadium:02d}&hd={dstr}.json"
         )
-        if not os.path.exists(path):
-            self.logger.warning(f'{path} not found. Skip it.')
-            return None
         with open(path, 'r', encoding='utf-8-sig') as f:
             expected = json.load(f)
         # actual data
@@ -284,6 +297,10 @@ class TestPyjpboatrace(unittest.TestCase):
         # assertion
         self.assertDictEqual(actual, expected)
 
+    @pytest.mark.skipif(
+        not os.path.exists(expected_direc),
+        reason=f'{expected_direc} not found'
+    )
     def test_get_odds_exacta_quinella_missing_racer(self):
         # MISSING RACERS CASE #
         # preparation
@@ -296,9 +313,6 @@ class TestPyjpboatrace(unittest.TestCase):
             self.expected_direc,
             f"expected_odds2tf.rno={race}&jcd={stadium:02d}&hd={dstr}.json"
         )
-        if not os.path.exists(path):
-            self.logger.warning(f'{path} not found. Skip it.')
-            return None
         with open(path, 'r', encoding='utf-8-sig') as f:
             expected = json.load(f)
         # actual
@@ -306,6 +320,10 @@ class TestPyjpboatrace(unittest.TestCase):
         # assertion
         self.assertDictEqual(actual, expected)
 
+    @pytest.mark.skipif(
+        not os.path.exists(expected_direc),
+        reason=f'{expected_direc} not found'
+    )
     def test_get_odds_trifecta(self):
         # USUAL CASE #
         # preparation
@@ -318,9 +336,6 @@ class TestPyjpboatrace(unittest.TestCase):
             self.expected_direc,
             f"expected_odds3t.rno={race}&jcd={stadium:02d}&hd={dstr}.json"
         )
-        if not os.path.exists(path):
-            self.logger.warning(f'{path} not found. Skip it.')
-            return None
         with open(path, 'r', encoding='utf-8-sig') as f:
             expected = json.load(f)
         # actual data
@@ -328,6 +343,10 @@ class TestPyjpboatrace(unittest.TestCase):
         # assertion
         self.assertDictEqual(actual, expected)
 
+    @pytest.mark.skipif(
+        not os.path.exists(expected_direc),
+        reason=f'{expected_direc} not found'
+    )
     def test_get_odds_trifecta_missing_racer(self):
         # MISSING RACERS CASE #
         # preparation
@@ -340,9 +359,6 @@ class TestPyjpboatrace(unittest.TestCase):
             self.expected_direc,
             f"expected_odds3t.rno={race}&jcd={stadium:02d}&hd={dstr}.json"
         )
-        if not os.path.exists(path):
-            self.logger.warning(f'{path} not found. Skip it.')
-            return None
         with open(path, 'r', encoding='utf-8-sig') as f:
             expected = json.load(f)
         # actual
@@ -350,6 +366,10 @@ class TestPyjpboatrace(unittest.TestCase):
         # assertion
         self.assertDictEqual(actual, expected)
 
+    @pytest.mark.skipif(
+        not os.path.exists(expected_direc),
+        reason=f'{expected_direc} not found'
+    )
     def test_get_odds_trio(self):
         # USUAL CASE #
         # preparation
@@ -362,9 +382,6 @@ class TestPyjpboatrace(unittest.TestCase):
             self.expected_direc,
             f"expected_odds3f.rno={race}&jcd={stadium:02d}&hd={dstr}.json"
         )
-        if not os.path.exists(path):
-            self.logger.warning(f'{path} not found. Skip it.')
-            return None
         with open(path, 'r', encoding='utf-8-sig') as f:
             expected = json.load(f)
         # actual data
@@ -372,6 +389,10 @@ class TestPyjpboatrace(unittest.TestCase):
         # assertion
         self.assertDictEqual(actual, expected)
 
+    @pytest.mark.skipif(
+        not os.path.exists(expected_direc),
+        reason=f'{expected_direc} not found'
+    )
     def test_get_odds_trio_missing_racer(self):
         # MISSING RACERS CASE #
         # preparation
@@ -384,9 +405,6 @@ class TestPyjpboatrace(unittest.TestCase):
             self.expected_direc,
             f"expected_odds3f.rno={race}&jcd={stadium:02d}&hd={dstr}.json"
         )
-        if not os.path.exists(path):
-            self.logger.warning(f'{path} not found. Skip it.')
-            return None
         with open(path, 'r', encoding='utf-8-sig') as f:
             expected = json.load(f)
         # actual
@@ -394,6 +412,10 @@ class TestPyjpboatrace(unittest.TestCase):
         # assertion
         self.assertDictEqual(actual, expected)
 
+    @pytest.mark.skipif(
+        not os.path.exists(expected_direc),
+        reason=f'{expected_direc} not found'
+    )
     def test_get_just_before_info(self):
         # USUAL CASE #
         # preparation
@@ -406,9 +428,6 @@ class TestPyjpboatrace(unittest.TestCase):
             self.expected_direc,
             f"expected_beforeinfo.rno={race}&jcd={stadium:02d}&hd={dstr}.json"
         )
-        if not os.path.exists(path):
-            self.logger.warning(f'{path} not found. Skip it.')
-            return None
         with open(path, 'r', encoding='utf-8-sig') as f:
             expected = json.load(f)
         # actual data
@@ -416,6 +435,10 @@ class TestPyjpboatrace(unittest.TestCase):
         # assertion
         self.assertDictEqual(actual, expected)
 
+    @pytest.mark.skipif(
+        not os.path.exists(expected_direc),
+        reason=f'{expected_direc} not found'
+    )
     def test_get_just_before_info_missing_racer(self):
         # MISSING RACERS CASE #
         # preparation
@@ -428,9 +451,6 @@ class TestPyjpboatrace(unittest.TestCase):
             self.expected_direc,
             f"expected_beforeinfo.rno={race}&jcd={stadium:02d}&hd={dstr}.json"
         )
-        if not os.path.exists(path):
-            self.logger.warning(f'{path} not found. Skip it.')
-            return None
         with open(path, 'r', encoding='utf-8-sig') as f:
             expected = json.load(f)
         # actual
@@ -438,6 +458,14 @@ class TestPyjpboatrace(unittest.TestCase):
         # assertion
         self.assertDictEqual(actual, expected)
 
+    @pytest.mark.skipif(
+        not os.path.exists(expected_direc),
+        reason=f'{expected_direc} not found'
+    )
+    @pytest.mark.skipif(
+        not os.path.exists(mock_html),
+        reason=f'{mock_html} not found'
+    )
     @mock.patch('selenium.webdriver.Chrome')
     def test_get_just_before_info_not_yet(self, mock_chrome):
         # NOT YET DISPLAYED CASE#
@@ -447,9 +475,6 @@ class TestPyjpboatrace(unittest.TestCase):
         race = 2
         # set mock
         path = os.path.join(self.mock_html, "not_yet_beforeinfo.html")
-        if not os.path.exists(path):
-            self.logger.warning(f'{path} not found. Skip it.')
-            return None
         with open(path, 'r', encoding='utf-8') as f:
             mock_chrome.page_source = f.read()
 
@@ -458,9 +483,6 @@ class TestPyjpboatrace(unittest.TestCase):
             self.expected_direc,
             "expected_not_yet_beforeinfo.json"
         )
-        if not os.path.exists(path):
-            self.logger.warning(f'{path} not found. Skip it.')
-            return None
         with open(path, 'r', encoding='utf-8-sig') as f:
             expected = json.load(f)
         # actual
@@ -469,6 +491,10 @@ class TestPyjpboatrace(unittest.TestCase):
         # assertion
         self.assertDictEqual(actual, expected)
 
+    @pytest.mark.skipif(
+        not os.path.exists(expected_direc),
+        reason=f'{expected_direc} not found'
+    )
     def test_get_race_result(self):
         # USUAL CASE #
         # preparation
@@ -481,9 +507,6 @@ class TestPyjpboatrace(unittest.TestCase):
             self.expected_direc,
             f"expected_raceresult.rno={race}&jcd={stadium:02d}&hd={dstr}.json"
         )
-        if not os.path.exists(path):
-            self.logger.warning(f'{path} not found. Skip it.')
-            return None
         with open(path, 'r', encoding='utf-8-sig') as f:
             expected = json.load(f)
         # actual data
@@ -491,6 +514,10 @@ class TestPyjpboatrace(unittest.TestCase):
         # assertion
         self.assertDictEqual(actual, expected)
 
+    @pytest.mark.skipif(
+        not os.path.exists(expected_direc),
+        reason=f'{expected_direc} not found'
+    )
     def test_get_race_result_missing_racer(self):
         # MISSING RACERS CASE #
         # preparation
@@ -503,9 +530,6 @@ class TestPyjpboatrace(unittest.TestCase):
             self.expected_direc,
             f"expected_raceresult.rno={race}&jcd={stadium:02d}&hd={dstr}.json"
         )
-        if not os.path.exists(path):
-            self.logger.warning(f'{path} not found. Skip it.')
-            return None
         with open(path, 'r', encoding='utf-8-sig') as f:
             expected = json.load(f)
         # actual
@@ -513,6 +537,14 @@ class TestPyjpboatrace(unittest.TestCase):
         # assertion
         self.assertDictEqual(actual, expected)
 
+    @pytest.mark.skipif(
+        not os.path.exists(expected_direc),
+        reason=f'{expected_direc} not found'
+    )
+    @pytest.mark.skipif(
+        not os.path.exists(mock_html),
+        reason=f'{mock_html} not found'
+    )
     @mock.patch('selenium.webdriver.Chrome')
     def test_get_race_result_not_yet(self, mock_chrome):
         # NOT YET DISPLAYED CASE#
@@ -522,9 +554,6 @@ class TestPyjpboatrace(unittest.TestCase):
         race = 2
         # set mock
         path = os.path.join(self.mock_html, "not_yet_raceresult.html")
-        if not os.path.exists(path):
-            self.logger.warning(f'{path} not found. Skip it.')
-            return None
         with open(path, 'r', encoding='utf-8') as f:
             mock_chrome.page_source = f.read()
 
@@ -533,9 +562,6 @@ class TestPyjpboatrace(unittest.TestCase):
             self.expected_direc,
             "expected_not_yet_raceresult.json"
         )
-        if not os.path.exists(path):
-            self.logger.warning(f'{path} not found. Skip it.')
-            return None
         with open(path, 'r', encoding='utf-8-sig') as f:
             expected = json.load(f)
         # actual

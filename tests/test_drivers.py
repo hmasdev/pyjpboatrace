@@ -1,4 +1,5 @@
 import unittest
+import pytest
 import os
 from selenium.common.exceptions import WebDriverException
 
@@ -10,22 +11,24 @@ from pyjpboatrace.drivers import create_httpget_driver
 
 class TestChromeDriver(unittest.TestCase):
 
+    expected_direc = 'tests/data'
+
     @classmethod
     def setUpClass(cls):
-        cls.expected_direc = 'tests/data'
         cls.driver = create_chrome_driver()
 
     def setUp(self):
         pass
 
+    @pytest.mark.skipif(
+        not os.path.exists(expected_direc),
+        reason=f'{expected_direc} not found'
+    )
     def test_driver_get(self):
         # preparation
         url = 'https://example.com'
         # expected
         path = os.path.join(self.expected_direc, "expected_example.com.html")
-        if not os.path.exists(path):
-            self.logger.warning(f'{path} not found. Skip it.')
-            return None
         with open(path, 'r', encoding='utf-8-sig') as f:
             expected = f.read()
         # actual
@@ -54,22 +57,24 @@ class TestChromeDriver(unittest.TestCase):
 
 class TestFirefoxDriver(unittest.TestCase):
 
+    expected_direc = 'tests/data'
+
     @classmethod
     def setUpClass(cls):
-        cls.expected_direc = 'tests/data'
         cls.driver = create_firefox_driver()
 
     def setUp(self):
         pass
 
+    @pytest.mark.skipif(
+        not os.path.exists(expected_direc),
+        reason=f'{expected_direc} not found'
+    )
     def test_driver_get(self):
         # preparation
         url = 'https://example.com'
         # expected
         path = os.path.join(self.expected_direc, "expected_example.com.html")
-        if not os.path.exists(path):
-            self.logger.warning(f'{path} not found. Skip it.')
-            return None
         with open(path, 'r', encoding='utf-8-sig') as f:
             expected = f.read()
         # actual
@@ -98,22 +103,24 @@ class TestFirefoxDriver(unittest.TestCase):
 
 class TestEdgeDriver(unittest.TestCase):
 
+    expected_direc = 'tests/data'
+
     @classmethod
     def setUpClass(cls):
-        cls.expected_direc = 'tests/data'
         cls.driver = create_edge_driver()
 
     def setUp(self):
         pass
 
+    @pytest.mark.skipif(
+        not os.path.exists(expected_direc),
+        reason=f'{expected_direc} not found'
+    )
     def test_driver_get(self):
         # preparation
         url = 'https://example.com'
         # expected
         path = os.path.join(self.expected_direc, "expected_example.com.html")
-        if not os.path.exists(path):
-            self.logger.warning(f'{path} not found. Skip it.')
-            return None
         with open(path, 'r', encoding='utf-8-sig') as f:
             expected = f.read()
         # actual
@@ -141,22 +148,24 @@ class TestEdgeDriver(unittest.TestCase):
 
 class TestHTTPGetDriver(unittest.TestCase):
 
+    expected_direc = 'tests/data'
+
     @classmethod
     def setUpClass(cls):
-        cls.expected_direc = 'tests/data'
         cls.driver = create_httpget_driver()
 
     def setUp(self):
         pass
 
+    @pytest.mark.skipif(
+        not os.path.exists(expected_direc),
+        reason=f'{expected_direc} not found'
+    )
     def test_driver_get(self):
         # preparation
         url = 'https://example.com'
         # expected
         path = os.path.join(self.expected_direc, "expected_example.com.html")
-        if not os.path.exists(path):
-            self.logger.warning(f'{path} not found. Skip it.')
-            return None
         with open(path, 'r', encoding='utf-8-sig') as f:
             expected = f.read()
         # actual
