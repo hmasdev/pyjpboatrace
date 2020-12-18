@@ -90,3 +90,6 @@ class HTTPGetDriver:
                 driver.page_source
         """
         return self.__page_source
+
+    def close(self):
+        pass

@@ -23,6 +23,18 @@ class PyJPBoatrace(object):
         self.__base_url = base_url
         self.__logger = logger
 
+    def __enter__(self):
+        return self
+
+    def __exit__(self):
+        self.close()
+
+    def __del__(self):
+        self.close()
+
+    def close(self):
+        self.__driver.close()
+
     def __baseget(self, url: str, parser) -> dict:
 
         self.__logger.debug(f'Start requesting {url}')

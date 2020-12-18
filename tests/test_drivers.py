@@ -52,7 +52,7 @@ class TestChromeDriver(unittest.TestCase):
 
     @ classmethod
     def tearDownClass(cls):
-        pass
+        cls.driver.close()
 
 
 class TestFirefoxDriver(unittest.TestCase):
@@ -98,7 +98,7 @@ class TestFirefoxDriver(unittest.TestCase):
 
     @ classmethod
     def tearDownClass(cls):
-        pass
+        cls.driver.close()
 
 
 class TestEdgeDriver(unittest.TestCase):
@@ -143,7 +143,7 @@ class TestEdgeDriver(unittest.TestCase):
 
     @ classmethod
     def tearDownClass(cls):
-        pass
+        cls.driver.close()
 
 
 class TestHTTPGetDriver(unittest.TestCase):
@@ -187,7 +187,7 @@ class TestHTTPGetDriver(unittest.TestCase):
 
     @ classmethod
     def tearDownClass(cls):
-        pass
+        cls.driver.close()
 
 
 if __name__ == "__main__":
