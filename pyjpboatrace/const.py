@@ -7,6 +7,14 @@ BOATRACEJP_LOGIN_URL = 'https://www.boatrace.jp/owpc/pc/login?authAfterUrl=/'
 BOATRACEJP_LOGOUT_URL = 'https://www.boatrace.jp/owpc/logout'
 BOATRACEJP_MAIN_URL = 'https://www.boatrace.jp/'
 
+IBMBRACEORJP = ''.join([
+    'https://www.boatrace.jp/',
+    'owpc/VoteBridgeNew.jsp?',
+    'param=H0JS00000stContens'
+    '&kbn=1'
+    '&voteActionUrl=/owpc/pc/site/index.html'
+])
+
 # RACE
 # # races
 NUM_RACES = 12  # # of races in a stadium on a day
