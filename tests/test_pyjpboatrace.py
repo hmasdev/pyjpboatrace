@@ -5,6 +5,8 @@ import os
 import json
 from datetime import date, datetime, timedelta
 from pyjpboatrace import PyJPBoatrace
+from pyjpboatrace.user_information import UserInformation
+from pyjpboatrace.drivers import create_chrome_driver
 
 # TODO add test for get function of racer's basic info
 # TODO add test for get function of racer's last 3sections info
@@ -16,10 +18,17 @@ class TestPyjpboatrace(unittest.TestCase):
 
     expected_direc = 'tests/data'
     mock_html = 'tests/mock_html'
+    secretsjson = '.secrets.json'
 
     @classmethod
     def setUpClass(cls):
-        cls.pyjpboatrace = PyJPBoatrace()
+        if os.path.exists(cls.secretsjson):
+            cls.pyjpboatrace = PyJPBoatrace(
+                driver=create_chrome_driver(),
+                user_information=UserInformation(json_file=cls.secretsjson)
+            )
+        else:
+            cls.pyjpboatrace = PyJPBoatrace(driver=create_chrome_driver())
 
     def setUp(self):
         pass

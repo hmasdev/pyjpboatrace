@@ -8,20 +8,27 @@ from selenium import webdriver
 from . import parsers
 from .exceptions import NoDataException
 from .const import BASE_URL, NUM_RACES, NUM_STADIUMS
-from pyjpboatrace.drivers import create_chrome_driver
+from pyjpboatrace.drivers import create_httpget_driver, HTTPGetDriver
+from .user_information import UserInformation
+from .actions.boatracejp import login, logout
 
 
 class PyJPBoatrace(object):
 
     def __init__(
         self,
-        driver: webdriver.remote.webdriver.WebDriver = create_chrome_driver(),
+        driver: webdriver.remote.webdriver.WebDriver = create_httpget_driver(),
+        user_information: UserInformation = None,
         base_url: str = BASE_URL,
         logger=getLogger(__name__),
     ):
         self.__driver = driver
         self.__base_url = base_url
+        self.__user_information = user_information
         self.__logger = logger
+
+        if self.__are_enable_actions():
+            login(self.__driver, self.__user_information)
 
     def __enter__(self):
         return self
@@ -33,7 +40,29 @@ class PyJPBoatrace(object):
         self.close()
 
     def close(self):
+        if self.__are_enable_actions():
+            logout(self.driver)
         self.__driver.close()
+
+    def __are_enable_actions(self):
+        if isinstance(self.__driver, HTTPGetDriver):
+            self.__logger.warning(
+                f'self.__driver is an instance of {HTTPGetDriver.__name__}. '
+                'However, it must be an instance of '
+                'selenium.webdriver.remote.webdriver.WebDriver, '
+                f'not {HTTPGetDriver.__name__}, '
+                'if you want to execute actions '
+                'against boatrace.jp and ib.mbrace.or.jp'
+            )
+            return False
+        if self.__user_information is None:
+            self.__logger.warning(
+                'self.__user_information is None.'
+                'It is necessary for actions '
+                'against boatrace.jp and ib.mbrace.or.jp'
+            )
+            return False
+        return True
 
     def __baseget(self, url: str, parser) -> dict:
 
