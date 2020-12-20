@@ -1,3 +1,4 @@
+import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -137,3 +138,105 @@ def withdraw(
     )
     driver.find_element_by_id('ok')\
           .click()
+
+
+def bet(
+    place: int,
+    race: int,
+    betdict: dict,
+    driver: webdriver.remote.webdriver.WebDriver,
+    user: UserInformation,
+    timeout: int = 15,
+    logger=getLogger(__name__)
+) -> bool:
+    # visit
+    # TODO when failed
+    _visit_ibmbraceorjp(driver, user, timeout, logger)
+
+    # TODO when limit is not enough
+    WebDriverWait(driver, timeout).until(
+        EC.presence_of_element_located((By.ID, 'currentBetLimitAmount'))
+    )
+    limit = int(
+        driver.find_element_by_id('currentBetLimitAmount')
+              .text
+              .replace(',', '')
+    )
+    if limit == 0:
+        raise Exception
+
+    # click place
+    WebDriverWait(driver, timeout).until(
+        EC.presence_of_element_located((By.ID, f'jyo{place:02d}'))
+    )
+    element = driver.find_element_by_id(f'jyo{place:02d}')
+    if 'borderNone' in element.get_attribute('class'):
+        # invalid place case
+        # TODO create exception
+        raise Exception
+    else:
+        element.click()
+
+    # click race
+    WebDriverWait(driver, timeout).until(
+        EC.presence_of_element_located((By.ID, f'selRaceNo{race:02d}'))
+    )
+    element = driver.find_element_by_id(f'selRaceNo{race:02d}')
+    if 'end' in element.get_attribute('class'):
+        # invalid race case
+        # TODO create exception
+        raise Exception
+    else:
+        element.click()
+
+    # create betting list
+    # TODO make kinds constant
+    amount = 0
+    for kind_idx, kind in enumerate([
+        'win',
+        'placeshow',
+        'exacta',
+        'quinella',
+        'quinellaplace',
+        'trifecta',
+        'trio',
+    ]):
+        bet_dict_for_kind = betdict.get(kind, None)
+
+        # if not given
+        if bet_dict_for_kind is None:
+            logger.info(f'Skip betting {kind}')
+            continue
+
+        # click kind
+        driver.find_element_by_id(f'betkati{kind_idx+1}').click()
+        time.sleep(1)
+
+        # input bet
+        for order, amt in bet_dict_for_kind.items():
+            # TODO make sep constant
+            sep = '=' if '=' in order else '-'
+            boats = tuple(map(int, order.split(sep)))
+            print(kind, order, amt)
+            for boat_idx, boat in enumerate(boats):
+                driver.find_element_by_id(
+                    f'regbtn_{boat}_{boat_idx+1}'
+                ).click()
+
+            driver.find_element_by_id('amount').send_keys('\b'*10)  # TODO
+            driver.find_element_by_id('amount').send_keys(amt//100)
+            driver.find_element_by_id('regAmountBtn').click()
+
+            amount = amount + amt
+
+    # complete input
+    driver.find_element_by_class_name('btnSubmit').click()
+
+    # confirmation
+    driver.find_element_by_id('amount').send_keys(amount)
+    driver.find_element_by_id('pass').send_keys(user.vote_pass)
+    driver.find_element_by_id('submitBet').click()
+    driver.find_element_by_id('ok').click()
+    # TODO error handling wrong amount case
+
+    return True

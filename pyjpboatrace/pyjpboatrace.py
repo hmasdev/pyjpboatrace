@@ -338,3 +338,40 @@ class PyJPBoatrace(object):
             driver=self.__driver,
             user=self.__user_information
         )
+
+    def bet(
+        self,
+        place: int,
+        race: int,
+        trifecta_betting_dict: dict = {},
+        trio_betting_dict: dict = {},
+        exacta_betting_dict: dict = {},
+        quinella_betting_dict: dict = {},
+        quinellaplace_betting_dict: dict = {},
+        win_betting_dict: dict = {},
+        placeshow_betting_dict: dict = {},
+    ) -> bool:
+        # preparation
+        if not self.__are_enable_actions():
+            # TODO create exception
+            raise Exception
+
+        # create bet dict
+        betdict = {
+            'trifecta': trifecta_betting_dict,
+            'trio': trio_betting_dict,
+            'exacta': exacta_betting_dict,
+            'quinella': quinella_betting_dict,
+            'quinellaplace': quinellaplace_betting_dict,
+            'win': win_betting_dict,
+            'placeshow': placeshow_betting_dict,
+        }
+
+        # deposit
+        return ibmbraceorjp.bet(
+            place=place,
+            race=race,
+            betdict=betdict,
+            driver=self.__driver,
+            user=self.__user_information
+        )

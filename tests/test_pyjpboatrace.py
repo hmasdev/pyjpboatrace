@@ -635,6 +635,46 @@ class TestPyjpboatrace(unittest.TestCase):
         current = self.pyjpboatrace.get_bet_limit()
         self.assertEqual(current, 0)
 
+    @pytest.mark.skip(reason='it spends money')
+    @pytest.mark.skipif(
+        not os.path.exists(secretsjson),
+        reason=f'{secretsjson} not found'
+    )
+    def test_bet(self):
+        # preparation
+        current = self.pyjpboatrace.get_bet_limit()
+        if current <= 700:
+            # deposit
+            num = 1000
+            self.pyjpboatrace.deposit(num//1000)
+            time.sleep(10)
+
+        # bet list
+        # TODO automation
+        place = 19
+        race = 12
+        betdict = {
+            'trifecta': {'1-2-4': 100},
+            'trio': {'2=3=4': 100},
+            'exacta': {'2-1': 100},
+            'quinella': {'3=4': 100},
+            'quinellaplace': {'2=6': 100},
+            'win': {'5': 100},
+            'placeshow': {'6': 100},
+        }
+
+        self.assertTrue(self.pyjpboatrace.bet(
+            place=place,
+            race=race,
+            trifecta_betting_dict=betdict['trifecta'],
+            trio_betting_dict=betdict['trio'],
+            exacta_betting_dict=betdict['exacta'],
+            quinella_betting_dict=betdict['quinella'],
+            quinellaplace_betting_dict=betdict['quinellaplace'],
+            win_betting_dict=betdict['win'],
+            placeshow_betting_dict=betdict['placeshow']
+        ))
+
     def tearDown(self):
         pass
 
