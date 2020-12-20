@@ -11,6 +11,7 @@ from .const import BASE_URL, NUM_RACES, NUM_STADIUMS
 from pyjpboatrace.drivers import create_httpget_driver, HTTPGetDriver
 from .user_information import UserInformation
 from .actions.boatracejp import login, logout
+from .actions import ibmbraceorjp
 
 
 class PyJPBoatrace(object):
@@ -297,4 +298,43 @@ class PyJPBoatrace(object):
         return self.__baseget(
             f'{self.__base_url}/raceresult?rno={race}&jcd={stdm}&hd={d}',
             parsers.parse_html_raceresult
+        )
+
+    def deposit(self, num_of_thousands_yen: int) -> None:
+        # preparation
+        if not self.__are_enable_actions():
+            # TODO create exception
+            raise Exception
+
+        # deposit
+        ibmbraceorjp.deposit(
+            num_of_thousands_yen,
+            driver=self.__driver,
+            user=self.__user_information
+        )
+
+    def get_bet_limit(self) -> int:
+        # preparation
+        if not self.__are_enable_actions():
+            # TODO create exception
+            raise Exception
+
+        # deposit
+        limit = ibmbraceorjp.get_bet_limit(
+            driver=self.__driver,
+            user=self.__user_information
+        )
+
+        return limit
+
+    def withdraw(self) -> None:
+        # preparation
+        if not self.__are_enable_actions():
+            # TODO create exception
+            raise Exception
+
+        # deposit
+        ibmbraceorjp.withdraw(
+            driver=self.__driver,
+            user=self.__user_information
         )

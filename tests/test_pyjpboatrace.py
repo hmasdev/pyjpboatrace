@@ -3,6 +3,7 @@ from unittest import mock
 import pytest
 import os
 import json
+import time
 from datetime import date, datetime, timedelta
 from pyjpboatrace import PyJPBoatrace
 from pyjpboatrace.user_information import UserInformation
@@ -614,6 +615,25 @@ class TestPyjpboatrace(unittest.TestCase):
         msg = f'Race must be between 1 and 12. {race} is given.'
         with self.assertRaises(ValueError, msg=msg):
             self.pyjpboatrace.get_race_result(d, stadium, race)
+
+    @pytest.mark.skipif(
+        not os.path.exists(secretsjson),
+        reason=f'{secretsjson} not found'
+    )
+    def test_deposit_withdraw(self):
+        # pre-status
+        current = self.pyjpboatrace.get_bet_limit()
+        # deposit
+        num = 1000
+        self.pyjpboatrace.deposit(num//1000)
+        time.sleep(10)
+        after = self.pyjpboatrace.get_bet_limit()
+        self.assertEqual(after, current+num)
+        # withdraw
+        self.pyjpboatrace.withdraw()
+        time.sleep(10)
+        current = self.pyjpboatrace.get_bet_limit()
+        self.assertEqual(current, 0)
 
     def tearDown(self):
         pass
