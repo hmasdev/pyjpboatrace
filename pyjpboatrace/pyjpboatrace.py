@@ -7,11 +7,10 @@ from selenium import webdriver
 
 from . import parsers
 from .exceptions import NoDataException
-from .const import BASE_URL, NUM_RACES, NUM_STADIUMS
+from .const import BOATRACEJP_BASE_URL, NUM_RACES, NUM_STADIUMS
 from pyjpboatrace.drivers import create_httpget_driver, HTTPGetDriver
 from .user_information import UserInformation
-# TODO don't import login and logout directly
-from .actions.boatracejp import login, logout
+from .actions import boatracejp
 from .actions import ibmbraceorjp
 
 
@@ -21,16 +20,14 @@ class PyJPBoatrace(object):
         self,
         driver: webdriver.remote.webdriver.WebDriver = create_httpget_driver(),
         user_information: UserInformation = None,
-        base_url: str = BASE_URL,  # TODO delete this argument
         logger=getLogger(__name__),
     ):
         self.__driver = driver
-        self.__base_url = base_url
         self.__user_information = user_information
         self.__logger = logger
 
         if self.__are_enable_actions():
-            login(self.__driver, self.__user_information)
+            boatracejp.login(self.__driver, self.__user_information)
 
     def __enter__(self):
         return self
@@ -43,7 +40,7 @@ class PyJPBoatrace(object):
 
     def close(self):
         if self.__are_enable_actions():
-            logout(self.driver)
+            boatracejp.logout(self.driver)
         self.__driver.close()
 
     def __are_enable_actions(self):
@@ -136,7 +133,7 @@ class PyJPBoatrace(object):
         d = d.strftime('%Y%m%d')
         # get data and return the parsed object
         return self.__baseget(
-            f'{self.__base_url}/index?hd={d}',
+            f'{BOATRACEJP_BASE_URL}/index?hd={d}',
             parsers.parse_html_index
         )
 
@@ -150,7 +147,7 @@ class PyJPBoatrace(object):
         stdm = str(stadium).zfill(2)
         # get data and return the parsed object
         return self.__baseget(
-            f"{self.__base_url}/raceindex?jcd={stdm}&hd={d}",
+            f"{BOATRACEJP_BASE_URL}/raceindex?jcd={stdm}&hd={d}",
             parsers.parse_html_raceindex
         )
 
@@ -164,7 +161,7 @@ class PyJPBoatrace(object):
         stdm = str(stadium).zfill(2)
         # get data and return the parsed object
         return self.__baseget(
-            f'{self.__base_url}/racelist?rno={race}&jcd={stdm}&hd={d}',
+            f'{BOATRACEJP_BASE_URL}/racelist?rno={race}&jcd={stdm}&hd={d}',
             parsers.parse_html_racelist
         )
 
@@ -183,7 +180,7 @@ class PyJPBoatrace(object):
         stdm = str(stadium).zfill(2)
         # get data and return the parsed object
         return self.__baseget(
-            f'{self.__base_url}/oddstf?rno={race}&jcd={stdm}&hd={d}',
+            f'{BOATRACEJP_BASE_URL}/oddstf?rno={race}&jcd={stdm}&hd={d}',
             parsers.parse_html_oddstf
         )
 
@@ -202,7 +199,7 @@ class PyJPBoatrace(object):
         stdm = str(stadium).zfill(2)
         # get data and return the parsed object
         return self.__baseget(
-            f'{self.__base_url}/oddsk?rno={race}&jcd={stdm}&hd={d}',
+            f'{BOATRACEJP_BASE_URL}/oddsk?rno={race}&jcd={stdm}&hd={d}',
             parsers.parse_html_oddsk
         )
 
@@ -221,7 +218,7 @@ class PyJPBoatrace(object):
         stdm = str(stadium).zfill(2)
         # get data and return the parsed object
         return self.__baseget(
-            f'{self.__base_url}/odds2tf?rno={race}&jcd={stdm}&hd={d}',
+            f'{BOATRACEJP_BASE_URL}/odds2tf?rno={race}&jcd={stdm}&hd={d}',
             parsers.parse_html_odds2tf
         )
 
@@ -240,7 +237,7 @@ class PyJPBoatrace(object):
         stdm = str(stadium).zfill(2)
         # get data and return the parsed object
         return self.__baseget(
-            f'{self.__base_url}/odds3t?rno={race}&jcd={stdm}&hd={d}',
+            f'{BOATRACEJP_BASE_URL}/odds3t?rno={race}&jcd={stdm}&hd={d}',
             parsers.parse_html_odds3t
         )
 
@@ -259,7 +256,7 @@ class PyJPBoatrace(object):
         stdm = str(stadium).zfill(2)
         # get data and return the parsed object
         return self.__baseget(
-            f'{self.__base_url}/odds3f?rno={race}&jcd={stdm}&hd={d}',
+            f'{BOATRACEJP_BASE_URL}/odds3f?rno={race}&jcd={stdm}&hd={d}',
             parsers.parse_html_odds3f
         )
 
@@ -278,7 +275,7 @@ class PyJPBoatrace(object):
         stdm = str(stadium).zfill(2)
         # get data and return the parsed object
         return self.__baseget(
-            f'{self.__base_url}/beforeinfo?rno={race}&jcd={stdm}&hd={d}',
+            f'{BOATRACEJP_BASE_URL}/beforeinfo?rno={race}&jcd={stdm}&hd={d}',
             parsers.parse_html_beforeinfo
         )
 
@@ -297,7 +294,7 @@ class PyJPBoatrace(object):
         stdm = str(stadium).zfill(2)
         # get data and return the parsed object
         return self.__baseget(
-            f'{self.__base_url}/raceresult?rno={race}&jcd={stdm}&hd={d}',
+            f'{BOATRACEJP_BASE_URL}/raceresult?rno={race}&jcd={stdm}&hd={d}',
             parsers.parse_html_raceresult
         )
 

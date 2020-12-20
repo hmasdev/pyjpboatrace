@@ -8,7 +8,6 @@ from ..user_information import UserInformation
 from ..const import BOATRACEJP_MAIN_URL
 from ..const import BOATRACEJP_LOGIN_URL, BOATRACEJP_LOGOUT_URL
 
-# TODO type annotation
 # TODO error handling : failed to read
 
 
@@ -17,7 +16,7 @@ def login(
     user: UserInformation,
     timeout: int = 15,
     logger=getLogger(__name__)
-):
+) -> bool:
     # get
     driver.get(BOATRACEJP_LOGIN_URL)
 
@@ -57,7 +56,7 @@ def login(
 def logout(
     driver: webdriver.remote.webdriver.WebDriver,
     logger=getLogger(__name__)
-):
+) -> bool:
     # logout
     driver.get(BOATRACEJP_LOGOUT_URL)
     return not check_login_status(driver)
@@ -66,7 +65,7 @@ def logout(
 def check_login_status(
     driver: webdriver.remote.webdriver.WebDriver,
     logger=getLogger(__name__)
-):
+) -> bool:
     # get
     driver.get(BOATRACEJP_MAIN_URL)
 

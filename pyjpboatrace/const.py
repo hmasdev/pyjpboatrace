@@ -4,13 +4,14 @@ from datetime import time
 
 # URL
 # TODO format
-BASE_URL = "https://www.boatrace.jp/owpc/pc/race"
-BOATRACEJP_LOGIN_URL = 'https://www.boatrace.jp/owpc/pc/login?authAfterUrl=/'
-BOATRACEJP_LOGOUT_URL = 'https://www.boatrace.jp/owpc/logout'
 BOATRACEJP_MAIN_URL = 'https://www.boatrace.jp/'
+BOATRACEJP_LOGIN_URL = f'{BOATRACEJP_MAIN_URL}owpc/pc/login?authAfterUrl=/'
+BOATRACEJP_LOGOUT_URL = f'{BOATRACEJP_MAIN_URL}owpc/logout'
+BOATRACEJP_BASE_URL = f"{BOATRACEJP_MAIN_URL}owpc/pc/race"
+
 
 IBMBRACEORJP = ''.join([
-    'https://www.boatrace.jp/',
+    f'{BOATRACEJP_MAIN_URL}',
     'owpc/VoteBridgeNew.jsp?',
     'param=H0JS00000stContens'
     '&kbn=1'
