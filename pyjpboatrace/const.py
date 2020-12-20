@@ -1,3 +1,4 @@
+from datetime import time
 
 # TODO make them constant
 
@@ -15,6 +16,10 @@ IBMBRACEORJP = ''.join([
     '&kbn=1'
     '&voteActionUrl=/owpc/pc/site/index.html'
 ])
+
+# TIME
+BOATRACE_START = time(hour=8, minute=30)  # 8:30
+BOATRACE_END = time(hour=20, minute=45)  # 20:45
 
 # RACE
 # # races

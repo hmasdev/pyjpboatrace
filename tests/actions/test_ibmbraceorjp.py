@@ -2,13 +2,15 @@ import os
 import unittest
 import pytest
 import time
+from datetime import datetime
 
 from pyjpboatrace.user_information import UserInformation
 from pyjpboatrace.drivers import create_chrome_driver
 from pyjpboatrace.actions.ibmbraceorjp import deposit, withdraw
 from pyjpboatrace.actions.ibmbraceorjp import get_bet_limit, bet
+from pyjpboatrace.const import BOATRACE_START, BOATRACE_END
 
-# TODO add skip for time
+IS_BOATRACE_TIME = BOATRACE_START <= datetime.now().time() <= BOATRACE_END
 
 
 class TestIbmbraceorjp(unittest.TestCase):
@@ -26,6 +28,10 @@ class TestIbmbraceorjp(unittest.TestCase):
     def setUp(self):
         pass
 
+    @pytest.mark.skipif(
+        not IS_BOATRACE_TIME,
+        reason='it is not time for boatrace'
+    )
     @pytest.mark.skipif(
         not os.path.exists(secretsjson),
         reason=f'{secretsjson} not found'
@@ -46,6 +52,10 @@ class TestIbmbraceorjp(unittest.TestCase):
         self.assertEqual(current, 0)
 
     @pytest.mark.skip(reason='it spends money')
+    @pytest.mark.skipif(
+        not IS_BOATRACE_TIME,
+        reason='it is not time for boatrace'
+    )
     @pytest.mark.skipif(
         not os.path.exists(secretsjson),
         reason=f'{secretsjson} not found'

@@ -8,13 +8,14 @@ from datetime import date, datetime, timedelta
 from pyjpboatrace import PyJPBoatrace
 from pyjpboatrace.user_information import UserInformation
 from pyjpboatrace.drivers import create_chrome_driver
+from pyjpboatrace.const import BOATRACE_START, BOATRACE_END
 
 # TODO add test for get function of racer's basic info
 # TODO add test for get function of racer's last 3sections info
 # TODO add test for get function of racer's season info
 # TODO add test for get function of racer's course-wise info
 
-# TODO add skip for time
+IS_BOATRACE_TIME = BOATRACE_START <= datetime.now().time() <= BOATRACE_END
 
 
 class TestPyjpboatrace(unittest.TestCase):
@@ -619,6 +620,10 @@ class TestPyjpboatrace(unittest.TestCase):
             self.pyjpboatrace.get_race_result(d, stadium, race)
 
     @pytest.mark.skipif(
+        not IS_BOATRACE_TIME,
+        reason='it is not time for boatrace'
+    )
+    @pytest.mark.skipif(
         not os.path.exists(secretsjson),
         reason=f'{secretsjson} not found'
     )
@@ -638,6 +643,10 @@ class TestPyjpboatrace(unittest.TestCase):
         self.assertEqual(current, 0)
 
     @pytest.mark.skip(reason='it spends money')
+    @pytest.mark.skipif(
+        not IS_BOATRACE_TIME,
+        reason='it is not time for boatrace'
+    )
     @pytest.mark.skipif(
         not os.path.exists(secretsjson),
         reason=f'{secretsjson} not found'
