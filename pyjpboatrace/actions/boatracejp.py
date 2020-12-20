@@ -8,6 +8,9 @@ from ..user_information import UserInformation
 from ..const import BOATRACEJP_MAIN_URL
 from ..const import BOATRACEJP_LOGIN_URL, BOATRACEJP_LOGOUT_URL
 
+# TODO type annotation
+# TODO error handling : failed to read
+
 
 def login(
     driver: webdriver.remote.webdriver.WebDriver,

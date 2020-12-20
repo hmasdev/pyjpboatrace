@@ -10,6 +10,7 @@ from .exceptions import NoDataException
 from .const import BASE_URL, NUM_RACES, NUM_STADIUMS
 from pyjpboatrace.drivers import create_httpget_driver, HTTPGetDriver
 from .user_information import UserInformation
+# TODO don't import login and logout directly
 from .actions.boatracejp import login, logout
 from .actions import ibmbraceorjp
 
@@ -20,7 +21,7 @@ class PyJPBoatrace(object):
         self,
         driver: webdriver.remote.webdriver.WebDriver = create_httpget_driver(),
         user_information: UserInformation = None,
-        base_url: str = BASE_URL,
+        base_url: str = BASE_URL,  # TODO delete this argument
         logger=getLogger(__name__),
     ):
         self.__driver = driver

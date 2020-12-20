@@ -8,6 +8,8 @@ from pyjpboatrace.drivers import create_chrome_driver
 from pyjpboatrace.actions.ibmbraceorjp import deposit, withdraw
 from pyjpboatrace.actions.ibmbraceorjp import get_bet_limit, bet
 
+# TODO add skip for time
+
 
 class TestIbmbraceorjp(unittest.TestCase):
 

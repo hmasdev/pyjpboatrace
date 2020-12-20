@@ -104,6 +104,8 @@ def withdraw(
     timeout: int = 15,
     logger=getLogger(__name__)
 ):
+    # TODO case: current bet limit is zero
+
     # visit
     # TODO when failed
     _visit_ibmbraceorjp(driver, user, timeout, logger)
@@ -238,5 +240,6 @@ def bet(
     driver.find_element_by_id('submitBet').click()
     driver.find_element_by_id('ok').click()
     # TODO error handling wrong amount case
+    # TODO vote time limit comes during this function
 
     return True

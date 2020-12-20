@@ -14,6 +14,8 @@ from pyjpboatrace.drivers import create_chrome_driver
 # TODO add test for get function of racer's season info
 # TODO add test for get function of racer's course-wise info
 
+# TODO add skip for time
+
 
 class TestPyjpboatrace(unittest.TestCase):
 

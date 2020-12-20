@@ -2,6 +2,7 @@
 # TODO make them constant
 
 # URL
+# TODO format
 BASE_URL = "https://www.boatrace.jp/owpc/pc/race"
 BOATRACEJP_LOGIN_URL = 'https://www.boatrace.jp/owpc/pc/login?authAfterUrl=/'
 BOATRACEJP_LOGOUT_URL = 'https://www.boatrace.jp/owpc/logout'
