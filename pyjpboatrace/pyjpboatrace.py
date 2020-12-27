@@ -2,34 +2,77 @@ import datetime
 from logging import getLogger
 import sys
 
+from bs4 import BeautifulSoup
+from selenium import webdriver
+
 from . import parsers
-from .requestors import BaseRequestor, Requestor
-from .check_html import check_html
-from .exceptions import NoDataException
-from .const import BASE_URL, NUM_RACES, NUM_STADIUMS
+from .exceptions import NoDataException, UnableActionException
+from .const import BOATRACEJP_BASE_URL, NUM_RACES, NUM_STADIUMS
+from pyjpboatrace.drivers import create_httpget_driver, HTTPGetDriver
+from .user_information import UserInformation
+from .actions import boatracejp
+from .actions import ibmbraceorjp
 
 
 class PyJPBoatrace(object):
 
     def __init__(
         self,
-        requestor: BaseRequestor = Requestor(),
-        base_url: str = BASE_URL,
+        driver: webdriver.remote.webdriver.WebDriver = create_httpget_driver(),
+        user_information: UserInformation = None,
         logger=getLogger(__name__),
     ):
-        self.__requestor = requestor
-        self.__base_url = base_url
+        self.__driver = driver
+        self.__user_information = user_information
         self.__logger = logger
+
+        if self.__are_enable_actions():
+            boatracejp.login(self.__driver, self.__user_information)
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self):
+        self.close()
+
+    def __del__(self):
+        self.close()
+
+    def close(self):
+        if self.__are_enable_actions():
+            boatracejp.logout(self.driver)
+        self.__driver.close()
+
+    def __are_enable_actions(self):
+        if isinstance(self.__driver, HTTPGetDriver):
+            self.__logger.warning(
+                f'self.__driver is an instance of {HTTPGetDriver.__name__}. '
+                'However, it must be an instance of '
+                'selenium.webdriver.remote.webdriver.WebDriver, '
+                f'not {HTTPGetDriver.__name__}, '
+                'if you want to execute actions '
+                'against boatrace.jp and ib.mbrace.or.jp'
+            )
+            return False
+        if self.__user_information is None:
+            self.__logger.warning(
+                'self.__user_information is None.'
+                'It is necessary for actions '
+                'against boatrace.jp and ib.mbrace.or.jp'
+            )
+            return False
+        return True
 
     def __baseget(self, url: str, parser) -> dict:
 
         self.__logger.debug(f'Start requesting {url}')
-        html = self.__requestor.get(url)
+        self.__driver.get(url)
+        html = self.__driver.page_source
         self.__logger.debug('Completed request')
 
         self.__logger.debug('Start validate html')
         try:
-            check_html(html)
+            self.__validate_contents(html)
         except NoDataException:
             # No data found
             self.__logger.warning('No data in html')
@@ -61,6 +104,26 @@ class PyJPBoatrace(object):
                 f'Race must be between 1 and {NUM_RACES}. {race} is given.'
             )
 
+    def __validate_contents(self, html: str):
+        # preparation
+        soup = BeautifulSoup(html, 'html.parser')
+
+        # whether the dataset has not been displayed
+        texts = map(
+            lambda e: e.text,
+            soup.select('h3.title12_title')
+        )
+        if '※ データはありません。' in texts:
+            raise NoDataException()
+
+        # whether the dataset is not found
+        texts = map(
+            lambda e: e.text,
+            soup.select('span.heading1_mainLabel')
+        )
+        if 'データがありません。' in texts:
+            raise NoDataException()
+
     def get_stadiums(self, d: datetime.date) -> dict:
 
         self.__logger.debug(f'{sys._getframe().f_code.co_name} called')
@@ -70,7 +133,7 @@ class PyJPBoatrace(object):
         d = d.strftime('%Y%m%d')
         # get data and return the parsed object
         return self.__baseget(
-            f'{self.__base_url}/index?hd={d}',
+            f'{BOATRACEJP_BASE_URL}/index?hd={d}',
             parsers.parse_html_index
         )
 
@@ -84,7 +147,7 @@ class PyJPBoatrace(object):
         stdm = str(stadium).zfill(2)
         # get data and return the parsed object
         return self.__baseget(
-            f"{self.__base_url}/raceindex?jcd={stdm}&hd={d}",
+            f"{BOATRACEJP_BASE_URL}/raceindex?jcd={stdm}&hd={d}",
             parsers.parse_html_raceindex
         )
 
@@ -98,7 +161,7 @@ class PyJPBoatrace(object):
         stdm = str(stadium).zfill(2)
         # get data and return the parsed object
         return self.__baseget(
-            f'{self.__base_url}/racelist?rno={race}&jcd={stdm}&hd={d}',
+            f'{BOATRACEJP_BASE_URL}/racelist?rno={race}&jcd={stdm}&hd={d}',
             parsers.parse_html_racelist
         )
 
@@ -117,7 +180,7 @@ class PyJPBoatrace(object):
         stdm = str(stadium).zfill(2)
         # get data and return the parsed object
         return self.__baseget(
-            f'{self.__base_url}/oddstf?rno={race}&jcd={stdm}&hd={d}',
+            f'{BOATRACEJP_BASE_URL}/oddstf?rno={race}&jcd={stdm}&hd={d}',
             parsers.parse_html_oddstf
         )
 
@@ -136,7 +199,7 @@ class PyJPBoatrace(object):
         stdm = str(stadium).zfill(2)
         # get data and return the parsed object
         return self.__baseget(
-            f'{self.__base_url}/oddsk?rno={race}&jcd={stdm}&hd={d}',
+            f'{BOATRACEJP_BASE_URL}/oddsk?rno={race}&jcd={stdm}&hd={d}',
             parsers.parse_html_oddsk
         )
 
@@ -155,7 +218,7 @@ class PyJPBoatrace(object):
         stdm = str(stadium).zfill(2)
         # get data and return the parsed object
         return self.__baseget(
-            f'{self.__base_url}/odds2tf?rno={race}&jcd={stdm}&hd={d}',
+            f'{BOATRACEJP_BASE_URL}/odds2tf?rno={race}&jcd={stdm}&hd={d}',
             parsers.parse_html_odds2tf
         )
 
@@ -174,7 +237,7 @@ class PyJPBoatrace(object):
         stdm = str(stadium).zfill(2)
         # get data and return the parsed object
         return self.__baseget(
-            f'{self.__base_url}/odds3t?rno={race}&jcd={stdm}&hd={d}',
+            f'{BOATRACEJP_BASE_URL}/odds3t?rno={race}&jcd={stdm}&hd={d}',
             parsers.parse_html_odds3t
         )
 
@@ -193,7 +256,7 @@ class PyJPBoatrace(object):
         stdm = str(stadium).zfill(2)
         # get data and return the parsed object
         return self.__baseget(
-            f'{self.__base_url}/odds3f?rno={race}&jcd={stdm}&hd={d}',
+            f'{BOATRACEJP_BASE_URL}/odds3f?rno={race}&jcd={stdm}&hd={d}',
             parsers.parse_html_odds3f
         )
 
@@ -212,7 +275,7 @@ class PyJPBoatrace(object):
         stdm = str(stadium).zfill(2)
         # get data and return the parsed object
         return self.__baseget(
-            f'{self.__base_url}/beforeinfo?rno={race}&jcd={stdm}&hd={d}',
+            f'{BOATRACEJP_BASE_URL}/beforeinfo?rno={race}&jcd={stdm}&hd={d}',
             parsers.parse_html_beforeinfo
         )
 
@@ -231,6 +294,82 @@ class PyJPBoatrace(object):
         stdm = str(stadium).zfill(2)
         # get data and return the parsed object
         return self.__baseget(
-            f'{self.__base_url}/raceresult?rno={race}&jcd={stdm}&hd={d}',
+            f'{BOATRACEJP_BASE_URL}/raceresult?rno={race}&jcd={stdm}&hd={d}',
             parsers.parse_html_raceresult
+        )
+
+    def deposit(self, num_of_thousands_yen: int) -> None:
+        # preparation
+        if not self.__are_enable_actions():
+            # TODO add test
+            raise UnableActionException()
+
+        # deposit
+        ibmbraceorjp.deposit(
+            num_of_thousands_yen,
+            driver=self.__driver,
+            user=self.__user_information
+        )
+
+    def get_bet_limit(self) -> int:
+        # preparation
+        if not self.__are_enable_actions():
+            # TODO create exception
+            raise Exception
+
+        # deposit
+        limit = ibmbraceorjp.get_bet_limit(
+            driver=self.__driver,
+            user=self.__user_information
+        )
+
+        return limit
+
+    def withdraw(self) -> None:
+        # preparation
+        if not self.__are_enable_actions():
+            # TODO add test
+            raise UnableActionException()
+
+        # deposit
+        ibmbraceorjp.withdraw(
+            driver=self.__driver,
+            user=self.__user_information
+        )
+
+    def bet(
+        self,
+        place: int,
+        race: int,
+        trifecta_betting_dict: dict = {},
+        trio_betting_dict: dict = {},
+        exacta_betting_dict: dict = {},
+        quinella_betting_dict: dict = {},
+        quinellaplace_betting_dict: dict = {},
+        win_betting_dict: dict = {},
+        placeshow_betting_dict: dict = {},
+    ) -> bool:
+        # preparation
+        if not self.__are_enable_actions():
+            # TODO add test
+            raise UnableActionException()
+
+        # create bet dict
+        betdict = {
+            'trifecta': trifecta_betting_dict,
+            'trio': trio_betting_dict,
+            'exacta': exacta_betting_dict,
+            'quinella': quinella_betting_dict,
+            'quinellaplace': quinellaplace_betting_dict,
+            'win': win_betting_dict,
+            'placeshow': placeshow_betting_dict,
+        }
+
+        # deposit
+        return ibmbraceorjp.bet(
+            place=place,
+            race=race,
+            betdict=betdict,
+            driver=self.__driver,
+            user=self.__user_information
         )

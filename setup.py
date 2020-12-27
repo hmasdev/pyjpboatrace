@@ -52,7 +52,7 @@ setup(
     name=package_name,
     packages=[
         package_name+p
-        for p in ['', '.parsers', '.requestors', '.utils']
+        for p in ['', '.parsers', '.utils']
     ],
 
     version=version,
