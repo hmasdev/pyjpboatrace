@@ -4,6 +4,7 @@ import pytest
 from pyjpboatrace.user_information import UserInformation
 from pyjpboatrace.drivers import create_chrome_driver
 from pyjpboatrace.actions.boatracejp import login, check_login_status, logout
+from pyjpboatrace.exceptions import LoginFailException
 
 
 class TestBoatracejp(unittest.TestCase):
@@ -41,7 +42,8 @@ class TestBoatracejp(unittest.TestCase):
         # pre-status
         self.assertFalse(check_login_status(self.driver))
         # login
-        self.assertFalse(login(self.driver, user))
+        with self.assertRaises(LoginFailException):
+            login(self.driver, user)
         self.assertFalse(check_login_status(self.driver))
 
     def tearDown(self):

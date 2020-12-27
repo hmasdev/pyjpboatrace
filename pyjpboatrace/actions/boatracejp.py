@@ -7,6 +7,7 @@ from logging import getLogger
 from ..user_information import UserInformation
 from ..const import BOATRACEJP_MAIN_URL
 from ..const import BOATRACEJP_LOGIN_URL, BOATRACEJP_LOGOUT_URL
+from ..exceptions import LoginFailException
 
 # TODO error handling : failed to read
 
@@ -50,7 +51,12 @@ def login(
           .click()
     logger.debug('Pressed login button')
 
-    return check_login_status(driver)
+    is_successed = check_login_status(driver)
+
+    if not is_successed:
+        raise LoginFailException()
+
+    return is_successed
 
 
 def logout(

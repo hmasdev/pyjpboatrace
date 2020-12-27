@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup
 from selenium import webdriver
 
 from . import parsers
-from .exceptions import NoDataException
+from .exceptions import NoDataException, UnableActionException
 from .const import BOATRACEJP_BASE_URL, NUM_RACES, NUM_STADIUMS
 from pyjpboatrace.drivers import create_httpget_driver, HTTPGetDriver
 from .user_information import UserInformation
@@ -301,8 +301,8 @@ class PyJPBoatrace(object):
     def deposit(self, num_of_thousands_yen: int) -> None:
         # preparation
         if not self.__are_enable_actions():
-            # TODO create exception
-            raise Exception
+            # TODO add test
+            raise UnableActionException()
 
         # deposit
         ibmbraceorjp.deposit(
@@ -328,8 +328,8 @@ class PyJPBoatrace(object):
     def withdraw(self) -> None:
         # preparation
         if not self.__are_enable_actions():
-            # TODO create exception
-            raise Exception
+            # TODO add test
+            raise UnableActionException()
 
         # deposit
         ibmbraceorjp.withdraw(
@@ -351,8 +351,8 @@ class PyJPBoatrace(object):
     ) -> bool:
         # preparation
         if not self.__are_enable_actions():
-            # TODO create exception
-            raise Exception
+            # TODO add test
+            raise UnableActionException()
 
         # create bet dict
         betdict = {

@@ -8,6 +8,8 @@ from logging import getLogger
 from ..user_information import UserInformation
 from .boatracejp import check_login_status, login
 from ..const import IBMBRACEORJP
+from ..exceptions import InsufficientDepositException, ZeroDepositException
+from ..exceptions import InactiveRace, InactiveStadium
 
 # TODO error handling : wrong vote_pass
 # TODO error handling : failed to read
@@ -37,7 +39,6 @@ def get_bet_limit(
     logger=getLogger(__name__)
 ) -> int:
     # visit
-    # TODO when failed
     _visit_ibmbraceorjp(driver, user, timeout, logger=logger)
 
     # get vote limit
@@ -104,10 +105,13 @@ def withdraw(
     timeout: int = 15,
     logger=getLogger(__name__)
 ):
-    # TODO case: current bet limit is zero
+    # get current bet limit
+    current_limit = get_bet_limit(driver, user, timeout, logger)
+    if current_limit == 0:
+        # TODO add test
+        raise ZeroDepositException('Current deposit is zero.')
 
     # visit
-    # TODO when failed
     _visit_ibmbraceorjp(driver, user, timeout, logger)
 
     # click deposit/withdraw
@@ -152,7 +156,6 @@ def bet(
     logger=getLogger(__name__)
 ) -> bool:
     # visit
-    # TODO when failed
     _visit_ibmbraceorjp(driver, user, timeout, logger)
 
     # TODO when limit is not enough
@@ -165,7 +168,8 @@ def bet(
               .replace(',', '')
     )
     if limit == 0:
-        raise Exception
+        # TODO add test
+        raise ZeroDepositException('Current deposit is zero.')
 
     # click place
     WebDriverWait(driver, timeout).until(
@@ -174,8 +178,8 @@ def bet(
     element = driver.find_element_by_id(f'jyo{place:02d}')
     if 'borderNone' in element.get_attribute('class'):
         # invalid place case
-        # TODO create exception
-        raise Exception
+        # TODO add test
+        raise InactiveStadium(f'The stadium {place:02d} has not active races')
     else:
         element.click()
 
@@ -186,8 +190,10 @@ def bet(
     element = driver.find_element_by_id(f'selRaceNo{race:02d}')
     if 'end' in element.get_attribute('class'):
         # invalid race case
-        # TODO create exception
-        raise Exception
+        # TODO add test
+        raise InactiveRace(
+            f'Race{race:02d} in stadium {place:02d} has ended or is not hold.'
+        )
     else:
         element.click()
 
@@ -234,12 +240,20 @@ def bet(
     # complete input
     driver.find_element_by_class_name('btnSubmit').click()
 
+    # insufficient depost
+    if amount > limit:
+        # TODO add test
+        raise InsufficientDepositException(
+            f'Your betting amount is {amount}, '
+            f'but your current deposit is {limit}.'
+        )
+
     # confirmation
     driver.find_element_by_id('amount').send_keys(amount)
     driver.find_element_by_id('pass').send_keys(user.vote_pass)
     driver.find_element_by_id('submitBet').click()
     driver.find_element_by_id('ok').click()
-    # TODO error handling wrong amount case
+    # TODO check whether amount is equal to the amount betted
     # TODO vote time limit comes during this function
 
     return True
