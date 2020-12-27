@@ -19,7 +19,7 @@ class UserInformation:
         userid: str = None,
         pin: str = None,
         auth_pass: str = None,
-        vote_pass: str = None,
+        vote_pass: str = None,  # TODO rename vote_pass -> bet_pass
         json_file: str = None,
         logger=getLogger(__name__)
     ):
