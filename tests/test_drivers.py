@@ -101,6 +101,7 @@ class TestFirefoxDriver(unittest.TestCase):
         cls.driver.close()
 
 
+@pytest.mark.skip(reason='Edge is not implemented in git actions')
 class TestEdgeDriver(unittest.TestCase):
 
     expected_direc = 'tests/data'
