@@ -83,7 +83,7 @@ def deposit(
         EC.presence_of_element_located((By.ID, 'chargeBetPassword'))
     )
     driver.find_element_by_id('chargeBetPassword')\
-          .send_keys(user.bet_pass)
+          .send_keys(user.vote_pass)
 
     # press button
     WebDriverWait(driver, timeout).until(
@@ -130,7 +130,7 @@ def withdraw(
         EC.presence_of_element_located((By.ID, 'accountBetPassword'))
     )
     driver.find_element_by_id('accountBetPassword')\
-          .send_keys(user.bet_pass)
+          .send_keys(user.vote_pass)
 
     # press button
     WebDriverWait(driver, timeout).until(
@@ -250,7 +250,7 @@ def bet(
 
     # confirmation
     driver.find_element_by_id('amount').send_keys(amount)
-    driver.find_element_by_id('pass').send_keys(user.bet_pass)
+    driver.find_element_by_id('pass').send_keys(user.vote_pass)
     driver.find_element_by_id('submitBet').click()
     driver.find_element_by_id('ok').click()
     # TODO check whether amount is equal to the amount betted
