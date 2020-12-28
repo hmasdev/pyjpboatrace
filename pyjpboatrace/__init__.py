@@ -1,12 +1,14 @@
 from .pyjpboatrace import PyJPBoatrace
-from . import check_html
 from . import exceptions
 from . import parsers
-from . import requestors
 from . import utils
+from . import actions
+from . import const
+from . import drivers
+from . import user_information
 
 __copyright__ = 'Copyright (C) 2020 hmasdev'
-__version__ = '0.0.0'
+__version__ = '0.1.0'
 __license__ = 'MIT'
 __author__ = 'hmasdev'
 __author_email__ = 'hmasuidev1com@gmail.com'
@@ -15,9 +17,11 @@ __url__ = 'http://github.com/hmasdev/pyjpboatrace'
 __all__ = [
     'PyJPBoatrace',
     'pyjpboatrace',
+    'actions',
     'parsers',
-    'requestors',
     'utils',
-    'check_html',
-    'exceptions'
+    'drivers',
+    'user_information',
+    'const',
+    'exceptions',
 ]

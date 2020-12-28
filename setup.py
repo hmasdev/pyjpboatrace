@@ -52,7 +52,7 @@ setup(
     name=package_name,
     packages=[
         package_name+p
-        for p in ['', '.parsers', '.requestors', '.utils']
+        for p in ['', '.actions', '.parsers', '.utils']
     ],
 
     version=version,
@@ -70,7 +70,7 @@ setup(
     keywords=u'競艇, boatrace, data analysis',
 
     classifiers=[
-        "Development Status :: 1 - Planning",
+        "Development Status :: 2 - Pre-Alpha",
         "License :: OSI Approved :: MIT License",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
