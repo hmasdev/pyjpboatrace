@@ -32,7 +32,7 @@ class PyJPBoatrace(object):
     def __enter__(self):
         return self
 
-    def __exit__(self):
+    def __exit__(self, exc_type, exc_val, exc_tb):
         self.close()
 
     def __del__(self):
@@ -40,7 +40,7 @@ class PyJPBoatrace(object):
 
     def close(self):
         if self.__are_enable_actions():
-            boatracejp.logout(self.driver)
+            boatracejp.logout(self.__driver)
         self.__driver.close()
 
     def __are_enable_actions(self):
