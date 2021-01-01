@@ -8,7 +8,7 @@ from . import drivers
 from . import user_information
 
 __copyright__ = 'Copyright (C) 2020 hmasdev'
-__version__ = '0.1.0'
+__version__ = '0.1.1'
 __license__ = 'MIT'
 __author__ = 'hmasdev'
 __author_email__ = 'hmasuidev1com@gmail.com'
