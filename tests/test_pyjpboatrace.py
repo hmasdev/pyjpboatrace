@@ -691,7 +691,7 @@ class TestPyjpboatrace(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls):
-        pass
+        cls.pyjpboatrace.close()
 
 
 if __name__ == "__main__":
