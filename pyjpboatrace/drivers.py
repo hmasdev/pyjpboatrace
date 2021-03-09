@@ -69,7 +69,7 @@ class HTTPGetDriver:
 
     def __init__(self):
         self.__page_source = ''
-        requests_cache.install_cache(cache_name='cache', backend='sqlite', expire_after=60*120)
+        requests_cache.install_cache(cache_name='/tmp/cache', backend='sqlite', expire_after=60*120)
 
     def get(self, url: str, use_cache: bool = False):
         """
