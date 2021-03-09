@@ -75,13 +75,17 @@ class HTTPGetDriver:
         """
         Loads a web page in the current browser session.
         """
-        
+
+        proxies = {
+        'http': 'http://127.0.0.1:5556',
+        'https': 'https://127.0.0.1:5556',
+        }
         try:
             if use_cache == False:
                 with requests_cache.disabled():
-                    self.__page_source = requests.get(url).text
+                    self.__page_source = requests.get(url,proxies=proxies).text
             else:
-                self.__page_source = requests.get(url).text
+                self.__page_source = requests.get(url,proxies=proxies).text
         except ConnectionError:
             raise WebDriverException
         except InvalidSchema:
