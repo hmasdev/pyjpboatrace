@@ -1,4 +1,5 @@
 import requests
+import requests_cache
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.firefox import GeckoDriverManager
@@ -68,13 +69,19 @@ class HTTPGetDriver:
 
     def __init__(self):
         self.__page_source = ''
+        requests_cache.install_cache(cache_name='cache', backend='sqlite', expire_after=60*120)
 
-    def get(self, url: str):
+    def get(self, url: str, use_cache: bool = False):
         """
         Loads a web page in the current browser session.
         """
+        
         try:
-            self.__page_source = requests.get(url).text
+            if use_cache == False:
+                with requests_cache.disabled():
+                    self.__page_source = requests.get(url).text
+            else:
+                self.__page_source = requests.get(url).text
         except ConnectionError:
             raise WebDriverException
         except InvalidSchema:
