@@ -69,23 +69,20 @@ class HTTPGetDriver:
 
     def __init__(self):
         self.__page_source = ''
-        requests_cache.install_cache(cache_name='/tmp/cache', backend='sqlite', expire_after=60*120)
+        requests_cache.install_cache(cache_name='cache', backend="memory", expire_after=60 * 60 * 2)
 
     def get(self, url: str, use_cache: bool = False):
         """
         Loads a web page in the current browser session.
         """
 
-        proxies = {
-        'http': 'http://127.0.0.1:5556',
-        'https': 'https://127.0.0.1:5556',
-        }
         try:
             if use_cache == False:
                 with requests_cache.disabled():
-                    self.__page_source = requests.get(url,proxies=proxies).text
+                    self.__page_source = requests.get(url).text
             else:
-                self.__page_source = requests.get(url,proxies=proxies).text
+                self.__page_source = requests.get(url).text
+                
         except ConnectionError:
             raise WebDriverException
         except InvalidSchema:
