@@ -39,10 +39,22 @@ def create_firefox_driver():
     # options
     options = webdriver.FirefoxOptions()
     options.add_argument('-headless')
+    # profile
+    profile = webdriver.FirefoxProfile()
+    profile.set_preference(
+        'general.useragent.override',
+        ''.join([
+            '"Mozilla/5.0 (Windows NT 10.0; Win64; x64) ',
+            'AppleWebKit/537.36 (KHTML, like Gecko) ',
+            'Chrome/89.0.4389.90 ',
+            'Safari/537.36"',
+        ])
+    )
     # create driver
     driver = webdriver.Firefox(
         executable_path=GeckoDriverManager().install(),
-        options=options
+        options=options,
+        firefox_profile=profile,
     )
     return driver
 
