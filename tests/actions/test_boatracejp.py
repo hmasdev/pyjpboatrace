@@ -102,6 +102,7 @@ class TestBoatracejpWithFirefox(unittest.TestCase):
         cls.driver.close()
 
 
+@pytest.mark.skip(reason='Git-actions are unable to use edge.')
 class TestBoatracejpWithEdge(unittest.TestCase):
 
     secretsjson = './.secrets.json'
