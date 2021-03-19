@@ -13,7 +13,7 @@ from selenium.common.exceptions import InvalidArgumentException
 def create_chrome_driver():
     # options
     options = webdriver.ChromeOptions()
-    options.add_argument('--headless')
+    # options.add_argument('--headless')  # TODO login fails with headless mode
     options.add_argument('--disable-gpu')
     options.add_argument('--ignore-certificate-errors')
     options.add_argument('--allow-running-insecure-content')
@@ -31,7 +31,7 @@ def create_chrome_driver():
 def create_firefox_driver():
     # options
     options = webdriver.FirefoxOptions()
-    options.add_argument('-headless')
+    # options.add_argument('-headless')  # TODO login fails with headless mode
     # create driver
     driver = webdriver.Firefox(
         executable_path=GeckoDriverManager().install(),
@@ -44,7 +44,7 @@ def create_edge_driver():
     # options
     options = EdgeOptions()
     options.use_chromium = True
-    options.add_argument("headless")
+    # options.add_argument("headless")  # TODO login fails  with headless mode
     options.add_argument("disable-gpu")
     # create driver
     driver = Edge(
