@@ -63,7 +63,7 @@ def create_edge_driver():
     # options
     options = EdgeOptions()
     options.use_chromium = True
-    options.add_argument("headless")
+    # options.add_argument("headless")  # TODO set user agent
     options.add_argument("disable-gpu")
     # create driver
     driver = Edge(
