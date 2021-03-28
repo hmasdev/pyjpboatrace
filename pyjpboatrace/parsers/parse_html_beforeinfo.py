@@ -104,25 +104,36 @@ def parse_html_beforeinfo(html: str):
         # extract
         time = div.select_one('div > p').text.split()[-1]
         divs = div.select('div.weather1 > div.weather1_body > div')
-        direction = [
+        tmp = [
                 c
                 for c in divs[0].select_one('p')['class']
                 if 'is-direction' in c
-            ][0]
+            ]
+
+        if len(tmp) != 0:
+            direction = tmp[0]
+        else:
+            direction = "is-direction"
+
         temperature = divs[0].select('div > span')[-1].text
         weather = divs[1].select_one('div > span').text
         wind_speed = divs[2].select('div > span')[-1].text
-        wind_direc = [
+        tmp = [
                 c
                 for c in divs[3].select_one('p')['class']
                 if 'is-wind' in c
-            ][0]
+            ]
+
+        if len(tmp) != 0:
+            wind_direc = tmp[0]
+        else:
+            wind_direc = "is-wind"
+    
         water_temperature = divs[4].select('div > span')[-1].text
         wave_height = divs[5].select('div > span')[-1].text
-        # normalize
-        direction = str2num(direction.replace('is-direction', ''), int, '')
+        direction = str2num(direction[0].replace('is-direction', ''), int, '')
         temperature = str2num(temperature[:-1], float, '')
-        wind_direc = str2num(wind_direc.replace('is-wind', ''), int, '')
+        wind_direc = str2num(wind_direc[0].replace('is-wind', ''), int, '')
         wind_speed = str2num(wind_speed[:-1], float, '')
         water_temperature = str2num(water_temperature[:-1], float, '')
         wave_height = str2num(wave_height[:-2], float, '')
@@ -145,7 +156,9 @@ def parse_html_beforeinfo(html: str):
     grid_units = soup.select('div.grid_unit')
     table_racer = grid_units[0].select('div.table1 > table > tbody')
     table_display = grid_units[1].select('div.table1 > table > tbody > tr')
+
     table_weather = grid_units[1].select_one('div.weather1')
+#    print (table_weather)
 
     # parse
     dic = dict([
