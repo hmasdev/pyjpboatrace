@@ -470,6 +470,28 @@ class TestPyjpboatrace(unittest.TestCase):
         actual = self.pyjpboatrace.get_just_before_info(d, stadium, race)
         # assertion
         self.assertDictEqual(actual, expected)
+        
+    def test_get_just_before_info_missing_weather(self):
+        # MISSING RACERS CASE #
+        # preparation
+        d = 2019,1,26,8,1
+        d = date(2019, 1, 26)
+        dstr = d.strftime('%Y%m%d')
+        stadium = 8
+        race = 1
+        # expectation
+        path = os.path.join(
+            self.expected_direc,
+            f"expected_beforeinfo.rno={race}&jcd={stadium:02d}&hd={dstr}.json"
+        )
+        with open(path, 'r', encoding='utf-8-sig') as f:
+            expected = json.load(f)
+        # actual
+        actual = self.pyjpboatrace.get_just_before_info(d, stadium, race)
+        # assertion
+        self.assertDictEqual(actual, expected)
+    
+
 
     @pytest.mark.skipif(
         not os.path.exists(expected_direc),

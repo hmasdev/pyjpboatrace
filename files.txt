@@ -1,0 +1,2 @@
+/home/miyamamoto/anaconda3/lib/python3.8/site-packages/pyjpboatrace-0.1.1-py3.8.egg
+/home/miyamamoto/anaconda3/bin/chardetect

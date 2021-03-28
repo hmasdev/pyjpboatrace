@@ -13,7 +13,6 @@ from .user_information import UserInformation
 from .actions import boatracejp
 from .actions import ibmbraceorjp
 
-
 class PyJPBoatrace(object):
 
     def __init__(
@@ -21,10 +20,12 @@ class PyJPBoatrace(object):
         driver: webdriver.remote.webdriver.WebDriver = create_httpget_driver(),
         user_information: UserInformation = None,
         logger=getLogger(__name__),
+        use_cache = False
     ):
         self.__driver = driver
         self.__user_information = user_information
         self.__logger = logger
+        self.__use_cache = use_cache
 
         if self.__are_enable_actions():
             boatracejp.login(self.__driver, self.__user_information)
@@ -63,10 +64,10 @@ class PyJPBoatrace(object):
             return False
         return True
 
-    def __baseget(self, url: str, parser) -> dict:
+    def __baseget(self, url: str, parser,use_cache:bool = False) -> dict:
 
         self.__logger.debug(f'Start requesting {url}')
-        self.__driver.get(url)
+        self.__driver.get(url,use_cache)
         html = self.__driver.page_source
         self.__logger.debug('Completed request')
 
@@ -134,7 +135,7 @@ class PyJPBoatrace(object):
         # get data and return the parsed object
         return self.__baseget(
             f'{BOATRACEJP_BASE_URL}/index?hd={d}',
-            parsers.parse_html_index
+            parsers.parse_html_index,use_cache=self.__use_cache
         )
 
     def get_12races(self, d: datetime.date, stadium: int) -> dict:
@@ -148,7 +149,7 @@ class PyJPBoatrace(object):
         # get data and return the parsed object
         return self.__baseget(
             f"{BOATRACEJP_BASE_URL}/raceindex?jcd={stdm}&hd={d}",
-            parsers.parse_html_raceindex
+            parsers.parse_html_raceindex,use_cache=self.__use_cache
         )
 
     def get_race_info(self, d: datetime.date, stadium: int, race: int) -> dict:
@@ -162,7 +163,7 @@ class PyJPBoatrace(object):
         # get data and return the parsed object
         return self.__baseget(
             f'{BOATRACEJP_BASE_URL}/racelist?rno={race}&jcd={stdm}&hd={d}',
-            parsers.parse_html_racelist
+            parsers.parse_html_racelist,use_cache=self.__use_cache
         )
 
     def get_odds_win_placeshow(
@@ -181,7 +182,7 @@ class PyJPBoatrace(object):
         # get data and return the parsed object
         return self.__baseget(
             f'{BOATRACEJP_BASE_URL}/oddstf?rno={race}&jcd={stdm}&hd={d}',
-            parsers.parse_html_oddstf
+            parsers.parse_html_oddstf,use_cache=self.__use_cache
         )
 
     def get_odds_quinellaplace(
@@ -200,7 +201,7 @@ class PyJPBoatrace(object):
         # get data and return the parsed object
         return self.__baseget(
             f'{BOATRACEJP_BASE_URL}/oddsk?rno={race}&jcd={stdm}&hd={d}',
-            parsers.parse_html_oddsk
+            parsers.parse_html_oddsk,use_cache=self.__use_cache
         )
 
     def get_odds_exacta_quinella(
@@ -219,7 +220,7 @@ class PyJPBoatrace(object):
         # get data and return the parsed object
         return self.__baseget(
             f'{BOATRACEJP_BASE_URL}/odds2tf?rno={race}&jcd={stdm}&hd={d}',
-            parsers.parse_html_odds2tf
+            parsers.parse_html_odds2tf,use_cache=self.__use_cache
         )
 
     def get_odds_trifecta(
@@ -238,7 +239,7 @@ class PyJPBoatrace(object):
         # get data and return the parsed object
         return self.__baseget(
             f'{BOATRACEJP_BASE_URL}/odds3t?rno={race}&jcd={stdm}&hd={d}',
-            parsers.parse_html_odds3t
+            parsers.parse_html_odds3t,use_cache=self.__use_cache
         )
 
     def get_odds_trio(
@@ -257,7 +258,7 @@ class PyJPBoatrace(object):
         # get data and return the parsed object
         return self.__baseget(
             f'{BOATRACEJP_BASE_URL}/odds3f?rno={race}&jcd={stdm}&hd={d}',
-            parsers.parse_html_odds3f
+            parsers.parse_html_odds3f,use_cache=self.__use_cache
         )
 
     def get_just_before_info(
@@ -276,7 +277,7 @@ class PyJPBoatrace(object):
         # get data and return the parsed object
         return self.__baseget(
             f'{BOATRACEJP_BASE_URL}/beforeinfo?rno={race}&jcd={stdm}&hd={d}',
-            parsers.parse_html_beforeinfo
+            parsers.parse_html_beforeinfo,use_cache=self.__use_cache
         )
 
     def get_race_result(
@@ -295,7 +296,7 @@ class PyJPBoatrace(object):
         # get data and return the parsed object
         return self.__baseget(
             f'{BOATRACEJP_BASE_URL}/raceresult?rno={race}&jcd={stdm}&hd={d}',
-            parsers.parse_html_raceresult
+            parsers.parse_html_raceresult,use_cache=self.__use_cache
         )
 
     def deposit(self, num_of_thousands_yen: int) -> None:

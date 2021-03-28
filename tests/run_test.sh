@@ -1,0 +1,1 @@
+pytest test_pyjpboatrace.py::TestPyjpboatrace::test_get_just_before_info
