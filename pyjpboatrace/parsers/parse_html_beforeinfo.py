@@ -156,9 +156,7 @@ def parse_html_beforeinfo(html: str):
     grid_units = soup.select('div.grid_unit')
     table_racer = grid_units[0].select('div.table1 > table > tbody')
     table_display = grid_units[1].select('div.table1 > table > tbody > tr')
-
     table_weather = grid_units[1].select_one('div.weather1')
-#    print (table_weather)
 
     # parse
     dic = dict([

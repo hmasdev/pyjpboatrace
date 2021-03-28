@@ -42,134 +42,168 @@ def parse_html_raceresult(html: str):
 
         # trifecta
         tds = lst_trs[0][0].select('td')
-        dic['trifecta'] = {
-            'result': ''.join(
-                tds[1].select_one(
-                    'div.numberSet1 > div.numberSet1_row'
-                ).text.split()
-            ),
-            'payoff': str2num(
-                tds[2].select_one('span')
-                      .text
-                      .replace('¥', '')
-                      .replace(',', ''),
-                int,
-                ''
-            ),
-            'popularity': str2num(tds[3].text, int, '')
-        }
-        # trio
-        tds = lst_trs[1][0].select('td')
-        dic['trio'] = {
-            'result': ''.join(
-                tds[1].select_one(
-                    'div.numberSet1 > div.numberSet1_row'
-                ).text.split()
-            ),
-            'payoff': str2num(
-                tds[2].select_one('span')
-                      .text
-                      .replace('¥', '')
-                      .replace(',', ''),
-                int,
-                ''
-            ),
-            'popularity': str2num(tds[3].text, int, '')
-        }
-        # exacta
-        tds = lst_trs[2][0].select('td')
-        dic['exacta'] = {
-            'result': ''.join(
-                tds[1].select_one(
-                    'div.numberSet1 > div.numberSet1_row'
-                ).text.split()
-            ),
-            'payoff': str2num(
-                tds[2].select_one('span')
-                      .text
-                      .replace('¥', '')
-                      .replace(',', ''),
-                int,
-                ''
-            ),
-            'popularity': str2num(tds[3].text, int, '')
-        }
-        # quinella
-        tds = lst_trs[3][0].select('td')
-        dic['quinella'] = {
-            'result': ''.join(
-                tds[1].select_one(
-                    'div.numberSet1 > div.numberSet1_row'
-                ).text.split()
-            ),
-            'payoff': str2num(
-                tds[2].select_one('span')
-                      .text.replace('¥', '')
-                      .replace(',', ''),
-                int,
-                ''
-            ),
-            'popularity': str2num(tds[3].text, int, '')
-        }
-        # quinella place
-        trs = lst_trs[4]
-        dic['quinella_place'] = [
-            {
-                'result': ''.join(tr.select('td')[-3].text.split()),
+
+        try:
+            dic['trifecta'] = {
+                'result': ''.join(
+                    tds[1].select_one(
+                        'div.numberSet1 > div.numberSet1_row'
+                    ).text.split()
+                ),
                 'payoff': str2num(
-                    tr.select('td')[-2]
-                      .text
-                      .replace('¥', '')
-                      .replace(',', ''),
+                    tds[2].select_one('span')
+                        .text
+                        .replace('¥', '')
+                        .replace(',', ''),
                     int,
                     ''
                 ),
-                'popularity': str2num(tr.select('td')[-1].text, int, '')
+                'popularity': str2num(tds[3].text, int, '')
             }
-            for tr in trs
-        ]
+        except:
+            dic["trifecta"] = {}
+        # trio
+        tds = lst_trs[1][0].select('td')
+        try:
+            dic['trio'] = {
+                'result': ''.join(
+                    tds[1].select_one(
+                        'div.numberSet1 > div.numberSet1_row'
+                    ).text.split()
+                ),
+                'payoff': str2num(
+                    tds[2].select_one('span')
+                        .text
+                        .replace('¥', '')
+                        .replace(',', ''),
+                    int,
+                    ''
+                ),
+                'popularity': str2num(tds[3].text, int, '')
+            }
+        except:
+            dic["tio"] = []
+
+        # exacta
+        tds = lst_trs[2][0].select('td')
+        try:
+            dic['exacta'] = {
+                'result': ''.join(
+                    tds[1].select_one(
+                        'div.numberSet1 > div.numberSet1_row'
+                    ).text.split()
+                ),
+                'payoff': str2num(
+                    tds[2].select_one('span')
+                        .text
+                        .replace('¥', '')
+                        .replace(',', ''),
+                    int,
+                    ''
+                ),
+                'popularity': str2num(tds[3].text, int, '')
+            }
+        except:
+            dic['exacta'] = {}
+
+        
+        # quinella
+        tds = lst_trs[3][0].select('td')
+
+        try:
+            dic['quinella'] = {
+                'result': ''.join(
+                    tds[1].select_one(
+                        'div.numberSet1 > div.numberSet1_row'
+                    ).text.split()
+                ),
+                'payoff': str2num(
+                    tds[2].select_one('span')
+                        .text.replace('¥', '')
+                        .replace(',', ''),
+                    int,
+                    ''
+                ),
+                'popularity': str2num(tds[3].text, int, '')
+            }
+        except:
+            dic['quinella'] = {}
+
+        # quinella place
+        trs = lst_trs[4]
+        try:
+            dic['quinella_place'] = [
+                {
+                    'result': ''.join(tr.select('td')[-3].text.split()),
+                    'payoff': str2num(
+                        tr.select('td')[-2]
+                        .text
+                        .replace('¥', '')
+                        .replace(',', ''),
+                        int,
+                        ''
+                    ),
+                    'popularity': str2num(tr.select('td')[-1].text, int, '')
+                }
+                for tr in trs
+            ]
+        except:
+            dic["quinella_place"] = {}
+
+
         dic['quinella_place'] = [
             d for d in dic['quinella_place']
             if any(map(lambda v: v != '', d.values()))
         ]
         # win
-        tds = lst_trs[5][0].select('td')
-        dic['win'] = {
-            'result': ''.join(
-                tds[1].select_one(
-                    'div.numberSet1 > div.numberSet1_row'
-                ).text.split()
-            ),
-            'payoff': str2num(
-                tds[2].select_one('span')
-                      .text
-                      .replace('¥', '')
-                      .replace(',', ''),
-                int,
-                ''
-            ),
-            'popularity': str2num(tds[3].text, int, '')
-        }
+
+        try:
+            tds = lst_trs[5][0].select('td')
+            dic['win'] = {
+                'result': ''.join(
+                    tds[1].select_one(
+                        'div.numberSet1 > div.numberSet1_row'
+                    ).text.split()
+                ),
+                'payoff': str2num(
+                    tds[2].select_one('span')
+                        .text
+                        .replace('¥', '')
+                        .replace(',', ''),
+                    int,
+                    ''
+                ),
+                'popularity': str2num(tds[3].text, int, '')
+            }
+        except:
+            dic['win'] = {}
+
+
         # place show
         trs = lst_trs[6]
-        dic['place_show'] = [
-            {
-                'result': ''.join(tr.select('td')[-3].text.split()),
-                'payoff': str2num(
-                    tr.select('td')[-2]
-                      .text
-                      .replace('¥', '')
-                      .replace(',', ''),
-                    int, ''
-                ),
-                'popularity': str2num(tr.select('td')[-1].text, int, '')
-            }
-            for tr in trs
-        ]
-        dic['place_show'] = [
-            d for d in dic['place_show']
-            if any(map(lambda v: v != '', d.values()))
-        ]
+
+        try:
+            dic['place_show'] = [
+                {
+                    'result': ''.join(tr.select('td')[-3].text.split()),
+                    'payoff': str2num(
+                        tr.select('td')[-2]
+                        .text
+                        .replace('¥', '')
+                        .replace(',', ''),
+                        int, ''
+                    ),
+                    'popularity': str2num(tr.select('td')[-1].text, int, '')
+                }
+                for tr in trs
+            ]
+            dic['place_show'] = [
+                d for d in dic['place_show']
+                if any(map(lambda v: v != '', d.values()))
+            ]
+        except:
+            dic["place_show"] = {}
+        
 
         return dic
 
@@ -251,6 +285,19 @@ def parse_html_raceresult(html: str):
     # table
     grid_units = soup.select(
         'div.grid.is-type2.h-clear > div.grid_unit')  # probably 4 units
+    # レース中止の場合
+    if len(grid_units) == 0:
+        dic = {   
+        'result': {},
+        'start_information': {},
+        'payoff': {},
+        'weather_information': {},
+        'return': {},
+        'kimarite': {},
+        'note': {}
+        }
+        return dic
+
     ranks_table = grid_units[0].select('div.table1 > table > tbody')
     starts_table = grid_units[1].select('div.table1 > table > tbody > tr > td')
     payoff_table = grid_units[2].select('div.table1 > table > tbody')
