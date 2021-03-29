@@ -534,7 +534,7 @@ class TestPyjpboatrace(unittest.TestCase):
     def test_get_race_result_missing_racer(self):
         # MISSING RACERS CASE #
 
-        for d, stadium, race in [
+        for d, std, race in [
             (date(2020, 11, 29), 10, 2),
             (date(2018, 1, 1), 21, 3),
             (date(2013, 9, 22), 1, 10),
@@ -547,12 +547,12 @@ class TestPyjpboatrace(unittest.TestCase):
             # expectation
             path = os.path.join(
                 self.expected_direc,
-                f"expected_raceresult.rno={race}&jcd={stadium:02d}&hd={dstr}.json"
+                f"expected_raceresult.rno={race}&jcd={std:02d}&hd={dstr}.json"
             )
             with open(path, 'r', encoding='utf-8-sig') as f:
                 expected = json.load(f)
             # actual
-            actual = self.pyjpboatrace.get_race_result(d, stadium, race)
+            actual = self.pyjpboatrace.get_race_result(d, std, race)
             # assertion
             assert actual == expected
 
