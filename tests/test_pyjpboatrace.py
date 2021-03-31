@@ -533,22 +533,28 @@ class TestPyjpboatrace(unittest.TestCase):
     )
     def test_get_race_result_missing_racer(self):
         # MISSING RACERS CASE #
-        # preparation
-        d = date(2020, 11, 29)
-        dstr = d.strftime('%Y%m%d')
-        stadium = 10
-        race = 2
-        # expectation
-        path = os.path.join(
-            self.expected_direc,
-            f"expected_raceresult.rno={race}&jcd={stadium:02d}&hd={dstr}.json"
-        )
-        with open(path, 'r', encoding='utf-8-sig') as f:
-            expected = json.load(f)
-        # actual
-        actual = self.pyjpboatrace.get_race_result(d, stadium, race)
-        # assertion
-        self.assertDictEqual(actual, expected)
+
+        for d, std, race in [
+            (date(2020, 11, 29), 10, 2),
+            (date(2018, 1, 1), 21, 3),
+            (date(2013, 9, 22), 1, 10),
+        ]:
+            # TODO use pytest.mark.parametrize
+            # ref. https://github.com/pytest-dev/pytest/issues/541
+
+            # preparation
+            dstr = d.strftime('%Y%m%d')
+            # expectation
+            path = os.path.join(
+                self.expected_direc,
+                f"expected_raceresult.rno={race}&jcd={std:02d}&hd={dstr}.json"
+            )
+            with open(path, 'r', encoding='utf-8-sig') as f:
+                expected = json.load(f)
+            # actual
+            actual = self.pyjpboatrace.get_race_result(d, std, race)
+            # assertion
+            assert actual == expected
 
     @pytest.mark.skipif(
         not os.path.exists(expected_direc),
