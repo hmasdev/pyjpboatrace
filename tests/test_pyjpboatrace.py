@@ -241,6 +241,19 @@ class TestPyjpboatrace(unittest.TestCase):
         # assertion
         self.assertDictEqual(actual, expected)
 
+    def test_get_odds_win_placeshow_cancelled_race(self):
+        # CANCELLED RACERS CASE #
+        # preparation
+        d = date(2019, 1, 26)
+        stadium = 8
+        race = 8
+        # expectation
+        expected = {'win': {}, 'place_show': {}}
+        # actual
+        actual = self.pyjpboatrace.get_odds_win_placeshow(d, stadium, race)
+        # assertion
+        self.assertDictEqual(actual, expected)
+
     @pytest.mark.skipif(
         not os.path.exists(expected_direc),
         reason=f'{expected_direc} not found'
