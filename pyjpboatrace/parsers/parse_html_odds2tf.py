@@ -37,6 +37,10 @@ def parse_html_odds2tf(html: str):
     # make soup
     soup = BeautifulSoup(html, 'html.parser')
 
+    # check cancel
+    if '※ 該当レースは中止になりました。' in soup.text:
+        return {'exacta': {}, 'quinella': {}}
+
     # table
     tables = soup.select('div.table1')  # probably 3 tables
     exacta_table = tables[-2].select('table > tbody > tr')
