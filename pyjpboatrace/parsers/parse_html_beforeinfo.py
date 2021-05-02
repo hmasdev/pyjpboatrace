@@ -112,11 +112,14 @@ def parse_html_beforeinfo(html: str):
         temperature = divs[0].select('div > span')[-1].text
         weather = divs[1].select_one('div > span').text
         wind_speed = divs[2].select('div > span')[-1].text
-        wind_direc = [
+        try:
+            wind_direc = [
                 c
                 for c in divs[3].select_one('p')['class']
                 if 'is-wind' in c
             ][0]
+        except IndexError:
+            wind_direc = ""
         water_temperature = divs[4].select('div > span')[-1].text
         wave_height = divs[5].select('div > span')[-1].text
         # normalize

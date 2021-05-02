@@ -573,6 +573,30 @@ class TestPyjpboatrace(unittest.TestCase):
         not os.path.exists(expected_direc),
         reason=f'{expected_direc} not found'
     )
+    def test_get_just_before_info_cancelled_race(self):
+        # CANCELLED RACERS CASE #
+        # preparation
+        d = date(2019, 1, 26)
+        dstr = d.strftime('%Y%m%d')
+        stadium = 8
+        race = 8
+        # expectation
+        path = os.path.join(
+            self.expected_direc,
+            f"expected_beforeinfo.rno={race}&jcd={stadium:02d}&hd={dstr}.json"
+        )
+        with open(path, 'r', encoding='utf-8-sig') as f:
+            expected = json.load(f)
+        # actual
+        actual = self.pyjpboatrace.get_just_before_info(d, stadium, race)
+        # assertion
+        # self.assertDictEqual(actual, expected)
+        assert actual == expected
+
+    @pytest.mark.skipif(
+        not os.path.exists(expected_direc),
+        reason=f'{expected_direc} not found'
+    )
     def test_get_race_result(self):
         # USUAL CASE #
         # preparation
