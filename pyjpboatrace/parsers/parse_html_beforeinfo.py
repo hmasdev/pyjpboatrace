@@ -61,17 +61,17 @@ def parse_html_beforeinfo(html: str):
             'propeller': propeller,
             'parts_exchange': parts_exchange,
             'previous_race': (
-                    {}
-                    if all(map(lambda x: x == '', [r, b, c, rnk, st]))
-                    else
-                    {
-                        'race': r,
-                        'boat': b,
-                        'course': c,
-                        'ST': st,
-                        "rank": rnk
-                    }
-                )
+                {}
+                if all(map(lambda x: x == '', [r, b, c, rnk, st]))
+                else
+                {
+                    'race': r,
+                    'boat': b,
+                    'course': c,
+                    'ST': st,
+                    "rank": rnk
+                }
+            )
         }
 
         return f'boat{boat}', dic
@@ -84,19 +84,19 @@ def parse_html_beforeinfo(html: str):
             try:
                 spans = tr.select('div > span')
                 dic[f'course{i+1}'] = {
-                        'boat': str2num(spans[0].text, int, ''),
-                        'ST': str2num(
-                                spans[2].text.replace('F.', '-0.'),
-                                float,
-                                ''
-                            )
-                    }
+                    'boat': str2num(spans[0].text, int, ''),
+                    'ST': str2num(
+                        spans[2].text.replace('F.', '-0.'),
+                        float,
+                        ''
+                    )
+                }
             except IndexError:
                 # Case: missing some racers
                 dic[f'course{i+1}'] = {
-                        'boat': '',
-                        'ST': '',
-                    }
+                    'boat': '',
+                    'ST': '',
+                }
 
         return dic
 
@@ -105,18 +105,21 @@ def parse_html_beforeinfo(html: str):
         time = div.select_one('div > p').text.split()[-1]
         divs = div.select('div.weather1 > div.weather1_body > div')
         direction = [
-                c
-                for c in divs[0].select_one('p')['class']
-                if 'is-direction' in c
-            ][0]
+            c
+            for c in divs[0].select_one('p')['class']
+            if 'is-direction' in c
+        ][0]
         temperature = divs[0].select('div > span')[-1].text
         weather = divs[1].select_one('div > span').text
         wind_speed = divs[2].select('div > span')[-1].text
-        wind_direc = [
+        try:
+            wind_direc = [
                 c
                 for c in divs[3].select_one('p')['class']
                 if 'is-wind' in c
             ][0]
+        except IndexError:
+            wind_direc = ""
         water_temperature = divs[4].select('div > span')[-1].text
         wave_height = divs[5].select('div > span')[-1].text
         # normalize

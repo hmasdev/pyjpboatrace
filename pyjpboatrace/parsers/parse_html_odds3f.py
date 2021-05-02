@@ -38,6 +38,10 @@ def parse_html_odds3f(html: str):
     # make soup
     soup = BeautifulSoup(html, 'html.parser')
 
+    # check cancel
+    if '※ 該当レースは中止になりました。' in soup.text:
+        return {}
+
     # table
     tables = soup.select('div.table1')  # probably 2 tables
     trio_table = tables[-1].select('table > tbody > tr')

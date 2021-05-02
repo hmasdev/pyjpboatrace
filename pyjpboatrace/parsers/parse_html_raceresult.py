@@ -238,6 +238,10 @@ def parse_html_raceresult(html: str):
     # make soup
     soup = BeautifulSoup(html, 'html.parser')
 
+    # check cancel
+    if 'レース中止' in soup.text:
+        return {}
+
     # table
     grid_units = soup.select(
         'div.grid.is-type2.h-clear > div.grid_unit')  # probably 4 units
