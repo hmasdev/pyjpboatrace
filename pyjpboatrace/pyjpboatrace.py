@@ -35,9 +35,6 @@ class PyJPBoatrace(object):
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.close()
 
-    def __del__(self):
-        self.close()
-
     def close(self):
         if self.__are_enable_actions():
             boatracejp.logout(self.__driver)
