@@ -727,6 +727,7 @@ class TestPyjpboatrace(unittest.TestCase):
         with self.assertRaises(ValueError, msg=msg):
             self.pyjpboatrace.get_race_result(d, stadium, race)
 
+    @pytest.mark.skip(reason='it spends money')
     @pytest.mark.skipif(
         not IS_BOATRACE_TIME,
         reason='it is not time for boatrace'
