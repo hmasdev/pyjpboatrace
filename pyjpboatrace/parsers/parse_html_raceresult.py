@@ -40,14 +40,20 @@ def parse_html_raceresult(html: str):
         dic = {}
         lst_trs = list(map(lambda tbody: tbody.select('tbody > tr'), tbodys))
 
+        def extract_result(td):
+            try:
+                return td.select_one(
+                    'div.numberSet1 > div.numberSet1_row'
+                ).text.split()
+            except AttributeError:
+                if "不成立" in td.text:
+                    return ["不成立"]
+                return [f"FailedToParse: {td.text}"]
+
         # trifecta
         tds = lst_trs[0][0].select('td')
         dic['trifecta'] = {
-            'result': ''.join(
-                tds[1].select_one(
-                    'div.numberSet1 > div.numberSet1_row'
-                ).text.split()
-            ),
+            'result': ''.join(extract_result(tds[1])),
             'payoff': str2num(
                 tds[2].select_one('span')
                       .text
@@ -61,11 +67,7 @@ def parse_html_raceresult(html: str):
         # trio
         tds = lst_trs[1][0].select('td')
         dic['trio'] = {
-            'result': ''.join(
-                tds[1].select_one(
-                    'div.numberSet1 > div.numberSet1_row'
-                ).text.split()
-            ),
+            'result': ''.join(extract_result(tds[1])),
             'payoff': str2num(
                 tds[2].select_one('span')
                       .text
@@ -79,11 +81,7 @@ def parse_html_raceresult(html: str):
         # exacta
         tds = lst_trs[2][0].select('td')
         dic['exacta'] = {
-            'result': ''.join(
-                tds[1].select_one(
-                    'div.numberSet1 > div.numberSet1_row'
-                ).text.split()
-            ),
+            'result': ''.join(extract_result(tds[1])),
             'payoff': str2num(
                 tds[2].select_one('span')
                       .text
@@ -97,11 +95,7 @@ def parse_html_raceresult(html: str):
         # quinella
         tds = lst_trs[3][0].select('td')
         dic['quinella'] = {
-            'result': ''.join(
-                tds[1].select_one(
-                    'div.numberSet1 > div.numberSet1_row'
-                ).text.split()
-            ),
+            'result': ''.join(extract_result(tds[1])),
             'payoff': str2num(
                 tds[2].select_one('span')
                       .text.replace('¥', '')
@@ -135,11 +129,7 @@ def parse_html_raceresult(html: str):
         # win
         tds = lst_trs[5][0].select('td')
         dic['win'] = {
-            'result': ''.join(
-                tds[1].select_one(
-                    'div.numberSet1 > div.numberSet1_row'
-                ).text.split()
-            ),
+            'result': ''.join(extract_result(tds[1])),
             'payoff': str2num(
                 tds[2].select_one('span')
                       .text
@@ -248,6 +238,10 @@ def parse_html_raceresult(html: str):
     # make soup
     soup = BeautifulSoup(html, 'html.parser')
 
+    # check cancel
+    if 'レース中止' in soup.text:
+        return {}
+
     # table
     grid_units = soup.select(
         'div.grid.is-type2.h-clear > div.grid_unit')  # probably 4 units
@@ -267,10 +261,10 @@ def parse_html_raceresult(html: str):
     )
 
     kimarite = inner_grid_units[1].select('div.table1')[1]\
-                                  .select_one('table > tbody > tr > td')
+        .select_one('table > tbody > tr > td')
 
     note_table = grid_units[3].select('div.table1')[-1]\
-                              .select('table > tbody > tr > td')
+        .select('table > tbody > tr > td')
 
     # parse
     dic = {

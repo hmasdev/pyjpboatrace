@@ -28,6 +28,7 @@ class TestIbmbraceorjp(unittest.TestCase):
     def setUp(self):
         pass
 
+    @pytest.mark.skip(reason='it spends money')
     @pytest.mark.skipif(
         not IS_BOATRACE_TIME,
         reason='it is not time for boatrace'
