@@ -9,8 +9,8 @@ jobs:
   test:
     runs-on: ubuntu-latest
     env:
-      PRIVATE_REPO_USER: 'hmasdev'
-      PRIVATE_REPO_NAME: 'pyjpboatrace-private'
+      PRIVATE_REPO_USER: "hmasdev"
+      PRIVATE_REPO_NAME: "pyjpboatrace-private"
     strategy:
       matrix:
         python-version: [3.7, 3.8, 3.9]
@@ -28,16 +28,17 @@ jobs:
       - name: Install requirements
         run: |
           python -m pip install --upgrade pip
-          pip install -r test-requirements.txt
+          pip install pipenv
       - name: Lint
         run: |
-          flake8 . --show-source
+          pipenv sync --dev
+          pipenv run flake8 . --show-source
       - name: Test
         run: |
           shopt -s dotglob
           mkdir -p ../_workspace
           cp -r ./* ../_workspace/
-          
+
           while read line
           do
             if [ -e ../${{ env.PRIVATE_REPO_NAME }}/$line ]
@@ -46,8 +47,10 @@ jobs:
               cp -r ../${{ env.PRIVATE_REPO_NAME }}/$line/* ../_workspace/$line/
             fi
           done < ./.private
-          
+
           cd ../_workspace
-          pytest
+          pipenv sync --dev
+          pipenv run pytest
+          pipenv --rm
           cd ..
           rm -r _workspace
