@@ -21,8 +21,9 @@ jobs:
       - name: Install requirements
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
-          pip install twine wheel
+          pip install pipenv
+          pipenv --rm
+          pipenv sync --dev
       - name: Init .pypirc
         run: |
           echo -e '[pypi]' >> ~/.pypirc
@@ -30,5 +31,8 @@ jobs:
           echo -e "password: ${{ secrets.PYPI_PASSWORD }}" >> ~/.pypirc
       - name: Upload
         run: |
-          python setup.py sdist bdist_wheel
-          twine upload --repository pypi dist/*
+          pipenv run python setup.py sdist bdist_wheel
+          pipenv run twine upload --repository pypi dist/*
+      - name: Delete .pypirc
+        run: |
+          rm ~/.pypirc
