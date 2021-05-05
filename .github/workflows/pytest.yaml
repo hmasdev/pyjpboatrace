@@ -31,6 +31,7 @@ jobs:
           pip install pipenv
       - name: Lint
         run: |
+          pipenv sync --dev
           pipenv run flake8 . --show-source
       - name: Test
         run: |
