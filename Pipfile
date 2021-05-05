@@ -1,0 +1,20 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+beautifulsoup4 = ">=4.9.3"
+requests = ">=2.25.0"
+selenium = ">=3.141.0"
+webdriver-manager = ">=3.2.2"
+msedge-selenium-tools = "*"
+pyjpboatrace = {editable = true, path = "."}
+
+[dev-packages]
+pytest = "*"
+pytest-cov = "*"
+flake8 = "*"
+
+[requires]
+python_version = "3.7"
