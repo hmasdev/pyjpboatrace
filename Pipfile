@@ -7,7 +7,7 @@ name = "pypi"
 beautifulsoup4 = ">=4.9.3"
 requests = ">=2.25.0"
 selenium = ">=3.141.0"
-webdriver-manager = ">=3.2.2"
+webdriver-manager = "==3.2.2"
 msedge-selenium-tools = "*"
 pyjpboatrace = {editable = true, path = "."}
 
