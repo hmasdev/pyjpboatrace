@@ -7,6 +7,7 @@ from typing import Any, Dict
 from .base import BaseScraper
 from ..const import BOATRACEJP_BASE_URL
 from ..parsers import parse_html_odds2tf
+from ..validator import validate_date, validate_stadium, validate_race
 
 
 class ExactaQuinellaOddsScraper(BaseScraper):
@@ -31,4 +32,7 @@ class ExactaQuinellaOddsScraper(BaseScraper):
         )
 
     def get(self, d: datetime.date, stadium: int, race: int) -> Dict[str, Any]:
+        validate_date(d)
+        validate_stadium(stadium)
+        validate_race(race)
         return super().get(d, stadium, race)

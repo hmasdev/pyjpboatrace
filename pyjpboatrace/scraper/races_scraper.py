@@ -7,6 +7,7 @@ from typing import Any, Dict
 from .base import BaseScraper
 from ..const import BOATRACEJP_BASE_URL
 from ..parsers import parse_html_raceindex
+from ..validator import validate_date, validate_stadium
 
 
 class RacesScraper(BaseScraper):
@@ -30,4 +31,6 @@ class RacesScraper(BaseScraper):
         )
 
     def get(self, d: datetime.date, stadium: int) -> Dict[str, Any]:
+        validate_date(d)
+        validate_stadium(stadium)
         return super().get(d, stadium)

@@ -7,6 +7,7 @@ from typing import Any, Dict
 from .base import BaseScraper
 from ..const import BOATRACEJP_BASE_URL
 from ..parsers import parse_html_index
+from ..validator import validate_date
 
 
 class StadiumsScraper(BaseScraper):
@@ -27,4 +28,5 @@ class StadiumsScraper(BaseScraper):
         return cls.__url_format.format(date=d.strftime("%Y%m%d"))
 
     def get(self, d: datetime.date) -> Dict[str, Any]:
+        validate_date(d)
         return super().get(d)
