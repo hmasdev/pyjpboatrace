@@ -1,0 +1,362 @@
+{
+    "1R": {
+        "vote_limit": "2020-12-01 08:00:00",
+        "status": "発売終了",
+        "racers": {
+            "boat1": {
+                "name": "氏名",
+                "class": "A1"
+            },
+            "boat2": {
+                "name": "氏名",
+                "class": "A1"
+            },
+            "boat3": {
+                "name": "氏名",
+                "class": "A1"
+            },
+            "boat4": {
+                "name": "氏名",
+                "class": "A1"
+            },
+            "boat5": {
+                "name": "氏名",
+                "class": "A1"
+            },
+            "boat6": {
+                "name": "氏名",
+                "class": "A1"
+            }
+        }
+    },
+    "2R": {
+        "vote_limit": "2020-12-01 08:30:00",
+        "status": "発売終了",
+        "racers": {
+            "boat1": {
+                "name": "氏名",
+                "class": "A1"
+            },
+            "boat2": {
+                "name": "氏名",
+                "class": "A1"
+            },
+            "boat3": {
+                "name": "氏名",
+                "class": "A1"
+            },
+            "boat4": {
+                "name": "氏名",
+                "class": "A1"
+            },
+            "boat5": {
+                "name": "氏名",
+                "class": "A1"
+            },
+            "boat6": {
+                "name": "氏名",
+                "class": "A1"
+            }
+        }
+    },
+    "3R": {
+        "vote_limit": "2020-12-01 09:00:00",
+        "status": "発売終了",
+        "racers": {
+            "boat1": {
+                "name": "氏名",
+                "class": "A1"
+            },
+            "boat2": {
+                "name": "氏名",
+                "class": "A1"
+            },
+            "boat3": {
+                "name": "氏名",
+                "class": "A1"
+            },
+            "boat4": {
+                "name": "氏名",
+                "class": "A1"
+            },
+            "boat5": {
+                "name": "氏名",
+                "class": "A1"
+            },
+            "boat6": {
+                "name": "氏名",
+                "class": "A1"
+            }
+        }
+    },
+    "4R": {
+        "vote_limit": "2020-12-01 09:30:00",
+        "status": "発売終了",
+        "racers": {
+            "boat1": {
+                "name": "氏名",
+                "class": "A1"
+            },
+            "boat2": {
+                "name": "氏名",
+                "class": "A1"
+            },
+            "boat3": {
+                "name": "氏名",
+                "class": "A1"
+            },
+            "boat4": {
+                "name": "氏名",
+                "class": "A1"
+            },
+            "boat5": {
+                "name": "氏名",
+                "class": "A1"
+            },
+            "boat6": {
+                "name": "氏名",
+                "class": "A1"
+            }
+        }
+    },
+    "5R": {
+        "vote_limit": "2020-12-01 10:00:00",
+        "status": "投票",
+        "racers": {
+            "boat1": {
+                "name": "氏名",
+                "class": "A1"
+            },
+            "boat2": {
+                "name": "氏名",
+                "class": "A1"
+            },
+            "boat3": {
+                "name": "氏名",
+                "class": "A1"
+            },
+            "boat4": {
+                "name": "氏名",
+                "class": "A1"
+            },
+            "boat5": {
+                "name": "氏名",
+                "class": "A1"
+            },
+            "boat6": {
+                "name": "氏名",
+                "class": "A1"
+            }
+        }
+    },
+    "6R": {
+        "vote_limit": "2020-12-01 10:00:00",
+        "status": "投票",
+        "racers": {
+            "boat1": {
+                "name": "氏名",
+                "class": "A1"
+            },
+            "boat2": {
+                "name": "氏名",
+                "class": "A1"
+            },
+            "boat3": {
+                "name": "氏名",
+                "class": "A1"
+            },
+            "boat4": {
+                "name": "氏名",
+                "class": "A1"
+            },
+            "boat5": {
+                "name": "氏名",
+                "class": "A1"
+            },
+            "boat6": {
+                "name": "氏名",
+                "class": "A1"
+            }
+        }
+    },
+    "7R": {
+        "vote_limit": "2020-12-01 10:00:00",
+        "status": "投票",
+        "racers": {
+            "boat1": {
+                "name": "氏名",
+                "class": "A1"
+            },
+            "boat2": {
+                "name": "氏名",
+                "class": "A1"
+            },
+            "boat3": {
+                "name": "氏名",
+                "class": "A1"
+            },
+            "boat4": {
+                "name": "氏名",
+                "class": "A1"
+            },
+            "boat5": {
+                "name": "氏名",
+                "class": "A1"
+            },
+            "boat6": {
+                "name": "氏名",
+                "class": "A1"
+            }
+        }
+    },
+    "8R": {
+        "vote_limit": "2020-12-01 10:00:00",
+        "status": "投票",
+        "racers": {
+            "boat1": {
+                "name": "氏名",
+                "class": "A1"
+            },
+            "boat2": {
+                "name": "氏名",
+                "class": "A1"
+            },
+            "boat3": {
+                "name": "氏名",
+                "class": "A1"
+            },
+            "boat4": {
+                "name": "氏名",
+                "class": "A1"
+            },
+            "boat5": {
+                "name": "氏名",
+                "class": "A1"
+            },
+            "boat6": {
+                "name": "氏名",
+                "class": "A1"
+            }
+        }
+    },
+    "9R": {
+        "vote_limit": "2020-12-01 10:00:00",
+        "status": "投票",
+        "racers": {
+            "boat1": {
+                "name": "氏名",
+                "class": "A1"
+            },
+            "boat2": {
+                "name": "氏名",
+                "class": "A1"
+            },
+            "boat3": {
+                "name": "氏名",
+                "class": "A1"
+            },
+            "boat4": {
+                "name": "氏名",
+                "class": "A1"
+            },
+            "boat5": {
+                "name": "氏名",
+                "class": "A1"
+            },
+            "boat6": {
+                "name": "氏名",
+                "class": "A1"
+            }
+        }
+    },
+    "10R": {
+        "vote_limit": "2020-12-01 10:00:00",
+        "status": "投票",
+        "racers": {
+            "boat1": {
+                "name": "氏名",
+                "class": "A1"
+            },
+            "boat2": {
+                "name": "氏名",
+                "class": "A1"
+            },
+            "boat3": {
+                "name": "氏名",
+                "class": "A1"
+            },
+            "boat4": {
+                "name": "氏名",
+                "class": "A1"
+            },
+            "boat5": {
+                "name": "氏名",
+                "class": "A1"
+            },
+            "boat6": {
+                "name": "氏名",
+                "class": "A1"
+            }
+        }
+    },
+    "11R": {
+        "vote_limit": "2020-12-01 10:00:00",
+        "status": "投票",
+        "racers": {
+            "boat1": {
+                "name": "氏名",
+                "class": "A1"
+            },
+            "boat2": {
+                "name": "氏名",
+                "class": "A1"
+            },
+            "boat3": {
+                "name": "氏名",
+                "class": "A1"
+            },
+            "boat4": {
+                "name": "氏名",
+                "class": "A1"
+            },
+            "boat5": {
+                "name": "氏名",
+                "class": "A1"
+            },
+            "boat6": {
+                "name": "氏名",
+                "class": "A1"
+            }
+        }
+    },
+    "12R": {
+        "vote_limit": "2020-12-01 10:00:00",
+        "status": "投票",
+        "racers": {
+            "boat1": {
+                "name": "氏名",
+                "class": "A1"
+            },
+            "boat2": {
+                "name": "氏名",
+                "class": "A1"
+            },
+            "boat3": {
+                "name": "氏名",
+                "class": "A1"
+            },
+            "boat4": {
+                "name": "氏名",
+                "class": "A1"
+            },
+            "boat5": {
+                "name": "氏名",
+                "class": "A1"
+            },
+            "boat6": {
+                "name": "氏名",
+                "class": "A1"
+            }
+        }
+    }
+}
