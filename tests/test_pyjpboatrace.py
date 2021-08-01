@@ -48,6 +48,7 @@ def get_expected(header, **options):
     not os.path.exists(EXPECTED_DIREC),
     reason=f'{EXPECTED_DIREC} not found'
 )
+@pytest.mark.integrate
 def test_get_stadiums(pyjpboatrace_):
     # preparation
     d = date(2020, 9, 8)
@@ -95,6 +96,7 @@ def test_get_stadiums_today(mock_chrome):
     not os.path.exists(EXPECTED_DIREC),
     reason=f'{EXPECTED_DIREC} not found'
 )
+@pytest.mark.integrate
 def test_get_12races(pyjpboatrace_):
 
     # preparation
@@ -152,6 +154,7 @@ def test_get_12races_today(mock_chrome):
     not os.path.exists(EXPECTED_DIREC),
     reason=f'{EXPECTED_DIREC} not found'
 )
+@pytest.mark.integrate
 def test_get_race_info(pyjpboatrace_):
 
     # USUAL CASE #
@@ -177,6 +180,7 @@ def test_get_race_info(pyjpboatrace_):
     not os.path.exists(EXPECTED_DIREC),
     reason=f'{EXPECTED_DIREC} not found'
 )
+@pytest.mark.integrate
 def test_get_race_info_missing_racer(pyjpboatrace_):
     # MISSING RACERS CASE #
     # preparation
@@ -201,6 +205,7 @@ def test_get_race_info_missing_racer(pyjpboatrace_):
     not os.path.exists(EXPECTED_DIREC),
     reason=f'{EXPECTED_DIREC} not found'
 )
+@pytest.mark.integrate
 def test_get_odds_win_placeshow(pyjpboatrace_):
     # USUAL CASE #
     # preparation
@@ -225,6 +230,7 @@ def test_get_odds_win_placeshow(pyjpboatrace_):
     not os.path.exists(EXPECTED_DIREC),
     reason=f'{EXPECTED_DIREC} not found'
 )
+@pytest.mark.integrate
 def test_get_odds_win_placeshow_missing_racer(pyjpboatrace_):
     # MISSING RACERS CASE #
     # preparation
@@ -245,6 +251,7 @@ def test_get_odds_win_placeshow_missing_racer(pyjpboatrace_):
     assert actual == expected
 
 
+@pytest.mark.integrate
 def test_get_odds_win_placeshow_cancelled_race(pyjpboatrace_):
     # CANCELLED RACERS CASE #
     # preparation
@@ -263,6 +270,7 @@ def test_get_odds_win_placeshow_cancelled_race(pyjpboatrace_):
     not os.path.exists(EXPECTED_DIREC),
     reason=f'{EXPECTED_DIREC} not found'
 )
+@pytest.mark.integrate
 def test_get_odds_quinellaplace(pyjpboatrace_):
     # USUAL CASE #
     # preparation
@@ -287,6 +295,7 @@ def test_get_odds_quinellaplace(pyjpboatrace_):
     not os.path.exists(EXPECTED_DIREC),
     reason=f'{EXPECTED_DIREC} not found'
 )
+@pytest.mark.integrate
 def test_get_odds_quinellaplace_missing_racer(pyjpboatrace_):
     # MISSING RACERS CASE #
     # preparation
@@ -307,6 +316,7 @@ def test_get_odds_quinellaplace_missing_racer(pyjpboatrace_):
     assert actual == expected
 
 
+@pytest.mark.integrate
 def test_get_odds_quinellaplace_cancelled_race(pyjpboatrace_):
     # CANCELLED RACE CASE #
     # preparation
@@ -325,6 +335,7 @@ def test_get_odds_quinellaplace_cancelled_race(pyjpboatrace_):
     not os.path.exists(EXPECTED_DIREC),
     reason=f'{EXPECTED_DIREC} not found'
 )
+@pytest.mark.integrate
 def test_get_odds_exacta_quinella(pyjpboatrace_):
     # USUAL CASE #
     # preparation
@@ -349,6 +360,7 @@ def test_get_odds_exacta_quinella(pyjpboatrace_):
     not os.path.exists(EXPECTED_DIREC),
     reason=f'{EXPECTED_DIREC} not found'
 )
+@pytest.mark.integrate
 def test_get_odds_exacta_quinella_missing_racer(pyjpboatrace_):
     # MISSING RACERS CASE #
     # preparation
@@ -369,6 +381,7 @@ def test_get_odds_exacta_quinella_missing_racer(pyjpboatrace_):
     assert actual == expected
 
 
+@pytest.mark.integrate
 def test_get_odds_exacta_quinella_cancelled_race(pyjpboatrace_):
     # CANCELLED RACE CASE #
     # preparation
@@ -387,6 +400,7 @@ def test_get_odds_exacta_quinella_cancelled_race(pyjpboatrace_):
     not os.path.exists(EXPECTED_DIREC),
     reason=f'{EXPECTED_DIREC} not found'
 )
+@pytest.mark.integrate
 def test_get_odds_trifecta(pyjpboatrace_):
     # USUAL CASE #
     # preparation
@@ -412,6 +426,7 @@ def test_get_odds_trifecta(pyjpboatrace_):
     not os.path.exists(EXPECTED_DIREC),
     reason=f'{EXPECTED_DIREC} not found'
 )
+@pytest.mark.integrate
 def test_get_odds_trifecta_missing_racer(pyjpboatrace_):
     # MISSING RACERS CASE #
     # preparation
@@ -432,6 +447,7 @@ def test_get_odds_trifecta_missing_racer(pyjpboatrace_):
     assert actual == expected
 
 
+@pytest.mark.integrate
 def test_get_odds_trifecta_cancelled_race(pyjpboatrace_):
     # CANCELLED RACERS CASE #
     # preparation
@@ -450,6 +466,7 @@ def test_get_odds_trifecta_cancelled_race(pyjpboatrace_):
     not os.path.exists(EXPECTED_DIREC),
     reason=f'{EXPECTED_DIREC} not found'
 )
+@pytest.mark.integrate
 def test_get_odds_trio(pyjpboatrace_):
     # USUAL CASE #
     # preparation
@@ -474,6 +491,7 @@ def test_get_odds_trio(pyjpboatrace_):
     not os.path.exists(EXPECTED_DIREC),
     reason=f'{EXPECTED_DIREC} not found'
 )
+@pytest.mark.integrate
 def test_get_odds_trio_missing_racer(pyjpboatrace_):
     # MISSING RACERS CASE #
     # preparation
@@ -494,6 +512,7 @@ def test_get_odds_trio_missing_racer(pyjpboatrace_):
     assert actual == expected
 
 
+@pytest.mark.integrate
 def test_get_odds_trio_cancelled_race(pyjpboatrace_):
     # CANCELLED RACERS CASE #
     # preparation
@@ -512,6 +531,7 @@ def test_get_odds_trio_cancelled_race(pyjpboatrace_):
     not os.path.exists(EXPECTED_DIREC),
     reason=f'{EXPECTED_DIREC} not found'
 )
+@pytest.mark.integrate
 def test_get_just_before_info(pyjpboatrace_):
     # USUAL CASE #
     # preparation
@@ -536,6 +556,7 @@ def test_get_just_before_info(pyjpboatrace_):
     not os.path.exists(EXPECTED_DIREC),
     reason=f'{EXPECTED_DIREC} not found'
 )
+@pytest.mark.integrate
 def test_get_just_before_info_missing_racer(pyjpboatrace_):
     # MISSING RACERS CASE #
     # preparation
@@ -591,6 +612,7 @@ def test_get_just_before_info_not_yet(mock_chrome):
     not os.path.exists(EXPECTED_DIREC),
     reason=f'{EXPECTED_DIREC} not found'
 )
+@pytest.mark.integrate
 def test_get_just_before_info_cancelled_race(pyjpboatrace_):
     # CANCELLED RACERS CASE #
     # preparation
@@ -616,6 +638,7 @@ def test_get_just_before_info_cancelled_race(pyjpboatrace_):
     not os.path.exists(EXPECTED_DIREC),
     reason=f'{EXPECTED_DIREC} not found'
 )
+@pytest.mark.integrate
 def test_get_race_result(pyjpboatrace_):
     # USUAL CASE #
     # preparation
@@ -640,6 +663,7 @@ def test_get_race_result(pyjpboatrace_):
     not os.path.exists(EXPECTED_DIREC),
     reason=f'{EXPECTED_DIREC} not found'
 )
+@pytest.mark.integrate
 @pytest.mark.parametrize(
     "d,std,race",
     [
@@ -665,6 +689,7 @@ def test_get_race_result_missing_racer(d, std, race, pyjpboatrace_):
     assert actual == expected
 
 
+@pytest.mark.integrate
 def test_get_race_result_cancelled_race(pyjpboatrace_):
     # CANCELLED RACERS CASE #
     # preparation
@@ -710,6 +735,7 @@ def test_get_race_result_not_yet(mock_chrome):
     mock_chrome.close()
 
 
+@pytest.mark.integrate
 def test_get_race_result_invalid_arguments(pyjpboatrace_):
 
     # TODO invalid args test for get_stadiums
@@ -756,6 +782,7 @@ def test_get_race_result_invalid_arguments(pyjpboatrace_):
     not os.path.exists(SECRETSJSON),
     reason=f'{SECRETSJSON} not found'
 )
+@pytest.mark.integrate
 def test_deposit_withdraw(pyjpboatrace_):
     # pre-status
     current = pyjpboatrace_.get_bet_limit()
@@ -781,6 +808,7 @@ def test_deposit_withdraw(pyjpboatrace_):
     not os.path.exists(SECRETSJSON),
     reason=f'{SECRETSJSON} not found'
 )
+@pytest.mark.integrate
 def test_bet(pyjpboatrace_):
     # preparation
     current = pyjpboatrace_.get_bet_limit()
