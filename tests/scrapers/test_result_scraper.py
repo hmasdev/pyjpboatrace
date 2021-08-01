@@ -6,6 +6,7 @@ from pyjpboatrace.drivers import HTTPGetDriver
 from pyjpboatrace.scraper.result_scraper import (
     ResultScraper,
 )
+from pyjpboatrace.exceptions import RaceCancelledException, NoDataException
 
 from .utils import get_expected_json, get_mock_html
 
@@ -58,16 +59,6 @@ def test_make_url(d: date, stadium: int, race: int):
             "raceresult.rno=10&jcd=01&hd=20130922.html",
             "expected_raceresult.rno=10&jcd=01&hd=20130922.json",
         ),
-        (
-            # cancelled race
-            "raceresult.rno=8&jcd=08&hd=20190126.html",
-            "expected_raceresult.rno=8&jcd=08&hd=20190126.json",
-        ),
-        (
-            # not yet
-            "not_yet_raceresult.html",
-            "expected_not_yet_raceresult.json",
-        ),
     ]
 )
 def test_get(mock_html_file, expected_file):
@@ -86,3 +77,43 @@ def test_get(mock_html_file, expected_file):
 
     # assert
     assert actual == expected
+
+
+@pytest.mark.parametrize(
+    "mock_html_file",
+    [
+        "raceresult.rno=8&jcd=08&hd=20190126.html",
+    ]
+)
+def test_get_for_cancelled_race(mock_html_file):
+    # preparation
+    mock_driver = Mock(HTTPGetDriver)
+    mock_driver.page_source = get_mock_html(mock_html_file)
+    scraper = ResultScraper(driver=mock_driver)
+    # assert
+    with pytest.raises(RaceCancelledException):
+        scraper.get(
+            date.today(),  # dummy
+            stadium=1,  # dummy
+            race=1,  # dummy
+        )
+
+
+@pytest.mark.parametrize(
+    "mock_html_file",
+    [
+        "not_yet_raceresult.html",
+    ]
+)
+def test_get_for_race_unfinished_end(mock_html_file):
+    # preparation
+    mock_driver = Mock(HTTPGetDriver)
+    mock_driver.page_source = get_mock_html(mock_html_file)
+    scraper = ResultScraper(driver=mock_driver)
+    # assert
+    with pytest.raises(NoDataException):
+        scraper.get(
+            date.today(),  # dummy
+            stadium=1,  # dummy
+            race=1,  # dummy
+        )

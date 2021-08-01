@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup
 from pyjpboatrace.utils import str2num
+from ..exceptions import RaceCancelledException
 
 
 def parse_html_oddstf(html: str):
@@ -29,6 +30,10 @@ def parse_html_oddstf(html: str):
 
     # make soup
     soup = BeautifulSoup(html, 'html.parser')
+
+    # check cancel
+    if '※ 該当レースは中止になりました。' in soup.text:
+        raise RaceCancelledException()
 
     # table
     grid_units = soup.select('div.grid_unit')  # probably 2 units

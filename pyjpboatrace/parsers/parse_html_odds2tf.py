@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup
 from pyjpboatrace.utils import str2num
+from ..exceptions import RaceCancelledException
 
 
 def parse_html_odds2tf(html: str):
@@ -39,7 +40,7 @@ def parse_html_odds2tf(html: str):
 
     # check cancel
     if '※ 該当レースは中止になりました。' in soup.text:
-        return {'exacta': {}, 'quinella': {}}
+        raise RaceCancelledException()
 
     # table
     tables = soup.select('div.table1')  # probably 3 tables

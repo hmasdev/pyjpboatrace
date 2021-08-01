@@ -8,6 +8,7 @@ from pyjpboatrace import PyJPBoatrace
 from pyjpboatrace.user_information import UserInformation
 from pyjpboatrace.drivers import create_chrome_driver
 from pyjpboatrace.const import BOATRACE_START, BOATRACE_END
+from pyjpboatrace.exceptions import RaceCancelledException, NoDataException
 
 # TODO add test for get function of racer's basic info
 # TODO add test for get function of racer's last 3sections info
@@ -258,12 +259,9 @@ def test_get_odds_win_placeshow_cancelled_race(pyjpboatrace_):
     d = date(2019, 1, 26)
     stadium = 8
     race = 8
-    # expectation
-    expected = {'win': {}, 'place_show': {}}
     # actual
-    actual = pyjpboatrace_.get_odds_win_placeshow(d, stadium, race)
-    # assertion
-    assert actual == expected
+    with pytest.raises(RaceCancelledException):
+        pyjpboatrace_.get_odds_win_placeshow(d, stadium, race)
 
 
 @pytest.mark.skipif(
@@ -323,12 +321,9 @@ def test_get_odds_quinellaplace_cancelled_race(pyjpboatrace_):
     d = date(2019, 1, 26)
     stadium = 8
     race = 8
-    # load true data
-    expected = {}
-    # actual data
-    actual = pyjpboatrace_.get_odds_quinellaplace(d, stadium, race)
-    # assertion
-    assert actual == expected
+    # assert
+    with pytest.raises(RaceCancelledException):
+        pyjpboatrace_.get_odds_quinellaplace(d, stadium, race)
 
 
 @pytest.mark.skipif(
@@ -388,12 +383,9 @@ def test_get_odds_exacta_quinella_cancelled_race(pyjpboatrace_):
     d = date(2019, 1, 26)
     stadium = 8
     race = 8
-    # load true data
-    expected = {'exacta': {}, 'quinella': {}}
-    # actual data
-    actual = pyjpboatrace_.get_odds_exacta_quinella(d, stadium, race)
-    # assertion
-    assert actual == expected
+    # assert
+    with pytest.raises(RaceCancelledException):
+        pyjpboatrace_.get_odds_exacta_quinella(d, stadium, race)
 
 
 @pytest.mark.skipif(
@@ -454,12 +446,9 @@ def test_get_odds_trifecta_cancelled_race(pyjpboatrace_):
     d = date(2019, 1, 26)
     stadium = 8
     race = 8
-    # expectation
-    expected = {}
-    # actual
-    actual = pyjpboatrace_.get_odds_trifecta(d, stadium, race)
-    # assertion
-    assert actual == expected
+    # assert
+    with pytest.raises(RaceCancelledException):
+        pyjpboatrace_.get_odds_trifecta(d, stadium, race)
 
 
 @pytest.mark.skipif(
@@ -519,12 +508,9 @@ def test_get_odds_trio_cancelled_race(pyjpboatrace_):
     d = date(2019, 1, 26)
     stadium = 8
     race = 8
-    # expectation
-    expected = {}
-    # actual
-    actual = pyjpboatrace_.get_odds_trio(d, stadium, race)
-    # assertion
-    assert actual == expected
+    # assert
+    with pytest.raises(RaceCancelledException):
+        pyjpboatrace_.get_odds_trio(d, stadium, race)
 
 
 @pytest.mark.skipif(
@@ -696,12 +682,9 @@ def test_get_race_result_cancelled_race(pyjpboatrace_):
     d = date(2019, 1, 26)
     stadium = 8
     race = 8
-    # expectation
-    expected = {}
-    # actual
-    actual = pyjpboatrace_.get_race_result(d, stadium, race)
-    # assertion
-    assert actual == expected
+    # assert
+    with pytest.raises(RaceCancelledException):
+        pyjpboatrace_.get_race_result(d, stadium, race)
 
 
 @pytest.mark.skipif(
@@ -724,13 +707,11 @@ def test_get_race_result_not_yet(mock_chrome):
     with open(path, 'r', encoding='utf-8') as f:
         mock_chrome.page_source = f.read()
 
-    # expectation
-    expected = get_expected('expected_not_yet_raceresult')
-    # actual
+    # assert
     pyjpboatrace = PyJPBoatrace(driver=mock_chrome)
-    actual = pyjpboatrace.get_race_result(d, stadium, race)
-    # assertion
-    assert actual == expected
+    with pytest.raises(NoDataException):
+        pyjpboatrace.get_race_result(d, stadium, race)
+
     # close
     mock_chrome.close()
 
