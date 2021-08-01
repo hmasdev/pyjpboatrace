@@ -29,6 +29,7 @@ def get_user_info(secretsjson=SECRETSJSON):
     not os.path.exists(SECRETSJSON),
     reason=f'{SECRETSJSON} not found'
 )
+@pytest.mark.integrate
 @pytest.mark.parametrize(
     'create_driver',
     (
@@ -64,6 +65,7 @@ def test_deposit_withdraw(create_driver):
     not os.path.exists(SECRETSJSON),
     reason=f'{SECRETSJSON} not found'
 )
+@pytest.mark.integrate
 @pytest.mark.parametrize(
     'create_driver',
     (

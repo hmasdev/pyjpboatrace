@@ -20,6 +20,7 @@ def get_user_info(secretsjson=SECRETSJSON):
     not os.path.exists(SECRETSJSON),
     reason=f'{SECRETSJSON} not found'
 )
+@pytest.mark.integrate
 @pytest.mark.parametrize(
     'create_driver',
     (
@@ -44,6 +45,7 @@ def test_login_logout(create_driver):
     driver.close()
 
 
+@pytest.mark.integrate
 @pytest.mark.parametrize(
     'create_driver',
     (
