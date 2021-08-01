@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 from ..utils import str2num
 from ..const import BOATS_GEN
+from ..exceptions import NoDataException
 
 
 def parse_html_raceresult(html: str):
@@ -240,6 +241,13 @@ def parse_html_raceresult(html: str):
 
     # check cancel
     if 'レース中止' in soup.text:
+        return {}
+
+    # check data
+    if '※ データはありません。' in map(
+        lambda e: e.text,
+        soup.select('h3.title12_title')
+    ):
         return {}
 
     # table
