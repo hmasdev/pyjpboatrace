@@ -1,0 +1,98 @@
+{
+    "boat1": {
+        "name": "妹尾忠幸",
+        "weight": "",
+        "weight_adjustment": "",
+        "display_time": "",
+        "tilt": "",
+        "propeller": "",
+        "parts_exchange": [],
+        "previous_race": {}
+    },
+    "boat2": {
+        "name": "塩田北斗",
+        "weight": 52,
+        "weight_adjustment": 0,
+        "display_time": 6.74,
+        "tilt": -0.5,
+        "propeller": "",
+        "parts_exchange": [],
+        "previous_race": {}
+    },
+    "boat3": {
+        "name": "谷口健一",
+        "weight": 52.6,
+        "weight_adjustment": 0,
+        "display_time": 6.82,
+        "tilt": -0.5,
+        "propeller": "",
+        "parts_exchange": [],
+        "previous_race": {}
+    },
+    "boat4": {
+        "name": "長谷川親王",
+        "weight": 56.6,
+        "weight_adjustment": 0,
+        "display_time": 6.83,
+        "tilt": -0.5,
+        "propeller": "",
+        "parts_exchange": [],
+        "previous_race": {}
+    },
+    "boat5": {
+        "name": "坪井爽佑",
+        "weight": 56.3,
+        "weight_adjustment": 0,
+        "display_time": 6.81,
+        "tilt": -0.5,
+        "propeller": "",
+        "parts_exchange": [],
+        "previous_race": {}
+    },
+    "boat6": {
+        "name": "板倉敦史",
+        "weight": 52,
+        "weight_adjustment": 0,
+        "display_time": 6.73,
+        "tilt": -0.5,
+        "propeller": "",
+        "parts_exchange": [],
+        "previous_race": {}
+    },
+    "start_display": {
+        "course1": {
+            "boat": 2,
+            "ST": 0.09
+        },
+        "course2": {
+            "boat": 3,
+            "ST": -0.02
+        },
+        "course3": {
+            "boat": 4,
+            "ST": 0.11
+        },
+        "course4": {
+            "boat": 6,
+            "ST": 0.11
+        },
+        "course5": {
+            "boat": 5,
+            "ST": 0.23
+        },
+        "course6": {
+            "boat": "",
+            "ST": ""
+        }
+    },
+    "weather_information": {
+        "direction": 13,
+        "weather": "晴",
+        "temperature": 9,
+        "wind_direction": 17,
+        "wind_speed": 0,
+        "water_temperature": 10,
+        "wave_height": 0,
+        "time": "1R時点"
+    }
+}

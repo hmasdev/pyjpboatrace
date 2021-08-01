@@ -1,0 +1,110 @@
+{
+    "boat1": {
+        "name": "氏名",
+        "weight": 50,
+        "weight_adjustment": 0,
+        "display_time": "",
+        "tilt": "",
+        "propeller": "",
+        "parts_exchange": [],
+        "previous_race": {
+            "race": 1,
+            "boat": 1,
+            "course": 1,
+            "ST": 0.05,
+            "rank": 1
+        }
+    },
+    "boat2": {
+        "name": "氏名",
+        "weight": 50,
+        "weight_adjustment": 0,
+        "display_time": "",
+        "tilt": "",
+        "propeller": "",
+        "parts_exchange": [],
+        "previous_race": {
+            "race": 1,
+            "boat": 1,
+            "course": 1,
+            "ST": 0.05,
+            "rank": 1
+        }
+    },
+    "boat3": {
+        "name": "氏名",
+        "weight": 50,
+        "weight_adjustment": 0,
+        "display_time": "",
+        "tilt": "",
+        "propeller": "",
+        "parts_exchange": [],
+        "previous_race": {}
+    },
+    "boat4": {
+        "name": "氏名",
+        "weight": 50,
+        "weight_adjustment": 0,
+        "display_time": "",
+        "tilt": "",
+        "propeller": "",
+        "parts_exchange": [],
+        "previous_race": {}
+    },
+    "boat5": {
+        "name": "氏名",
+        "weight": 50,
+        "weight_adjustment": 0,
+        "display_time": "",
+        "tilt": "",
+        "propeller": "",
+        "parts_exchange": [],
+        "previous_race": {}
+    },
+    "boat6": {
+        "name": "氏名",
+        "weight": 50,
+        "weight_adjustment": 0,
+        "display_time": "",
+        "tilt": "",
+        "propeller": "",
+        "parts_exchange": [],
+        "previous_race": {}
+    },
+    "start_display": {
+        "course1": {
+            "boat": "",
+            "ST": ""
+        },
+        "course2": {
+            "boat": "",
+            "ST": ""
+        },
+        "course3": {
+            "boat": "",
+            "ST": ""
+        },
+        "course4": {
+            "boat": "",
+            "ST": ""
+        },
+        "course5": {
+            "boat": "",
+            "ST": ""
+        },
+        "course6": {
+            "boat": "",
+            "ST": ""
+        }
+    },
+    "weather_information": {
+        "direction": 1,
+        "weather": "晴",
+        "temperature": 99,
+        "wind_direction": 1,
+        "wind_speed": 100,
+        "water_temperature": 99,
+        "wave_height": 100,
+        "time": "1R時点"
+    }
+}

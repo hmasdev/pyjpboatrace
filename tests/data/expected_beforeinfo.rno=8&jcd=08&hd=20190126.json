@@ -1,0 +1,122 @@
+{
+    "boat1": {
+        "name": "木田峰由季",
+        "weight": 51.8,
+        "weight_adjustment": 0.0,
+        "display_time": "",
+        "tilt": -0.5,
+        "propeller": "",
+        "parts_exchange": [],
+        "previous_race": {}
+    },
+    "boat2": {
+        "name": "小西英輝",
+        "weight": 54.1,
+        "weight_adjustment": 0.0,
+        "display_time": "",
+        "tilt": 0.0,
+        "propeller": "",
+        "parts_exchange": [],
+        "previous_race": {
+            "race":2,
+            "boat":5,
+            "course":5,
+            "ST":0.21,
+            "rank":4
+        }
+    },
+    "boat3": {
+        "name": "山崎毅",
+        "weight": 50.5,
+        "weight_adjustment": 0.5,
+        "display_time": "",
+        "tilt": -0.5,
+        "propeller": "",
+        "parts_exchange": [],
+        "previous_race": {
+            "race":4,
+            "boat":6,
+            "course":6,
+            "ST":0.34,
+            "rank":5
+        }
+    },
+    "boat4": {
+        "name": "西村勝",
+        "weight": 52.7,
+        "weight_adjustment": 0.0,
+        "display_time": "",
+        "tilt": -0.5,
+        "propeller": "",
+        "parts_exchange": [],
+        "previous_race": {}
+    },
+    "boat5": {
+        "name": "富永大一",
+        "weight": 51.4,
+        "weight_adjustment": 0.0,
+        "display_time": "",
+        "tilt": 0.0,
+        "propeller": "",
+        "parts_exchange": [],
+        "previous_race": {
+            "race":3,
+            "boat":2,
+            "course":2,
+            "ST":0.22,
+            "rank":1
+        }
+    },
+    "boat6": {
+        "name": "谷本幸司",
+        "weight": 52.1,
+        "weight_adjustment": 0,
+        "display_time": "",
+        "tilt": 0.0,
+        "propeller": "",
+        "parts_exchange": [],
+        "previous_race": {
+            "race":2,
+            "boat":2,
+            "course":2,
+            "ST":0.09,
+            "rank":1
+        }
+    },
+    "start_display": {
+        "course1": {
+            "boat": "",
+            "ST": ""
+        },
+        "course2": {
+            "boat": "",
+            "ST": ""
+        },
+        "course3": {
+            "boat": "",
+            "ST": ""
+        },
+        "course4": {
+            "boat": "",
+            "ST": ""
+        },
+        "course5": {
+            "boat": "",
+            "ST": ""
+        },
+        "course6": {
+            "boat": "",
+            "ST": ""
+        }
+    },
+    "weather_information": {
+        "direction": 9,
+        "weather": "晴",
+        "temperature": "",
+        "wind_direction": "",
+        "wind_speed": "",
+        "water_temperature": "",
+        "wave_height": "",
+        "time": "7R時点"
+    }
+}
