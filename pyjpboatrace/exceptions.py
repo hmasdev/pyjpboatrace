@@ -8,7 +8,8 @@ class RaceCancelledException(Exception):
 
 
 class UnableActionException(Exception):
-    pass
+    def __init__(self, msg=None):
+        super().__init__(msg)
 
 
 class LoginFailException(Exception):
