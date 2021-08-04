@@ -12,27 +12,68 @@ from pyjpboatrace.drivers import (
 
 @pytest.fixture(scope="session")
 def chrome_driver() -> webdriver.Chrome:
-    d = create_chrome_driver()
-    yield d
-    d.close()
+    try:
+        d = create_chrome_driver()
+        yield d
+    finally:
+        d.close()
 
 
 @pytest.fixture(scope="session")
 def firefox_driver() -> webdriver.Firefox:
-    d = create_firefox_driver()
-    yield d
-    d.close()
+    try:
+        d = create_firefox_driver()
+        yield d
+    finally:
+        d.close()
 
 
 @pytest.fixture(scope="session")
 def edge_driver() -> webdriver.Edge:
-    d = create_edge_driver()
-    yield d
-    d.close()
+    try:
+        d = create_edge_driver()
+        yield d
+    finally:
+        d.close()
 
 
 @pytest.fixture(scope="session")
 def httpget_driver() -> HTTPGetDriver:
-    d = create_httpget_driver()
-    yield d
-    d.close()
+    try:
+        d = create_httpget_driver()
+        yield d
+    finally:
+        d.close()
+
+
+@pytest.fixture(
+    scope="session",
+    params=[
+        create_firefox_driver,
+        create_chrome_driver,
+        # create_edge_driver,  # TODO
+    ]
+)
+def driver_not_http_get_driver(request):
+    try:
+        driver = request.param()
+        yield driver
+    finally:
+        driver.close()
+
+
+@pytest.fixture(
+    scope="session",
+    params=[
+        create_firefox_driver,
+        create_chrome_driver,
+        # create_edge_driver,  # TODO
+        create_httpget_driver,
+    ]
+)
+def driver(request):
+    try:
+        driver = request.param()
+        yield driver
+    finally:
+        driver.close()

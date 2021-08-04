@@ -1,5 +1,5 @@
 from bs4 import BeautifulSoup
-from pyjpboatrace.utils import str2num
+from ...utils import str2num
 
 
 def parse_html_beforeinfo(html: str):

@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 import datetime
 
-from ..const import BOATS_GEN
+from ...const import BOATS_GEN
 
 
 def parse_html_raceindex(html: str):

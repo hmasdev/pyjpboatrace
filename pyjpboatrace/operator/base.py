@@ -7,6 +7,8 @@ from ..user_information import UserInformation
 
 
 class BaseOperator(metaclass=ABCMeta):
+    """Base class for operator
+    """
 
     def __init__(
         self,

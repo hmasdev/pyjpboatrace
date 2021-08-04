@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
-from ..utils import str2num
-from ..const import BOATS_GEN
-from ..exceptions import NoDataException, RaceCancelledException
+from ...utils import str2num
+from ...const import BOATS_GEN
+from ...exceptions import NoDataException, RaceCancelledException
 
 
 def parse_html_raceresult(html: str):

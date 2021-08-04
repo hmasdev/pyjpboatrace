@@ -1,7 +1,7 @@
 import os
 import json
 from getpass import getpass
-from logging import getLogger
+from logging import Logger, getLogger
 
 
 class UserInformation:
@@ -21,7 +21,7 @@ class UserInformation:
         auth_pass: str = None,
         vote_pass: str = None,  # TODO rename vote_pass -> bet_pass
         json_file: str = None,
-        logger=getLogger(__name__)
+        logger: Logger = getLogger(__name__)
     ):
         # preparation
         self.userid = None

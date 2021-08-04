@@ -10,14 +10,14 @@ from .parse_html_beforeinfo import parse_html_beforeinfo
 from .parse_html_raceresult import parse_html_raceresult
 
 __all__ = [
-    'parse_html_index',
-    'parse_html_raceindex',
-    'parse_html_racelist',
-    'parse_html_oddstf',
-    'parse_html_oddsk',
-    'parse_html_odds2tf',
-    'parse_html_odds3t',
-    'parse_html_odds3f',
-    'parse_html_beforeinfo',
-    'parse_html_raceresult',
+    parse_html_index.__name__,
+    parse_html_raceindex.__name__,
+    parse_html_racelist.__name__,
+    parse_html_oddstf.__name__,
+    parse_html_oddsk.__name__,
+    parse_html_odds2tf.__name__,
+    parse_html_odds3t.__name__,
+    parse_html_odds3f.__name__,
+    parse_html_beforeinfo.__name__,
+    parse_html_raceresult.__name__,
 ]

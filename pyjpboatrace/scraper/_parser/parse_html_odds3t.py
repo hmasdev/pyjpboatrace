@@ -1,9 +1,9 @@
 from bs4 import BeautifulSoup
-from pyjpboatrace.utils import str2num
-from ..exceptions import RaceCancelledException
+from ...utils import str2num
+from ...exceptions import RaceCancelledException
 
 
-def parse_html_odds3f(html: str):
+def parse_html_odds3t(html: str):
 
     def parse_trio(trs):
         # preparation
@@ -19,20 +19,18 @@ def parse_html_odds3f(html: str):
                 for i, (b3, odds) in enumerate(zip(tds[1::3], tds[2::3])):
                     b1 = i + 1
                     b3 = str2num(b3.text, int, -1)
-                    if not (b1 < b2 < b3):
-                        break
-                    dic[f'{b1}={b2}={b3}'] = str2num(
-                        odds.text, float, odds.text)
+                    dic[f'{b1}-{b2-(b1>=b2)}-{b3}'] = str2num(odds.text,
+                                                              float,
+                                                              odds.text)
 
             else:
                 # previous b2
                 for i, (b3, odds) in enumerate(zip(tds[::2], tds[1::2])):
                     b1 = i + 1
                     b3 = str2num(b3.text, int, -1)
-                    if not (b1 < b2 < b3):
-                        break
-                    dic[f'{b1}={b2}={b3}'] = str2num(
-                        odds.text, float, odds.text)
+                    dic[f'{b1}-{b2-(b1>=b2)}-{b3}'] = str2num(odds.text,
+                                                              float,
+                                                              odds.text)
 
         return dic
 
@@ -45,9 +43,9 @@ def parse_html_odds3f(html: str):
 
     # table
     tables = soup.select('div.table1')  # probably 2 tables
-    trio_table = tables[-1].select('table > tbody > tr')
+    trifecta_table = tables[-1].select('table > tbody > tr')
 
     # parse
-    dic = parse_trio(trio_table)
+    dic = parse_trio(trifecta_table)
 
     return dic

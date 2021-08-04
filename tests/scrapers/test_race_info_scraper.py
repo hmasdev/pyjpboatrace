@@ -5,7 +5,7 @@ from unittest.mock import Mock
 from pyjpboatrace.drivers import HTTPGetDriver
 from pyjpboatrace.scraper.race_info_scraper import RaceInfoScraper
 
-from .utils import get_expected_json, get_mock_html
+from .._utils import get_expected_json, get_mock_html
 
 
 @pytest.mark.parametrize(

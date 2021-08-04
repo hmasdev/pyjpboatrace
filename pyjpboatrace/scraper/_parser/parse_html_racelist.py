@@ -1,5 +1,5 @@
 from bs4 import BeautifulSoup
-from pyjpboatrace.utils import str2num
+from ...utils import str2num
 
 
 def parse_html_racelist(html: str):
@@ -14,12 +14,12 @@ def parse_html_racelist(html: str):
         boat = tds.pop().text
         tds.pop()  # racer figure
         temp = sum(
-                map(
-                    lambda div: ''.join(div.get_text('/').split()).split('/'),
-                    tds.pop().select('div')
-                ),
-                []  # initial
-            )
+            map(
+                lambda div: ''.join(div.get_text('/').split()).split('/'),
+                tds.pop().select('div')
+            ),
+            []  # initial
+        )
         temp = [t for t in temp if t]
         racerid, clss, name, branch, birthplace, age, weight = temp
 
@@ -143,8 +143,8 @@ def parse_html_racelist(html: str):
         for tbody in table
     ])
     dic['race_title'] = list(map(
-            lambda s: ''.join(s.split()),
-            soup.select_one('span.heading2_titleDetail').text.split()
-        ))
+        lambda s: ''.join(s.split()),
+        soup.select_one('span.heading2_titleDetail').text.split()
+    ))
 
     return dic

@@ -7,7 +7,7 @@ from pyjpboatrace.scraper.just_before_info_scraper import (
     JustBeforeInfoScraper,
 )
 
-from .utils import get_expected_json, get_mock_html
+from .._utils import get_expected_json, get_mock_html
 
 
 @pytest.mark.parametrize(

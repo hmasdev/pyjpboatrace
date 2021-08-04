@@ -8,7 +8,7 @@ from pyjpboatrace.scraper.win_placeshow_odds_scraper import (
 )
 from pyjpboatrace.exceptions import RaceCancelledException
 
-from .utils import get_expected_json, get_mock_html
+from .._utils import get_expected_json, get_mock_html
 
 
 @pytest.mark.parametrize(

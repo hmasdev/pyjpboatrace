@@ -5,6 +5,8 @@ from typing import Any, Callable, Dict
 
 
 class BaseScraper(metaclass=ABCMeta):
+    """Base class for scraper.
+    """
 
     def __init__(
         self,

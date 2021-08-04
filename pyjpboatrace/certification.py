@@ -2,12 +2,12 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from logging import getLogger
+from logging import Logger, getLogger
 
-from ..user_information import UserInformation
-from ..const import BOATRACEJP_MAIN_URL
-from ..const import BOATRACEJP_LOGIN_URL, BOATRACEJP_LOGOUT_URL
-from ..exceptions import LoginFailException
+from .user_information import UserInformation
+from .const import BOATRACEJP_MAIN_URL
+from .const import BOATRACEJP_LOGIN_URL, BOATRACEJP_LOGOUT_URL
+from .exceptions import LoginFailException
 
 # TODO error handling : failed to read
 
@@ -16,8 +16,27 @@ def login(
     driver: webdriver.remote.webdriver.WebDriver,
     user: UserInformation,
     timeout: int = 15,
-    logger=getLogger(__name__)
+    logger: Logger = getLogger(__name__)
 ) -> bool:
+    """Login to boatrace.jp
+
+    Args:
+        driver (webdriver.remote.webdriver.WebDriver): webdriver.
+        user (UserInformation): User information.
+        timeout (int, optional): Timeout parameter. Defaults to 15.
+        logger (Logger, optional): logger. Defaults to getLogger(__name__).
+
+    Raises:
+        LoginFailException: Occurred when login failure.
+
+    Returns:
+        bool: Whether login is succeeded.
+
+    NOTE:
+        Behavior:
+            Return True when login is succeeded;
+            Raise LoginFailException when login is failed.
+    """
     # get
     driver.get(BOATRACEJP_LOGIN_URL)
 
@@ -61,8 +80,17 @@ def login(
 
 def logout(
     driver: webdriver.remote.webdriver.WebDriver,
-    logger=getLogger(__name__)
+    logger: Logger = getLogger(__name__)
 ) -> bool:
+    """Logout from boatrace.jp
+
+    Args:
+        driver (webdriver.remote.webdriver.WebDriver): webdriver
+        logger (Logger, optional): logger. Defaults to getLogger(__name__).
+
+    Returns:
+        bool: Whether logout is succeeded.
+    """
     # logout
     driver.get(BOATRACEJP_LOGOUT_URL)
     return not check_login_status(driver)
@@ -70,8 +98,17 @@ def logout(
 
 def check_login_status(
     driver: webdriver.remote.webdriver.WebDriver,
-    logger=getLogger(__name__)
+    logger: Logger = getLogger(__name__),
 ) -> bool:
+    """[summary]
+
+    Args:
+        driver (webdriver.remote.webdriver.WebDriver): webdriver
+        logger (Logger, optional): logger. Defaults to getLogger(__name__).
+
+    Returns:
+        bool: Whether you are loggined in boatrace.jp
+    """
     # get
     driver.get(BOATRACEJP_MAIN_URL)
 

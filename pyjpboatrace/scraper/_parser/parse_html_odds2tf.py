@@ -1,6 +1,6 @@
 from bs4 import BeautifulSoup
-from pyjpboatrace.utils import str2num
-from ..exceptions import RaceCancelledException
+from ...utils import str2num
+from ...exceptions import RaceCancelledException
 
 
 def parse_html_odds2tf(html: str):

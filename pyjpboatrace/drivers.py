@@ -1,16 +1,22 @@
-import requests
-from selenium import webdriver
-from webdriver_manager.chrome import ChromeDriverManager
-from webdriver_manager.firefox import GeckoDriverManager
-from webdriver_manager.microsoft import EdgeChromiumDriverManager
 from msedge.selenium_tools import Edge, EdgeOptions
-
+from selenium import webdriver
+import requests
+from requests import Response
 from requests.exceptions import ConnectionError, InvalidSchema
 from selenium.common.exceptions import WebDriverException
 from selenium.common.exceptions import InvalidArgumentException
+from typing import Callable
+from webdriver_manager.chrome import ChromeDriverManager
+from webdriver_manager.firefox import GeckoDriverManager
+from webdriver_manager.microsoft import EdgeChromiumDriverManager
 
 
-def create_chrome_driver():
+def create_chrome_driver() -> webdriver.Chrome:
+    """Create an instance of chrome driver with headless mode
+
+    Returns:
+        webdriver.Chrome: chrome driver
+    """
     # options
     options = webdriver.ChromeOptions()
     options.add_argument('--headless')
@@ -35,7 +41,12 @@ def create_chrome_driver():
     return driver
 
 
-def create_firefox_driver():
+def create_firefox_driver() -> webdriver.Firefox:
+    """Create an instance of firefox driver with headless mode
+
+    Returns:
+        webdriver.Firefox: firefox driver
+    """
     # options
     options = webdriver.FirefoxOptions()
     options.add_argument('-headless')
@@ -59,7 +70,15 @@ def create_firefox_driver():
     return driver
 
 
-def create_edge_driver():
+def create_edge_driver() -> webdriver.Edge:
+    """Create an instance of edge driver
+
+    Returns:
+        webdriver.Edge: chrome driver
+
+    WARNING:
+        driver is activated without headless mode
+    """
     # options
     options = EdgeOptions()
     options.use_chromium = True
@@ -73,19 +92,19 @@ def create_edge_driver():
     return driver
 
 
-def create_httpget_driver():
-    return HTTPGetDriver()
-
-
 class HTTPGetDriver:
     """
     Wrapper class for requests.get as a webdriver of selenium,
     altough this class provides only get method and page_source property.
     """
 
-    # TODO Need inheritance ?
+    # TODO Need inheriting selenium.webdriver.remote.webdriver.BaseWebDriver
 
-    def __init__(self):
+    def __init__(
+        self,
+        http_get: Callable[[str, ], Response],
+    ):
+        self.__get = http_get
         self.__page_source = ''
 
     def get(self, url: str):
@@ -93,7 +112,7 @@ class HTTPGetDriver:
         Loads a web page in the current browser session.
         """
         try:
-            self.__page_source = requests.get(url).text
+            self.__page_source = self.__get(url).text
         except ConnectionError:
             raise WebDriverException
         except InvalidSchema:
@@ -112,3 +131,18 @@ class HTTPGetDriver:
 
     def close(self):
         pass
+
+
+def create_httpget_driver(
+    http_get: Callable[[str, ], Response] = requests.get,
+) -> HTTPGetDriver:
+    """Craete an instance of HTTPGetDriver
+
+    Args:
+        http_get (Callable[[str, ], Response], optional): HTTP get function.
+            Defaults to requests.get.
+
+    Returns:
+        HTTPGetDriver: [description]
+    """
+    return HTTPGetDriver(http_get)
