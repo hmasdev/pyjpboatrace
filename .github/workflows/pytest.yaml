@@ -28,6 +28,6 @@ jobs:
       - name: Test
         run: |
           pipenv sync --dev
-          sh ./download_html_for_test.sh
+          bash ./download_html_for_test.sh
           pipenv run pytest
           pipenv --rm
