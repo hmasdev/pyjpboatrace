@@ -9,14 +9,13 @@ from pyjpboatrace.operator.withdrawer import WithdrawOperator
 from pyjpboatrace.user_information import UserInformation
 
 from .._utils import create_side_effect
-from .._driver_fixutures import chrome_driver  # noqa
 
 
-def test_withdraw_operator_do(chrome_driver):  # noqa
+def test_withdraw_operator_do():
 
     # create mock
     mock_user = MagicMock(UserInformation, vote_pass=None)
-    mock_driver = MagicMock(chrome_driver)
+    mock_driver = MagicMock(webdriver.Chrome)
     mock_driver.find_element_by_id = Mock(
         side_effect=create_side_effect(
             {
@@ -44,11 +43,11 @@ def test_withdraw_operator_do(chrome_driver):  # noqa
     assert not args_list
 
 
-def test_withdraw_oprator_do_without_deposit(chrome_driver):  # noqa
+def test_withdraw_oprator_do_without_deposit():
 
     # create mock
     mock_user = MagicMock(UserInformation, vote_pass=None)
-    mock_driver = MagicMock(chrome_driver)
+    mock_driver = MagicMock(webdriver.Chrome)
     mock_driver.find_element_by_id = Mock(
         side_effect=create_side_effect(
             {
@@ -71,11 +70,11 @@ def test_withdraw_oprator_do_without_deposit(chrome_driver):  # noqa
     [
         (webdriver.Chrome, False,),
         (webdriver.Firefox, False,),
-        (webdriver.Edge, False,),
+        # (webdriver.Edge, False,),
         (HTTPGetDriver, True,),
     ]
 )
-def test_withdraw_operator_do_for_driver(driver_class, is_raised):  # noqa
+def test_withdraw_operator_do_for_driver(driver_class, is_raised):
 
     # create mock
     mock_user = MagicMock(UserInformation, vote_pass=None)

@@ -15,10 +15,9 @@ from pyjpboatrace.operator.better import BettingOperator
 from pyjpboatrace.user_information import UserInformation
 
 from .._utils import create_side_effect
-from .._driver_fixutures import chrome_driver  # noqa
 
 
-def test_betting_operator_do_with_no_deposit(chrome_driver):  # noqa
+def test_betting_operator_do_with_no_deposit():
 
     # argument
     stadium = 1
@@ -30,7 +29,7 @@ def test_betting_operator_do_with_no_deposit(chrome_driver):  # noqa
 
     # create mock
     mock_user = MagicMock(UserInformation)
-    mock_driver = MagicMock(chrome_driver)
+    mock_driver = MagicMock(webdriver.Chrome)
     mock_driver.find_element_by_id.return_value = Mock(
         WebElement,
         text=str(depo)
@@ -44,7 +43,7 @@ def test_betting_operator_do_with_no_deposit(chrome_driver):  # noqa
         better.do(stadium, race, betdict,)
 
 
-def test_betting_operator_do_with_inactive_stadium(chrome_driver):  # noqa
+def test_betting_operator_do_with_inactive_stadium():
 
     # create arguments
     stadium = 1
@@ -56,7 +55,7 @@ def test_betting_operator_do_with_inactive_stadium(chrome_driver):  # noqa
 
     # create mock
     mock_user = MagicMock(UserInformation)
-    mock_driver = MagicMock(chrome_driver)
+    mock_driver = MagicMock(webdriver.Chrome)
     mock_driver.find_element_by_id = Mock(
         side_effect=create_side_effect(
             {
@@ -77,7 +76,7 @@ def test_betting_operator_do_with_inactive_stadium(chrome_driver):  # noqa
         better.do(stadium, race, betdict)
 
 
-def test_betting_operator_do_with_inactive_race(chrome_driver):  # noqa
+def test_betting_operator_do_with_inactive_race():
 
     # create arguments
     stadium = 1
@@ -89,7 +88,7 @@ def test_betting_operator_do_with_inactive_race(chrome_driver):  # noqa
 
     # create mock
     mock_user = MagicMock(UserInformation)
-    mock_driver = MagicMock(chrome_driver)
+    mock_driver = MagicMock(webdriver.Chrome)
     mock_driver.get = Mock()
     mock_driver.find_element_by_id = Mock(
         side_effect=create_side_effect(
@@ -115,7 +114,7 @@ def test_betting_operator_do_with_inactive_race(chrome_driver):  # noqa
         better.do(stadium, race, betdict)
 
 
-def test_betting_operator_do_with_insufficient_deposit(chrome_driver):  # noqa
+def test_betting_operator_do_with_insufficient_deposit():
 
     # create arguments
     stadium = 1
@@ -127,7 +126,7 @@ def test_betting_operator_do_with_insufficient_deposit(chrome_driver):  # noqa
 
     # create mock
     mock_user = MagicMock(UserInformation)
-    mock_driver = MagicMock(chrome_driver)
+    mock_driver = MagicMock(webdriver.Chrome)
     mock_driver.find_element_by_id = Mock(
         side_effect=create_side_effect(
             {
@@ -153,7 +152,7 @@ def test_betting_operator_do_with_insufficient_deposit(chrome_driver):  # noqa
         better.do(stadium, race, betdict)
 
 
-def test_betting_operator_do(chrome_driver):  # noqa
+def test_betting_operator_do():
 
     # create arguments
     stadium = 1
@@ -173,7 +172,7 @@ def test_betting_operator_do(chrome_driver):  # noqa
 
     # create mock
     mock_user = MagicMock(UserInformation, vote_pass=None)
-    mock_driver = MagicMock(chrome_driver)
+    mock_driver = MagicMock(webdriver.Chrome)
     mock_driver.find_element_by_id = Mock(
         side_effect=create_side_effect(
             {
@@ -234,7 +233,7 @@ def test_betting_operator_do(chrome_driver):  # noqa
     [
         (webdriver.Chrome, False,),
         (webdriver.Firefox, False,),
-        (webdriver.Edge, False,),
+        # (webdriver.Edge, False,),
         (HTTPGetDriver, True,),
     ]
 )

@@ -11,7 +11,6 @@ from pyjpboatrace.operator.betting_limit_checker import (
 from pyjpboatrace.user_information import UserInformation
 
 from .._utils import create_side_effect
-from .._driver_fixutures import chrome_driver  # noqa
 
 
 @pytest.mark.parametrize(
@@ -23,11 +22,11 @@ from .._driver_fixutures import chrome_driver  # noqa
         "1,000,000",
     ]
 )
-def test_betting_limit_check_operator_do(depo, chrome_driver):  # noqa
+def test_betting_limit_check_operator_do(depo):
 
     # create mock
     mock_user = MagicMock(UserInformation, vote_pass=None)
-    mock_driver = MagicMock(chrome_driver)
+    mock_driver = MagicMock(webdriver.Chrome)
     mock_driver.find_element_by_id = Mock(
         side_effect=create_side_effect(
             {
@@ -58,7 +57,7 @@ def test_betting_limit_check_operator_do(depo, chrome_driver):  # noqa
     [
         (webdriver.Chrome, False,),
         (webdriver.Firefox, False,),
-        (webdriver.Edge, False,),
+        # (webdriver.Edge, False,),
         (HTTPGetDriver, True,),
     ]
 )

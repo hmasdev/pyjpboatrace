@@ -8,17 +8,15 @@ from pyjpboatrace.drivers import HTTPGetDriver
 from pyjpboatrace.operator.depositor import DepositOperator
 from pyjpboatrace.user_information import UserInformation
 
-from .._driver_fixutures import chrome_driver  # noqa
 
-
-def test_deposit_operator_do(chrome_driver):  # noqa
+def test_deposit_operator_do():
 
     # create arguments
     depo_amt_unit_thousands_yen = 5
 
     # create mock
     mock_user = MagicMock(UserInformation, vote_pass=None)
-    mock_driver = MagicMock(chrome_driver)
+    mock_driver = MagicMock(webdriver.Chrome)
     mock_driver.find_element_by_id = Mock(
         return_value=Mock(WebElement)
     )
@@ -46,7 +44,7 @@ def test_deposit_operator_do(chrome_driver):  # noqa
     [
         (webdriver.Chrome, False,),
         (webdriver.Firefox, False,),
-        (webdriver.Edge, False,),
+        # (webdriver.Edge, False,),
         (HTTPGetDriver, True,),
     ]
 )
