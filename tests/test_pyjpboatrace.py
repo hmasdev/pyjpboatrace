@@ -1,86 +1,62 @@
 from unittest import mock
 import pytest
-import os
-import json
 import time
 from datetime import date, datetime, timedelta
 from pyjpboatrace import PyJPBoatrace
-from pyjpboatrace.user_information import UserInformation
-from pyjpboatrace.drivers import create_chrome_driver
-from pyjpboatrace.const import BOATRACE_START, BOATRACE_END
+from pyjpboatrace.const import STADIUMS_MAP
+from pyjpboatrace.exceptions import RaceCancelledException, NoDataException
+
+from ._driver_fixutures import chrome_driver  # noqa
+
+from ._utils import (
+    get_user_info,
+    is_boatrace_time,
+    get_expected_json,
+    get_mock_html,
+)
 
 # TODO add test for get function of racer's basic info
 # TODO add test for get function of racer's last 3sections info
 # TODO add test for get function of racer's season info
 # TODO add test for get function of racer's course-wise info
 
-IS_BOATRACE_TIME = BOATRACE_START <= datetime.now().time() <= BOATRACE_END
-EXPECTED_DIREC = 'tests/data'
-MOCK_HTML_DIREC = 'tests/mock_html'
-SECRETSJSON = '.secrets.json'
-
 
 @pytest.fixture(scope='module')
-def pyjpboatrace_(secretsjson=SECRETSJSON):
-    if os.path.exists(secretsjson):
-        user = UserInformation(json_file=secretsjson)
-    else:
-        user = None
-    driver = create_chrome_driver()
-    pyjpboatrace = PyJPBoatrace(driver=driver, user_information=user)
+def boatrace_tools(chrome_driver) -> PyJPBoatrace:  # noqa
+    user = get_user_info()
+    pyjpboatrace = PyJPBoatrace(
+        driver=chrome_driver,
+        user_information=user,
+        close_driver_when_closing_pyjpboatrace=False,
+        # because closing driver in pytest.fixture
+    )
     yield pyjpboatrace
     pyjpboatrace.close()
 
 
-def get_expected(header, **options):
-    name = '.'.join([
-        header,
-        '&'.join([f'{k}={v}' for k, v in options.items()]),
-        'json',
-    ]).replace('..', '.')
-    path = os.path.join(EXPECTED_DIREC, name)
-    with open(path, 'r', encoding='utf-8-sig') as f:
-        expected = json.load(f)
-    return expected
-
-
-@pytest.mark.skipif(
-    not os.path.exists(EXPECTED_DIREC),
-    reason=f'{EXPECTED_DIREC} not found'
-)
 @pytest.mark.integrate
-def test_get_stadiums(pyjpboatrace_):
+def test_get_stadiums(boatrace_tools: PyJPBoatrace):
     # preparation
     d = date(2020, 9, 8)
     dstr = d.strftime('%Y%m%d')
     # expectation
-    expected = get_expected('expected_index', hd=dstr)
+    expected = get_expected_json(f"expected_index.hd={dstr}.json")
     # actual
-    actual = pyjpboatrace_.get_stadiums(d)
+    actual = boatrace_tools.get_stadiums(d)
     # assertion
     assert actual == expected
 
 
-@pytest.mark.skipif(
-    not os.path.exists(EXPECTED_DIREC),
-    reason=f'{EXPECTED_DIREC} not found'
-)
-@pytest.mark.skipif(
-    not os.path.exists(MOCK_HTML_DIREC),
-    reason=f'{MOCK_HTML_DIREC} not found'
-)
 @mock.patch('selenium.webdriver.Chrome')
 def test_get_stadiums_today(mock_chrome):
     # TODAY (=2020/11/30) CASE #
     # preparation
     d = date(2020, 11, 30)
     # set mock
-    path = os.path.join(MOCK_HTML_DIREC, 'today_index.html')
-    with open(path, 'r', encoding='utf-8') as f:
-        mock_chrome.page_source = f.read()
+    mock_chrome.page_source = get_mock_html("today_index.html")
 
     # expectation
-    expected = get_expected('expected_today_index')
+    expected = get_expected_json('expected_today_index.json')
 
     # actual
     actual = PyJPBoatrace(driver=mock_chrome).get_stadiums(d)
@@ -92,12 +68,8 @@ def test_get_stadiums_today(mock_chrome):
     mock_chrome.close()
 
 
-@pytest.mark.skipif(
-    not os.path.exists(EXPECTED_DIREC),
-    reason=f'{EXPECTED_DIREC} not found'
-)
 @pytest.mark.integrate
-def test_get_12races(pyjpboatrace_):
+def test_get_12races(boatrace_tools: PyJPBoatrace):
 
     # preparation
     d = date(2020, 10, 8)
@@ -105,27 +77,17 @@ def test_get_12races(pyjpboatrace_):
     stadium = 1
 
     # expectation
-    expected = get_expected(
-        "expected_raceindex",
-        jcd=f"{stadium:02d}",
-        hd=dstr,
+    expected = get_expected_json(
+        f"expected_raceindex.jcd={stadium:02d}&hd={dstr}.json",
     )
 
     # actual
-    actual = pyjpboatrace_.get_12races(d, stadium)
+    actual = boatrace_tools.get_12races(d, stadium)
 
     # assertion
     assert actual == expected
 
 
-@pytest.mark.skipif(
-    not os.path.exists(EXPECTED_DIREC),
-    reason=f'{EXPECTED_DIREC} not found'
-)
-@pytest.mark.skipif(
-    not os.path.exists(MOCK_HTML_DIREC),
-    reason=f'{MOCK_HTML_DIREC} not found'
-)
 @mock.patch('selenium.webdriver.Chrome')
 def test_get_12races_today(mock_chrome):
     # TODAY (=2020/12/01) CASE #
@@ -133,12 +95,10 @@ def test_get_12races_today(mock_chrome):
     d = date(2020, 12, 1)
     stadium = 1
     # set mock
-    path = os.path.join(MOCK_HTML_DIREC, 'today_raceindex.html')
-    with open(path, 'r', encoding='utf-8') as f:
-        mock_chrome.page_source = f.read()
+    mock_chrome.page_source = get_mock_html("today_raceindex.html")
 
     # expectation
-    expected = get_expected('expected_today_raceindex')
+    expected = get_expected_json('expected_today_raceindex.json')
 
     # actual
     actual = PyJPBoatrace(driver=mock_chrome).get_12races(d, stadium)
@@ -150,12 +110,8 @@ def test_get_12races_today(mock_chrome):
     mock_chrome.close()
 
 
-@pytest.mark.skipif(
-    not os.path.exists(EXPECTED_DIREC),
-    reason=f'{EXPECTED_DIREC} not found'
-)
 @pytest.mark.integrate
-def test_get_race_info(pyjpboatrace_):
+def test_get_race_info(boatrace_tools: PyJPBoatrace):
 
     # USUAL CASE #
     # preparation
@@ -164,24 +120,17 @@ def test_get_race_info(pyjpboatrace_):
     stadium = 14
     race = 1
     # expectation
-    expected = get_expected(
-        'expected_racelist',
-        rno=race,
-        jcd=f"{stadium:02d}",
-        hd=dstr,
+    expected = get_expected_json(
+        f'expected_racelist.rno={race}&jcd={stadium:02d}&hd={dstr}.json',
     )
     # actual
-    actual = pyjpboatrace_.get_race_info(d, stadium, race)
+    actual = boatrace_tools.get_race_info(d, stadium, race)
     # assertion
     assert actual == expected
 
 
-@pytest.mark.skipif(
-    not os.path.exists(EXPECTED_DIREC),
-    reason=f'{EXPECTED_DIREC} not found'
-)
 @pytest.mark.integrate
-def test_get_race_info_missing_racer(pyjpboatrace_):
+def test_get_race_info_missing_racer(boatrace_tools: PyJPBoatrace):
     # MISSING RACERS CASE #
     # preparation
     d = date(2020, 11, 29)
@@ -189,24 +138,17 @@ def test_get_race_info_missing_racer(pyjpboatrace_):
     stadium = 10
     race = 2
     # expectation
-    expected = get_expected(
-        'expected_racelist',
-        rno=race,
-        jcd=f"{stadium:02d}",
-        hd=dstr,
+    expected = get_expected_json(
+        f'expected_racelist.rno={race}&jcd={stadium:02d}&hd={dstr}.json',
     )
     # actual
-    actual = pyjpboatrace_.get_race_info(d, stadium, race)
+    actual = boatrace_tools.get_race_info(d, stadium, race)
     # assertion
     assert actual == expected
 
 
-@pytest.mark.skipif(
-    not os.path.exists(EXPECTED_DIREC),
-    reason=f'{EXPECTED_DIREC} not found'
-)
 @pytest.mark.integrate
-def test_get_odds_win_placeshow(pyjpboatrace_):
+def test_get_odds_win_placeshow(boatrace_tools: PyJPBoatrace):
     # USUAL CASE #
     # preparation
     d = date(2020, 10, 24)
@@ -214,24 +156,17 @@ def test_get_odds_win_placeshow(pyjpboatrace_):
     stadium = 14
     race = 1
     # load true data
-    expected = get_expected(
-        'expected_oddstf',
-        rno=race,
-        jcd=f"{stadium:02d}",
-        hd=dstr,
+    expected = get_expected_json(
+        f'expected_oddstf.rno={race}&jcd={stadium:02d}&hd={dstr}.json',
     )
     # actual data
-    actual = pyjpboatrace_.get_odds_win_placeshow(d, stadium, race)
+    actual = boatrace_tools.get_odds_win_placeshow(d, stadium, race)
     # assertion
     assert actual == expected
 
 
-@pytest.mark.skipif(
-    not os.path.exists(EXPECTED_DIREC),
-    reason=f'{EXPECTED_DIREC} not found'
-)
 @pytest.mark.integrate
-def test_get_odds_win_placeshow_missing_racer(pyjpboatrace_):
+def test_get_odds_win_placeshow_missing_racer(boatrace_tools: PyJPBoatrace):
     # MISSING RACERS CASE #
     # preparation
     d = date(2020, 11, 29)
@@ -239,39 +174,29 @@ def test_get_odds_win_placeshow_missing_racer(pyjpboatrace_):
     stadium = 10
     race = 2
     # expectation
-    expected = get_expected(
-        'expected_oddstf',
-        rno=race,
-        jcd=f"{stadium:02d}",
-        hd=dstr,
+    expected = get_expected_json(
+        f'expected_oddstf.rno={race}&jcd={stadium:02d}&hd={dstr}.json',
     )
     # actual
-    actual = pyjpboatrace_.get_odds_win_placeshow(d, stadium, race)
+    actual = boatrace_tools.get_odds_win_placeshow(d, stadium, race)
     # assertion
     assert actual == expected
 
 
 @pytest.mark.integrate
-def test_get_odds_win_placeshow_cancelled_race(pyjpboatrace_):
+def test_get_odds_win_placeshow_cancelled_race(boatrace_tools: PyJPBoatrace):
     # CANCELLED RACERS CASE #
     # preparation
     d = date(2019, 1, 26)
     stadium = 8
     race = 8
-    # expectation
-    expected = {'win': {}, 'place_show': {}}
     # actual
-    actual = pyjpboatrace_.get_odds_win_placeshow(d, stadium, race)
-    # assertion
-    assert actual == expected
+    with pytest.raises(RaceCancelledException):
+        boatrace_tools.get_odds_win_placeshow(d, stadium, race)
 
 
-@pytest.mark.skipif(
-    not os.path.exists(EXPECTED_DIREC),
-    reason=f'{EXPECTED_DIREC} not found'
-)
 @pytest.mark.integrate
-def test_get_odds_quinellaplace(pyjpboatrace_):
+def test_get_odds_quinellaplace(boatrace_tools: PyJPBoatrace):
     # USUAL CASE #
     # preparation
     d = date(2020, 10, 24)
@@ -279,24 +204,17 @@ def test_get_odds_quinellaplace(pyjpboatrace_):
     stadium = 14
     race = 1
     # load true data
-    expected = get_expected(
-        'expected_oddsk',
-        rno=race,
-        jcd=f"{stadium:02d}",
-        hd=dstr,
+    expected = get_expected_json(
+        f'expected_oddsk.rno={race}&jcd={stadium:02d}&hd={dstr}.json',
     )
     # actual data
-    actual = pyjpboatrace_.get_odds_quinellaplace(d, stadium, race)
+    actual = boatrace_tools.get_odds_quinellaplace(d, stadium, race)
     # assertion
     assert actual == expected
 
 
-@pytest.mark.skipif(
-    not os.path.exists(EXPECTED_DIREC),
-    reason=f'{EXPECTED_DIREC} not found'
-)
 @pytest.mark.integrate
-def test_get_odds_quinellaplace_missing_racer(pyjpboatrace_):
+def test_get_odds_quinellaplace_missing_racer(boatrace_tools: PyJPBoatrace):
     # MISSING RACERS CASE #
     # preparation
     d = date(2020, 11, 29)
@@ -304,39 +222,29 @@ def test_get_odds_quinellaplace_missing_racer(pyjpboatrace_):
     stadium = 10
     race = 2
     # expectation
-    expected = get_expected(
-        'expected_oddsk',
-        rno=race,
-        jcd=f"{stadium:02d}",
-        hd=dstr,
+    expected = get_expected_json(
+        f'expected_oddsk.rno={race}&jcd={stadium:02d}&hd={dstr}.json',
     )
     # actual data
-    actual = pyjpboatrace_.get_odds_quinellaplace(d, stadium, race)
+    actual = boatrace_tools.get_odds_quinellaplace(d, stadium, race)
     # assertion
     assert actual == expected
 
 
 @pytest.mark.integrate
-def test_get_odds_quinellaplace_cancelled_race(pyjpboatrace_):
+def test_get_odds_quinellaplace_cancelled_race(boatrace_tools: PyJPBoatrace):
     # CANCELLED RACE CASE #
     # preparation
     d = date(2019, 1, 26)
     stadium = 8
     race = 8
-    # load true data
-    expected = {}
-    # actual data
-    actual = pyjpboatrace_.get_odds_quinellaplace(d, stadium, race)
-    # assertion
-    assert actual == expected
+    # assert
+    with pytest.raises(RaceCancelledException):
+        boatrace_tools.get_odds_quinellaplace(d, stadium, race)
 
 
-@pytest.mark.skipif(
-    not os.path.exists(EXPECTED_DIREC),
-    reason=f'{EXPECTED_DIREC} not found'
-)
 @pytest.mark.integrate
-def test_get_odds_exacta_quinella(pyjpboatrace_):
+def test_get_odds_exacta_quinella(boatrace_tools: PyJPBoatrace):
     # USUAL CASE #
     # preparation
     d = date(2020, 10, 24)
@@ -344,24 +252,17 @@ def test_get_odds_exacta_quinella(pyjpboatrace_):
     stadium = 14
     race = 1
     # load true data
-    expected = get_expected(
-        'expected_odds2tf',
-        rno=race,
-        jcd=f"{stadium:02d}",
-        hd=dstr,
+    expected = get_expected_json(
+        f'expected_odds2tf.rno={race}&jcd={stadium:02d}&hd={dstr}.json',
     )
     # actual data
-    actual = pyjpboatrace_.get_odds_exacta_quinella(d, stadium, race)
+    actual = boatrace_tools.get_odds_exacta_quinella(d, stadium, race)
     # assertion
     assert actual == expected
 
 
-@pytest.mark.skipif(
-    not os.path.exists(EXPECTED_DIREC),
-    reason=f'{EXPECTED_DIREC} not found'
-)
 @pytest.mark.integrate
-def test_get_odds_exacta_quinella_missing_racer(pyjpboatrace_):
+def test_get_odds_exacta_quinella_missing_racer(boatrace_tools: PyJPBoatrace):
     # MISSING RACERS CASE #
     # preparation
     d = date(2020, 11, 29)
@@ -369,39 +270,29 @@ def test_get_odds_exacta_quinella_missing_racer(pyjpboatrace_):
     stadium = 10
     race = 2
     # expectation
-    expected = get_expected(
-        'expected_odds2tf',
-        rno=race,
-        jcd=f"{stadium:02d}",
-        hd=dstr,
+    expected = get_expected_json(
+        f'expected_odds2tf.rno={race}&jcd={stadium:02d}&hd={dstr}.json',
     )
     # actual data
-    actual = pyjpboatrace_.get_odds_exacta_quinella(d, stadium, race)
+    actual = boatrace_tools.get_odds_exacta_quinella(d, stadium, race)
     # assertion
     assert actual == expected
 
 
 @pytest.mark.integrate
-def test_get_odds_exacta_quinella_cancelled_race(pyjpboatrace_):
+def test_get_odds_exacta_quinella_cancelled_race(boatrace_tools: PyJPBoatrace):
     # CANCELLED RACE CASE #
     # preparation
     d = date(2019, 1, 26)
     stadium = 8
     race = 8
-    # load true data
-    expected = {'exacta': {}, 'quinella': {}}
-    # actual data
-    actual = pyjpboatrace_.get_odds_exacta_quinella(d, stadium, race)
-    # assertion
-    assert actual == expected
+    # assert
+    with pytest.raises(RaceCancelledException):
+        boatrace_tools.get_odds_exacta_quinella(d, stadium, race)
 
 
-@pytest.mark.skipif(
-    not os.path.exists(EXPECTED_DIREC),
-    reason=f'{EXPECTED_DIREC} not found'
-)
 @pytest.mark.integrate
-def test_get_odds_trifecta(pyjpboatrace_):
+def test_get_odds_trifecta(boatrace_tools: PyJPBoatrace):
     # USUAL CASE #
     # preparation
     d = date(2020, 10, 24)
@@ -409,25 +300,18 @@ def test_get_odds_trifecta(pyjpboatrace_):
     stadium = 14
     race = 1
     # load true data
-    expected = get_expected(
-        'expected_odds3t',
-        rno=race,
-        jcd=f"{stadium:02d}",
-        hd=dstr,
+    expected = get_expected_json(
+        f'expected_odds3t.rno={race}&jcd={stadium:02d}&hd={dstr}.json',
     )
 
     # actual data
-    actual = pyjpboatrace_.get_odds_trifecta(d, stadium, race)
+    actual = boatrace_tools.get_odds_trifecta(d, stadium, race)
     # assertion
     assert actual == expected
 
 
-@pytest.mark.skipif(
-    not os.path.exists(EXPECTED_DIREC),
-    reason=f'{EXPECTED_DIREC} not found'
-)
 @pytest.mark.integrate
-def test_get_odds_trifecta_missing_racer(pyjpboatrace_):
+def test_get_odds_trifecta_missing_racer(boatrace_tools: PyJPBoatrace):
     # MISSING RACERS CASE #
     # preparation
     d = date(2020, 11, 29)
@@ -435,39 +319,29 @@ def test_get_odds_trifecta_missing_racer(pyjpboatrace_):
     stadium = 10
     race = 2
     # load true data
-    expected = get_expected(
-        'expected_odds3t',
-        rno=race,
-        jcd=f"{stadium:02d}",
-        hd=dstr,
+    expected = get_expected_json(
+        f'expected_odds3t.rno={race}&jcd={stadium:02d}&hd={dstr}.json',
     )
     # actual data
-    actual = pyjpboatrace_.get_odds_trifecta(d, stadium, race)
+    actual = boatrace_tools.get_odds_trifecta(d, stadium, race)
     # assertion
     assert actual == expected
 
 
 @pytest.mark.integrate
-def test_get_odds_trifecta_cancelled_race(pyjpboatrace_):
+def test_get_odds_trifecta_cancelled_race(boatrace_tools: PyJPBoatrace):
     # CANCELLED RACERS CASE #
     # preparation
     d = date(2019, 1, 26)
     stadium = 8
     race = 8
-    # expectation
-    expected = {}
-    # actual
-    actual = pyjpboatrace_.get_odds_trifecta(d, stadium, race)
-    # assertion
-    assert actual == expected
+    # assert
+    with pytest.raises(RaceCancelledException):
+        boatrace_tools.get_odds_trifecta(d, stadium, race)
 
 
-@pytest.mark.skipif(
-    not os.path.exists(EXPECTED_DIREC),
-    reason=f'{EXPECTED_DIREC} not found'
-)
 @pytest.mark.integrate
-def test_get_odds_trio(pyjpboatrace_):
+def test_get_odds_trio(boatrace_tools: PyJPBoatrace):
     # USUAL CASE #
     # preparation
     d = date(2020, 10, 24)
@@ -475,24 +349,17 @@ def test_get_odds_trio(pyjpboatrace_):
     stadium = 14
     race = 1
     # load true data
-    expected = get_expected(
-        'expected_odds3f',
-        rno=race,
-        jcd=f"{stadium:02d}",
-        hd=dstr,
+    expected = get_expected_json(
+        f'expected_odds3f.rno={race}&jcd={stadium:02d}&hd={dstr}.json',
     )
     # actual data
-    actual = pyjpboatrace_.get_odds_trio(d, stadium, race)
+    actual = boatrace_tools.get_odds_trio(d, stadium, race)
     # assertion
     assert actual == expected
 
 
-@pytest.mark.skipif(
-    not os.path.exists(EXPECTED_DIREC),
-    reason=f'{EXPECTED_DIREC} not found'
-)
 @pytest.mark.integrate
-def test_get_odds_trio_missing_racer(pyjpboatrace_):
+def test_get_odds_trio_missing_racer(boatrace_tools: PyJPBoatrace):
     # MISSING RACERS CASE #
     # preparation
     d = date(2020, 11, 29)
@@ -500,39 +367,29 @@ def test_get_odds_trio_missing_racer(pyjpboatrace_):
     stadium = 10
     race = 2
     # expectation
-    expected = get_expected(
-        'expected_odds3f',
-        rno=race,
-        jcd=f"{stadium:02d}",
-        hd=dstr,
+    expected = get_expected_json(
+        f'expected_odds3f.rno={race}&jcd={stadium:02d}&hd={dstr}.json',
     )
     # actual
-    actual = pyjpboatrace_.get_odds_trio(d, stadium, race)
+    actual = boatrace_tools.get_odds_trio(d, stadium, race)
     # assertion
     assert actual == expected
 
 
 @pytest.mark.integrate
-def test_get_odds_trio_cancelled_race(pyjpboatrace_):
+def test_get_odds_trio_cancelled_race(boatrace_tools: PyJPBoatrace):
     # CANCELLED RACERS CASE #
     # preparation
     d = date(2019, 1, 26)
     stadium = 8
     race = 8
-    # expectation
-    expected = {}
-    # actual
-    actual = pyjpboatrace_.get_odds_trio(d, stadium, race)
-    # assertion
-    assert actual == expected
+    # assert
+    with pytest.raises(RaceCancelledException):
+        boatrace_tools.get_odds_trio(d, stadium, race)
 
 
-@pytest.mark.skipif(
-    not os.path.exists(EXPECTED_DIREC),
-    reason=f'{EXPECTED_DIREC} not found'
-)
 @pytest.mark.integrate
-def test_get_just_before_info(pyjpboatrace_):
+def test_get_just_before_info(boatrace_tools: PyJPBoatrace):
     # USUAL CASE #
     # preparation
     d = date(2020, 8, 25)
@@ -540,24 +397,17 @@ def test_get_just_before_info(pyjpboatrace_):
     stadium = 14
     race = 7
     # load true data
-    expected = get_expected(
-        'expected_beforeinfo',
-        rno=race,
-        jcd=f"{stadium:02d}",
-        hd=dstr,
+    expected = get_expected_json(
+        f'expected_beforeinfo.rno={race}&jcd={stadium:02d}&hd={dstr}.json',
     )
     # actual data
-    actual = pyjpboatrace_.get_just_before_info(d, stadium, race)
+    actual = boatrace_tools.get_just_before_info(d, stadium, race)
     # assertion
     assert actual == expected
 
 
-@pytest.mark.skipif(
-    not os.path.exists(EXPECTED_DIREC),
-    reason=f'{EXPECTED_DIREC} not found'
-)
 @pytest.mark.integrate
-def test_get_just_before_info_missing_racer(pyjpboatrace_):
+def test_get_just_before_info_missing_racer(boatrace_tools: PyJPBoatrace):
     # MISSING RACERS CASE #
     # preparation
     d = date(2020, 11, 29)
@@ -565,26 +415,15 @@ def test_get_just_before_info_missing_racer(pyjpboatrace_):
     stadium = 10
     race = 2
     # expectation
-    expected = get_expected(
-        'expected_beforeinfo',
-        rno=race,
-        jcd=f"{stadium:02d}",
-        hd=dstr,
+    expected = get_expected_json(
+        f'expected_beforeinfo.rno={race}&jcd={stadium:02d}&hd={dstr}.json',
     )
     # actual
-    actual = pyjpboatrace_.get_just_before_info(d, stadium, race)
+    actual = boatrace_tools.get_just_before_info(d, stadium, race)
     # assertion
     assert actual == expected
 
 
-@pytest.mark.skipif(
-    not os.path.exists(EXPECTED_DIREC),
-    reason=f'{EXPECTED_DIREC} not found'
-)
-@pytest.mark.skipif(
-    not os.path.exists(MOCK_HTML_DIREC),
-    reason=f'{MOCK_HTML_DIREC} not found'
-)
 @mock.patch('selenium.webdriver.Chrome')
 def test_get_just_before_info_not_yet(mock_chrome):
     # NOT YET DISPLAYED CASE#
@@ -593,12 +432,10 @@ def test_get_just_before_info_not_yet(mock_chrome):
     stadium = 10
     race = 2
     # set mock
-    path = os.path.join(MOCK_HTML_DIREC, "not_yet_beforeinfo.html")
-    with open(path, 'r', encoding='utf-8') as f:
-        mock_chrome.page_source = f.read()
+    mock_chrome.page_source = get_mock_html("not_yet_beforeinfo.html")
 
     # expectation
-    expected = get_expected("expected_not_yet_beforeinfo")
+    expected = get_expected_json("expected_not_yet_beforeinfo.json")
     # actual
     pyjpboatrace = PyJPBoatrace(driver=mock_chrome)
     actual = pyjpboatrace.get_just_before_info(d, stadium, race)
@@ -608,12 +445,8 @@ def test_get_just_before_info_not_yet(mock_chrome):
     mock_chrome.close()
 
 
-@pytest.mark.skipif(
-    not os.path.exists(EXPECTED_DIREC),
-    reason=f'{EXPECTED_DIREC} not found'
-)
 @pytest.mark.integrate
-def test_get_just_before_info_cancelled_race(pyjpboatrace_):
+def test_get_just_before_info_cancelled_race(boatrace_tools: PyJPBoatrace):
     # CANCELLED RACERS CASE #
     # preparation
     d = date(2019, 1, 26)
@@ -621,25 +454,17 @@ def test_get_just_before_info_cancelled_race(pyjpboatrace_):
     stadium = 8
     race = 8
     # expectation
-    expected = get_expected(
-        'expected_beforeinfo',
-        rno=race,
-        jcd=f"{stadium:02d}",
-        hd=dstr,
+    expected = get_expected_json(
+        f'expected_beforeinfo.rno={race}&jcd={stadium:02d}&hd={dstr}.json',
     )
     # actual
-    actual = pyjpboatrace_.get_just_before_info(d, stadium, race)
+    actual = boatrace_tools.get_just_before_info(d, stadium, race)
     # assertion
-    # assert actual == expected
     assert actual == expected
 
 
-@pytest.mark.skipif(
-    not os.path.exists(EXPECTED_DIREC),
-    reason=f'{EXPECTED_DIREC} not found'
-)
 @pytest.mark.integrate
-def test_get_race_result(pyjpboatrace_):
+def test_get_race_result(boatrace_tools: PyJPBoatrace):
     # USUAL CASE #
     # preparation
     d = date(2020, 10, 24)
@@ -647,22 +472,15 @@ def test_get_race_result(pyjpboatrace_):
     stadium = 14
     race = 1
     # load true data
-    expected = get_expected(
-        'expected_raceresult',
-        rno=race,
-        jcd=f"{stadium:02d}",
-        hd=dstr,
+    expected = get_expected_json(
+        f'expected_raceresult.rno={race}&jcd={stadium:02d}&hd={dstr}.json',
     )
     # actual data
-    actual = pyjpboatrace_.get_race_result(d, stadium, race)
+    actual = boatrace_tools.get_race_result(d, stadium, race)
     # assertion
     assert actual == expected
 
 
-@pytest.mark.skipif(
-    not os.path.exists(EXPECTED_DIREC),
-    reason=f'{EXPECTED_DIREC} not found'
-)
 @pytest.mark.integrate
 @pytest.mark.parametrize(
     "d,std,race",
@@ -672,46 +490,32 @@ def test_get_race_result(pyjpboatrace_):
         (date(2013, 9, 22), 1, 10),
     ]
 )
-def test_get_race_result_missing_racer(d, std, race, pyjpboatrace_):
+def test_get_race_result_missing_racer(d, std, race, boatrace_tools):
     # MISSING RACERS CASE #
     # preparation
     dstr = d.strftime('%Y%m%d')
     # expectation
-    expected = get_expected(
-        'expected_raceresult',
-        rno=race,
-        jcd=f"{std:02d}",
-        hd=dstr,
+    expected = get_expected_json(
+        f'expected_raceresult.rno={race}&jcd={std:02d}&hd={dstr}.json',
     )
     # actual
-    actual = pyjpboatrace_.get_race_result(d, std, race)
+    actual = boatrace_tools.get_race_result(d, std, race)
     # assertion
     assert actual == expected
 
 
 @pytest.mark.integrate
-def test_get_race_result_cancelled_race(pyjpboatrace_):
+def test_get_race_result_cancelled_race(boatrace_tools: PyJPBoatrace):
     # CANCELLED RACERS CASE #
     # preparation
     d = date(2019, 1, 26)
     stadium = 8
     race = 8
-    # expectation
-    expected = {}
-    # actual
-    actual = pyjpboatrace_.get_race_result(d, stadium, race)
-    # assertion
-    assert actual == expected
+    # assert
+    with pytest.raises(RaceCancelledException):
+        boatrace_tools.get_race_result(d, stadium, race)
 
 
-@pytest.mark.skipif(
-    not os.path.exists(EXPECTED_DIREC),
-    reason=f'{EXPECTED_DIREC} not found'
-)
-@pytest.mark.skipif(
-    not os.path.exists(MOCK_HTML_DIREC),
-    reason=f'{MOCK_HTML_DIREC} not found'
-)
 @mock.patch('selenium.webdriver.Chrome')
 def test_get_race_result_not_yet(mock_chrome):
     # NOT YET DISPLAYED CASE#
@@ -720,23 +524,19 @@ def test_get_race_result_not_yet(mock_chrome):
     stadium = 10
     race = 2
     # set mock
-    path = os.path.join(MOCK_HTML_DIREC, "not_yet_raceresult.html")
-    with open(path, 'r', encoding='utf-8') as f:
-        mock_chrome.page_source = f.read()
+    mock_chrome.page_source = get_mock_html("not_yet_raceresult.html")
 
-    # expectation
-    expected = get_expected('expected_not_yet_raceresult')
-    # actual
+    # assert
     pyjpboatrace = PyJPBoatrace(driver=mock_chrome)
-    actual = pyjpboatrace.get_race_result(d, stadium, race)
-    # assertion
-    assert actual == expected
+    with pytest.raises(NoDataException):
+        pyjpboatrace.get_race_result(d, stadium, race)
+
     # close
     mock_chrome.close()
 
 
 @pytest.mark.integrate
-def test_get_race_result_invalid_arguments(pyjpboatrace_):
+def test_get_race_result_invalid_arguments(boatrace_tools: PyJPBoatrace):
 
     # TODO invalid args test for get_stadiums
     # TODO invalid args test for get_12races
@@ -754,7 +554,7 @@ def test_get_race_result_invalid_arguments(pyjpboatrace_):
     race = 2
     # msg = f'Date d must be before today. {d} is given.'
     with pytest.raises(ValueError):
-        pyjpboatrace_.get_race_result(d, stadium, race)
+        boatrace_tools.get_race_result(d, stadium, race)
 
     # invalid stadium
     d = datetime.today().date()
@@ -762,7 +562,7 @@ def test_get_race_result_invalid_arguments(pyjpboatrace_):
     race = 2
     # msg = f'Stadium must be between 1 and 24. {stadium} is given.'
     with pytest.raises(ValueError):
-        pyjpboatrace_.get_race_result(d, stadium, race)
+        boatrace_tools.get_race_result(d, stadium, race)
 
     # invalid race
     d = datetime.today().date()
@@ -770,58 +570,74 @@ def test_get_race_result_invalid_arguments(pyjpboatrace_):
     race = 13
     # msg = f'Race must be between 1 and 12. {race} is given.'
     with pytest.raises(ValueError):
-        pyjpboatrace_.get_race_result(d, stadium, race)
+        boatrace_tools.get_race_result(d, stadium, race)
 
 
-@pytest.mark.skip(reason='it spends money')
 @pytest.mark.skipif(
-    not IS_BOATRACE_TIME,
+    not is_boatrace_time(),
     reason='it is not time for boatrace'
 )
 @pytest.mark.skipif(
-    not os.path.exists(SECRETSJSON),
-    reason=f'{SECRETSJSON} not found'
+    get_user_info() is None,
+    reason='UserInformation not found'
 )
 @pytest.mark.integrate
-def test_deposit_withdraw(pyjpboatrace_):
+@pytest.mark.spending_money
+def test_deposit_withdraw(boatrace_tools: PyJPBoatrace):
     # pre-status
-    current = pyjpboatrace_.get_bet_limit()
+    current = boatrace_tools.get_bet_limit()
     # deposit
     num = 1000
-    pyjpboatrace_.deposit(num//1000)
+    boatrace_tools.deposit(num//1000)
     time.sleep(10)
-    after = pyjpboatrace_.get_bet_limit()
+    after = boatrace_tools.get_bet_limit()
     assert after == current+num
     # withdraw
-    pyjpboatrace_.withdraw()
+    boatrace_tools.withdraw()
     time.sleep(10)
-    current = pyjpboatrace_.get_bet_limit()
+    current = boatrace_tools.get_bet_limit()
     assert current == 0
 
 
-@pytest.mark.skip(reason='it spends money')
 @pytest.mark.skipif(
-    not IS_BOATRACE_TIME,
+    not is_boatrace_time(),
     reason='it is not time for boatrace'
 )
 @pytest.mark.skipif(
-    not os.path.exists(SECRETSJSON),
-    reason=f'{SECRETSJSON} not found'
+    get_user_info() is None,
+    reason='UserInformation not found'
 )
 @pytest.mark.integrate
-def test_bet(pyjpboatrace_):
+@pytest.mark.spending_money
+def test_bet(boatrace_tools: PyJPBoatrace):
     # preparation
-    current = pyjpboatrace_.get_bet_limit()
+    current = boatrace_tools.get_bet_limit()
     if current <= 700:
         # deposit
         num = 1000
-        pyjpboatrace_.deposit(num//1000)
+        boatrace_tools.deposit(num//1000)
         time.sleep(10)
 
+    # scrape stadiums/races
+    stadiums_dic = boatrace_tools.get_stadiums(date.today())
+
+    _flag = False
+    for key in stadiums_dic:
+        stadium = {s: i for i, s in STADIUMS_MAP}.get(key)
+        races_dic = boatrace_tools.get_12races(date.today(), stadium)
+        for r, dic in races_dic.items():
+            if dic.get("status") == "投票":
+                race = int(r[:-1])
+                _flag = True
+                break
+        if _flag:
+            break
+        time.sleep(2)
+
+    if not _flag:
+        raise Exception("Failed to find any active races.")
+
     # bet list
-    # TODO automation
-    place = 19
-    race = 12
     betdict = {
         'trifecta': {'1-2-4': 100},
         'trio': {'2=3=4': 100},
@@ -832,8 +648,8 @@ def test_bet(pyjpboatrace_):
         'placeshow': {'6': 100},
     }
 
-    assert pyjpboatrace_.bet(
-        place=place,
+    assert boatrace_tools.bet(
+        stadium=stadium,
         race=race,
         trifecta_betting_dict=betdict['trifecta'],
         trio_betting_dict=betdict['trio'],
