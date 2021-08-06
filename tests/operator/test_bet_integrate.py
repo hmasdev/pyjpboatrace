@@ -10,6 +10,7 @@ from .._driver_fixutures import chrome_driver  # noqa
 from .._utils import is_boatrace_time, get_user_info
 
 
+@pytest.mark.skip(reason="Duplicate with test_bet in test_pyjpboatrace.py")
 @pytest.mark.skip(reason='it spends money')
 @pytest.mark.skipif(
     not is_boatrace_time(),
