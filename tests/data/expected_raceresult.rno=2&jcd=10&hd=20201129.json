@@ -1,0 +1,141 @@
+{
+    "result": [
+        {
+            "rank": 1,
+            "boat": 6,
+            "racerid": 4615,
+            "name": "板倉敦史",
+            "time": "1'47\"6"
+        },
+        {
+            "rank": 2,
+            "boat": 4,
+            "racerid": 3660,
+            "name": "長谷川親王",
+            "time": "1'50\"4"
+        },
+        {
+            "rank": 3,
+            "boat": 3,
+            "racerid": 3891,
+            "name": "谷口健一",
+            "time": "1'52\"4"
+        },
+        {
+            "rank": 4,
+            "boat": 2,
+            "racerid": 4566,
+            "name": "塩田北斗",
+            "time": "1'53\"8"
+        },
+        {
+            "rank": 5,
+            "boat": 5,
+            "racerid": 5128,
+            "name": "坪井爽佑",
+            "time": ""
+        },
+        {
+            "rank": "欠",
+            "boat": 1,
+            "racerid": 4089,
+            "name": "妹尾忠幸",
+            "time": ""
+        }
+    ],
+    "start_information": {
+        "course1": {
+            "boat": 2,
+            "ST": 0.29
+        },
+        "course2": {
+            "boat": 3,
+            "ST": 0.15
+        },
+        "course3": {
+            "boat": 4,
+            "ST": 0.08
+        },
+        "course4": {
+            "boat": 6,
+            "ST": 0.09
+        },
+        "course5": {
+            "boat": 5,
+            "ST": 0.04
+        },
+        "course6": {}
+    },
+    "payoff": {
+        "trifecta": {
+            "result": "6-4-3",
+            "payoff": 37020,
+            "popularity": 29
+        },
+        "trio": {
+            "result": "3=4=6",
+            "payoff": 6000,
+            "popularity": 7
+        },
+        "exacta": {
+            "result": "6-4",
+            "payoff": 7670,
+            "popularity": 9
+        },
+        "quinella": {
+            "result": "4=6",
+            "payoff": 2020,
+            "popularity": 4
+        },
+        "quinella_place": [
+            {
+                "result": "4=6",
+                "payoff": 350,
+                "popularity": 6
+            },
+            {
+                "result": "3=6",
+                "payoff": 600,
+                "popularity": 8
+            },
+            {
+                "result": "3=4",
+                "payoff": 440,
+                "popularity": 7
+            }
+        ],
+        "win": {
+            "result": "6",
+            "payoff": 4330,
+            "popularity": ""
+        },
+        "place_show": [
+            {
+                "result": "6",
+                "payoff": 240,
+                "popularity": ""
+            },
+            {
+                "result": "4",
+                "payoff": 130,
+                "popularity": ""
+            }
+        ]
+    },
+    "weather_information": {
+        "direction": 13,
+        "temperature": 9,
+        "weather": "晴",
+        "wind_speed": 1,
+        "wind_direction": 13,
+        "water_temperature": 10,
+        "wave_height": 1
+    },
+    "return": [
+        1
+    ],
+    "kimarite": "まくり差し",
+    "note": [
+        "【返還艇あり】"
+    ]
+}

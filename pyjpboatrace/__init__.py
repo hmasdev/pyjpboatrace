@@ -1,27 +1,28 @@
 from .pyjpboatrace import PyJPBoatrace
-from . import exceptions
-from . import parsers
-from . import utils
-from . import actions
+from . import certification
 from . import const
 from . import drivers
+from . import exceptions
+from . import operator
+from . import pyjpboatrace
+from . import scraper
 from . import user_information
+from . import utils
+from . import validator
 
-__copyright__ = 'Copyright (C) 2021 hmasdev'
-__version__ = '0.1.2'
-__license__ = 'MIT'
-__author__ = 'hmasdev'
-__author_email__ = 'hmasuidev1com@gmail.com'
-__url__ = 'http://github.com/hmasdev/pyjpboatrace'
+
+__version__ = '0.2.0'
 
 __all__ = [
-    'PyJPBoatrace',
-    'pyjpboatrace',
-    'actions',
-    'parsers',
-    'utils',
-    'drivers',
-    'user_information',
-    'const',
-    'exceptions',
+    PyJPBoatrace.__name__,
+    certification.__name__,
+    const.__name__,
+    drivers.__name__,
+    exceptions.__name__,
+    operator.__name__,
+    pyjpboatrace.__name__,
+    scraper.__name__,
+    user_information.__name__,
+    utils.__name__,
+    validator.__name__,
 ]

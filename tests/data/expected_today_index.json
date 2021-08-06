@@ -1,0 +1,17 @@
+{
+    "会場": {
+        "status": "1R以降発売中",
+        "grade": [
+            "ippan"
+        ],
+        "timeframe": "nighter",
+        "title": "タイトル",
+        "period": [
+            "2020-11-30",
+            "2020-12-04"
+        ],
+        "day": "１日目",
+        "next_race": 1,
+        "next_vote_limit": "2020-11-30 08:45:00"
+    }
+}

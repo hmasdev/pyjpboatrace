@@ -131,9 +131,5 @@ dmypy.json
 # settings of vscode
 .vscode
 
-# private data
-tests/mock_html
-tests/data
-
 # secret information
 .secrets.json
