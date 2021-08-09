@@ -57,6 +57,7 @@ def test_get_stadiums_today(mock_chrome):
 
     # expectation
     expected = get_expected_json('expected_today_index.json')
+    expected.update(date=d.strftime("%Y-%m-%d"))
 
     # actual
     actual = PyJPBoatrace(driver=mock_chrome).get_stadiums(d)
@@ -99,6 +100,7 @@ def test_get_12races_today(mock_chrome):
 
     # expectation
     expected = get_expected_json('expected_today_raceindex.json')
+    expected.update(date=d.strftime("%Y-%m-%d"), stadium=stadium)
 
     # actual
     actual = PyJPBoatrace(driver=mock_chrome).get_12races(d, stadium)
@@ -436,6 +438,7 @@ def test_get_just_before_info_not_yet(mock_chrome):
 
     # expectation
     expected = get_expected_json("expected_not_yet_beforeinfo.json")
+    expected.update(date=d.strftime("%Y-%m-%d"), stadium=stadium, race=race)
     # actual
     pyjpboatrace = PyJPBoatrace(driver=mock_chrome)
     actual = pyjpboatrace.get_just_before_info(d, stadium, race)

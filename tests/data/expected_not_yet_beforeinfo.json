@@ -1,4 +1,7 @@
 {
+    "date": "DUMMY",
+    "stadium": "DUMMY",
+    "race": "DUMMY",
     "boat1": {
         "name": "氏名",
         "weight": 50,

@@ -1,4 +1,6 @@
 {
+    "date": "DUMMY",
+    "stadium": "DUMMY",
     "1R": {
         "vote_limit": "2020-12-01 08:00:00",
         "status": "発売終了",
