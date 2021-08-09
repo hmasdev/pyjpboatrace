@@ -1,4 +1,7 @@
 {
+    "date": "2020-11-29",
+    "stadium": 10,
+    "race": 2,
     "boat1": {
         "racerid": 4089,
         "class": "A2",

@@ -55,4 +55,9 @@ class RacesScraper(BaseScraper):
         """
         validate_date(d)
         validate_stadium(stadium)
-        return super().get(d, stadium)
+        dic = super().get(d, stadium)
+        dic.update(
+            date=d.strftime("%Y-%m-%d"),
+            stadium=stadium,
+        )
+        return dic

@@ -60,4 +60,10 @@ class WinPlaceshowOddsScraper(BaseScraper):
         validate_date(d)
         validate_stadium(stadium)
         validate_race(race)
-        return super().get(d, stadium, race)
+        dic = super().get(d, stadium, race)
+        dic.update(
+            date=d.strftime("%Y-%m-%d"),
+            stadium=stadium,
+            race=race,
+        )
+        return dic

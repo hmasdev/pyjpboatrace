@@ -1,4 +1,7 @@
 {
+    "date": "2020-08-25",
+    "stadium": 14,
+    "race": 7,
     "boat1":{
         "name":"松本弓雄",
         "weight":51.6,
