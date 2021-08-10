@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 from ...utils import str2num
 from ...exceptions import RaceCancelledException
+from .scrape_odds_update_time import scrape_odds_update_time
 
 
 def parse_html_oddsk(html: str):
@@ -35,5 +36,6 @@ def parse_html_oddsk(html: str):
 
     # parse
     dic = parse_quinellaplace(quinellaplace_table)
+    dic["update"] = scrape_odds_update_time(soup)
 
     return dic
