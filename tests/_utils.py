@@ -3,6 +3,7 @@ import json
 from datetime import datetime
 from functools import lru_cache
 import os
+import pytz
 from typing import Callable, Optional
 from pyjpboatrace.const import BOATRACE_START, BOATRACE_END
 from pyjpboatrace.user_information import UserInformation
@@ -25,7 +26,7 @@ def create_side_effect(
 
 
 def is_boatrace_time() -> bool:
-    return BOATRACE_START <= datetime.now().time() <= BOATRACE_END
+    return BOATRACE_START <= datetime.now(pytz.timezone("Asia/Tokyo")).time() <= BOATRACE_END  # noqa
 
 
 @lru_cache(maxsize=1)

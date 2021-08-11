@@ -385,6 +385,8 @@ def test_get_real_time_odds(method_name: str, boatrace_tools: PyJPBoatrace):
 
     # search active race
     for stadium_str, dic in stadiums.items():
+        if stadium_str not in (s for _, s in STADIUMS_MAP):
+            continue
         if "R以降発売中" in dic["status"]:
             race = dic["next_race"]
             stadium = {k: v for v, k in STADIUMS_MAP}.get(stadium_str)
