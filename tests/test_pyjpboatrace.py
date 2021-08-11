@@ -2,6 +2,8 @@ from unittest import mock
 import pytest
 import time
 from datetime import date, datetime, timedelta
+from typing import Any, Dict
+import re
 from pyjpboatrace import PyJPBoatrace
 from pyjpboatrace.const import STADIUMS_MAP
 from pyjpboatrace.exceptions import RaceCancelledException, NoDataException
@@ -358,6 +360,46 @@ def test_get_odds_trio(boatrace_tools: PyJPBoatrace):
     actual = boatrace_tools.get_odds_trio(d, stadium, race)
     # assertion
     assert actual == expected
+
+
+@pytest.mark.integrate
+@pytest.mark.skipif(
+    not is_boatrace_time(),
+    reason='it is not time for boatrace'
+)
+@pytest.mark.parametrize(
+    "method_name",
+    [
+        "get_odds_trifecta",
+        "get_odds_trio",
+        "get_odds_exacta_quinella",
+        "get_odds_quinellaplace",
+        "get_odds_win_placeshow",
+    ]
+)
+def test_get_real_time_odds(method_name: str, boatrace_tools: PyJPBoatrace):
+
+    # preparation
+    today = date.today()
+    stadiums = boatrace_tools.get_stadiums(today)
+
+    # search active race
+    for stadium_str, dic in stadiums.items():
+        if "R以降発売中" in dic["status"]:
+            race = dic["next_race"]
+            stadium = {k: v for v, k in STADIUMS_MAP}.get(stadium_str)
+            break
+    else:
+        raise Exception("Failed to find any active race.")
+
+    # actual data
+    actual: Dict[str, Any]
+    actual = boatrace_tools.__getattribute__(method_name)(today, stadium, race)
+    # assertion
+    assert actual.get("date") == today.strftime("%Y-%m-%d")
+    assert actual.get("stadium") == stadium
+    assert actual.get("race") == race
+    assert re.fullmatch(r"(\d|\d\d):\d\d", actual.get("update"))
 
 
 @pytest.mark.integrate

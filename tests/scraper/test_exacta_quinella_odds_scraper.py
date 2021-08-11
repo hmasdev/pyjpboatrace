@@ -88,3 +88,29 @@ def test_get_for_cancelled_race(d: date, stadium: int, race: int):
     # assert
     with pytest.raises(RaceCancelledException):
         scraper.get(d, stadium, race)
+
+
+@pytest.mark.parametrize(
+    "mock_html_file,expected_file",
+    [
+        (
+            "realtime_odds2tf.html",
+            "expected_realtime_odds2tf.json",
+        ),
+    ]
+)
+def test_get_for_race_before_timelimit(mock_html_file: str, expected_file: str):  # noqa
+    # preparation
+    d = date.today()
+    stadium = 1
+    race = 1
+    mock_driver = Mock(HTTPGetDriver)
+    mock_driver.page_source = get_mock_html(mock_html_file)
+    expected = get_expected_json(expected_file)
+    # preprocess
+    expected.update(date=d.strftime("%Y-%m-%d"), stadium=stadium, race=race)
+    # actual
+    scraper = ExactaQuinellaOddsScraper(driver=mock_driver)
+    actual = scraper.get(d, stadium, race)
+    # assert
+    assert actual == expected

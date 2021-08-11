@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 from ...utils import str2num
 from ...exceptions import RaceCancelledException
+from .scrape_odds_update_time import scrape_odds_update_time
 
 
 def parse_html_oddstf(html: str):
@@ -42,6 +43,7 @@ def parse_html_oddstf(html: str):
 
     # parse
     dic = {
+        "update": scrape_odds_update_time(soup),
         'win': parse_win(win_table),
         'place_show': parse_place_show(placeshow_table)
     }
