@@ -48,4 +48,8 @@ class StadiumsScraper(BaseScraper):
             Dict[str, Any]: scraped data
         """
         validate_date(d)
-        return super().get(d)
+        dic = super().get(d)
+        dic.update(
+            date=d.strftime("%Y-%m-%d"),
+        )
+        return dic

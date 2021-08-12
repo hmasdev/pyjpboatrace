@@ -37,53 +37,79 @@ def test_make_url(d: date, stadium: int, race: int):
 
 
 @pytest.mark.parametrize(
-    "mock_html_file,expected_file",
+    "d,stadium,race",
     [
         (
             # usual
-            "odds3t.rno=1&jcd=14&hd=20201024.html",
-            "expected_odds3t.rno=1&jcd=14&hd=20201024.json",
+            date(2020, 10, 24),
+            14,
+            1,
         ),
         (
             # racer missing
-            "odds3t.rno=2&jcd=10&hd=20201129.html",
-            "expected_odds3t.rno=2&jcd=10&hd=20201129.json",
+            date(2020, 11, 29),
+            10,
+            2,
         ),
     ]
 )
-def test_get(mock_html_file, expected_file):
+def test_get(d: date, stadium: int, race: int):
 
     # preparation
+    mock_html_file = f"odds3t.rno={race}&jcd={stadium:02d}&hd={d.strftime('%Y%m%d')}.html"  # noqa
+    expected_file = f"expected_odds3t.rno={race}&jcd={stadium:02d}&hd={d.strftime('%Y%m%d')}.json"  # noqa
     expected = get_expected_json(expected_file)
     mock_driver = Mock(HTTPGetDriver)
     mock_driver.page_source = get_mock_html(mock_html_file)
     # actual
     scraper = TrifectaOddsScraper(driver=mock_driver)
-    actual = scraper.get(
-        date.today(),  # dummy
-        stadium=1,  # dummy
-        race=1,  # dummy
-    )
-
+    actual = scraper.get(d, stadium, race)
     # assert
     assert actual == expected
 
 
 @pytest.mark.parametrize(
-    "mock_html_file",
+    "d,stadium,race",
     [
-        "odds3t.rno=8&jcd=08&hd=20190126.html",
+        (
+            date(2019, 1, 26),
+            8,
+            8,
+        ),
     ]
 )
-def test_get_for_cancelled_race(mock_html_file):
+def test_get_for_cancelled_race(d: date, stadium: int, race: int):
     # preparation
+    mock_html_file = f"odds3t.rno={race}&jcd={stadium:02d}&hd={d.strftime('%Y%m%d')}.html"  # noqa
     mock_driver = Mock(HTTPGetDriver)
     mock_driver.page_source = get_mock_html(mock_html_file)
     scraper = TrifectaOddsScraper(driver=mock_driver)
     # assert
     with pytest.raises(RaceCancelledException):
-        scraper.get(
-            date.today(),  # dummy
-            stadium=1,  # dummy
-            race=1,  # dummy
-        )
+        scraper.get(d, stadium, race)
+
+
+@pytest.mark.parametrize(
+    "mock_html_file,expected_file",
+    [
+        (
+            "realtime_odds3t.html",
+            "expected_realtime_odds3t.json",
+        ),
+    ]
+)
+def test_get_for_race_before_timelimit(mock_html_file: str, expected_file: str):  # noqa
+    # preparation
+    d = date.today()
+    stadium = 1
+    race = 1
+    mock_driver = Mock(HTTPGetDriver)
+    mock_driver.page_source = get_mock_html(mock_html_file)
+    expected = get_expected_json(expected_file)
+    # preprocess
+    expected.update(date=d.strftime("%Y-%m-%d"), stadium=stadium, race=race)
+    # actual
+    scraper = TrifectaOddsScraper(driver=mock_driver)
+    actual = scraper.get(d, stadium, race)
+    # assert
+    assert actual == expected

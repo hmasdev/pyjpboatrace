@@ -26,29 +26,46 @@ def test_make_url(d: date):
 
 
 @pytest.mark.parametrize(
+    "d",
+    [
+        date(2020, 9, 8),
+    ]
+)
+def test_get(d: date):
+
+    # preparation
+    mock_html_file = f"index.hd={d.strftime('%Y%m%d')}.html"  # noqa
+    expected_file = f"expected_index.hd={d.strftime('%Y%m%d')}.json"  # noqa
+    expected = get_expected_json(expected_file)
+    mock_driver = Mock(HTTPGetDriver)
+    mock_driver.page_source = get_mock_html(mock_html_file)
+    # actual
+    scraper = StadiumsScraper(driver=mock_driver)
+    actual = scraper.get(d)
+    # assert
+    assert actual == expected
+
+
+@pytest.mark.parametrize(
     "mock_html_file,expected_file",
     [
         (
             "today_index.html",
             "expected_today_index.json"
         ),
-        (
-            "index.hd=20200908.html",
-            "expected_index.hd=20200908.json",
-        )
     ]
 )
-def test_get(mock_html_file, expected_file):
+def test_get_for_today(mock_html_file, expected_file):
 
     # preparation
+    d = date.today()
     expected = get_expected_json(expected_file)
     mock_driver = Mock(HTTPGetDriver)
     mock_driver.page_source = get_mock_html(mock_html_file)
+    # preprocess
+    expected.update(date=d.strftime("%Y-%m-%d"))
     # actual
     scraper = StadiumsScraper(driver=mock_driver)
-    actual = scraper.get(
-        date.today(),  # dummy
-    )
-
+    actual = scraper.get(d)
     # assert
     assert actual == expected

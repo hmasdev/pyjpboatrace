@@ -2,6 +2,8 @@ from unittest import mock
 import pytest
 import time
 from datetime import date, datetime, timedelta
+from typing import Any, Dict
+import re
 from pyjpboatrace import PyJPBoatrace
 from pyjpboatrace.const import STADIUMS_MAP
 from pyjpboatrace.exceptions import RaceCancelledException, NoDataException
@@ -57,6 +59,7 @@ def test_get_stadiums_today(mock_chrome):
 
     # expectation
     expected = get_expected_json('expected_today_index.json')
+    expected.update(date=d.strftime("%Y-%m-%d"))
 
     # actual
     actual = PyJPBoatrace(driver=mock_chrome).get_stadiums(d)
@@ -99,6 +102,7 @@ def test_get_12races_today(mock_chrome):
 
     # expectation
     expected = get_expected_json('expected_today_raceindex.json')
+    expected.update(date=d.strftime("%Y-%m-%d"), stadium=stadium)
 
     # actual
     actual = PyJPBoatrace(driver=mock_chrome).get_12races(d, stadium)
@@ -359,6 +363,48 @@ def test_get_odds_trio(boatrace_tools: PyJPBoatrace):
 
 
 @pytest.mark.integrate
+@pytest.mark.skipif(
+    not is_boatrace_time(),
+    reason='it is not time for boatrace'
+)
+@pytest.mark.parametrize(
+    "method_name",
+    [
+        "get_odds_trifecta",
+        "get_odds_trio",
+        "get_odds_exacta_quinella",
+        "get_odds_quinellaplace",
+        "get_odds_win_placeshow",
+    ]
+)
+def test_get_real_time_odds(method_name: str, boatrace_tools: PyJPBoatrace):
+
+    # preparation
+    today = date.today()
+    stadiums = boatrace_tools.get_stadiums(today)
+
+    # search active race
+    for stadium_str, dic in stadiums.items():
+        if stadium_str not in (s for _, s in STADIUMS_MAP):
+            continue
+        if "R以降発売中" in dic["status"]:
+            race = dic["next_race"]
+            stadium = {k: v for v, k in STADIUMS_MAP}.get(stadium_str)
+            break
+    else:
+        raise Exception("Failed to find any active race.")
+
+    # actual data
+    actual: Dict[str, Any]
+    actual = boatrace_tools.__getattribute__(method_name)(today, stadium, race)
+    # assertion
+    assert actual.get("date") == today.strftime("%Y-%m-%d")
+    assert actual.get("stadium") == stadium
+    assert actual.get("race") == race
+    assert re.fullmatch(r"(\d|\d\d):\d\d", actual.get("update"))
+
+
+@pytest.mark.integrate
 def test_get_odds_trio_missing_racer(boatrace_tools: PyJPBoatrace):
     # MISSING RACERS CASE #
     # preparation
@@ -436,6 +482,7 @@ def test_get_just_before_info_not_yet(mock_chrome):
 
     # expectation
     expected = get_expected_json("expected_not_yet_beforeinfo.json")
+    expected.update(date=d.strftime("%Y-%m-%d"), stadium=stadium, race=race)
     # actual
     pyjpboatrace = PyJPBoatrace(driver=mock_chrome)
     actual = pyjpboatrace.get_just_before_info(d, stadium, race)

@@ -1,4 +1,7 @@
 {
+    "date": "2020-10-24",
+    "stadium": 14,
+    "race": 1,
     "race_title":["予選","1800m"],
     "boat1":{
         "racerid":4361,
