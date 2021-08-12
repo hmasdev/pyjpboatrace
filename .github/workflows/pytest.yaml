@@ -30,4 +30,5 @@ jobs:
           bash ./download_html_for_test.sh
           pipenv run pytest
       - name: Delete virtualenv
+        run: |
           pipenv --rm
