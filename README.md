@@ -12,7 +12,7 @@ Thus, this package provides you with useful tools for data analysis and auto-bet
 
 ## Installation
 
-### Requirement
+### Requirements
 
 If you want to deposit, withdraw and betting with pyjpboatrace,
 one of the following browers is required at least:
@@ -38,16 +38,16 @@ one of the following browers is required at least:
 
 ## How to use
 
-1. (optional) create an instance of UserInformation [^1]
-2. (optional) create a selenium driver [^1]
-3. create an instance of PyJPBoatrace
-4. execute scraping and operating
+1. (optional) create an instance of UserInformation;
+2. (optional) create a selenium driver;
+3. create an instance of PyJPBoatrace;
+4. execute scraping and operating.
 
-[^1]: you must create a UserInformation instance and a selenium driver to order to deposit, withdraw or bet.
+NOTE: you must create a UserInformation instance and a selenium driver to order to deposit, withdraw or bet.
 
 ### UserInformation
 
-- `pyjpboatrace.user_information.UserInformation(userid:str,pin:str,auth_pass:str, vote_pass:str, json_file:str)`
+- `pyjpboatrace.user_information.UserInformation(userid:str, pin:str, auth_pass:str, vote_pass:str, json_file:str)`
 
 NOTE: If you use a json file to create an instance of UserInformation, the json file should contain the following keys: userid, pin, auth_pass and vote_pass.
 
@@ -90,6 +90,7 @@ the latter is betting, depositing and withdrawing.
 
     ```python
     {
+      "date": "2021-08-12",
       "大村":{
         "status":"-",
         "grade":[
@@ -127,67 +128,69 @@ the latter is betting, depositing and withdrawing.
 
     ```python
     {
-        "1R":{
-            "vote_limit":"2020-01-01 10:00:00",
-            "status":"発売終了",
-            "racers":{
-                "boat1":{
-                    "name":"Name1",
-                    "class":"A1"
-                },
-                "boat2":{
-                    "name":"Name2",
-                    "class":"A2"
-                },
-                "boat3":{
-                    "name":"Name3",
-                    "class":"B1"
-                },
-                "boat4":{
-                    "name":"Name4",
-                    "class":"B2"
-                },
-                "boat5":{
-                    "name":"Name5",
-                    "class":"A1"
-                },
-                "boat6":{
-                    "name":"Name6",
-                    "class":"B1"
-                }
-            }
-        },
-        ...,
-        "12R":{
-            "vote_limit":"2020-01-01 15:30:00",
-            "status":"発売終了",
-            "racers":{
-                "boat1":{
-                    "name":"Name1",
-                    "class":"A1"
-                },
-                "boat2":{
-                    "name":"Name2",
-                    "class":"A2"
-                },
-                "boat3":{
-                    "name":"Name3",
-                    "class":"B1"
-                },
-                "boat4":{
-                    "name":"Name4",
-                    "class":"B2"
-                },
-                "boat5":{
-                    "name":"Name5",
-                    "class":"A1"
-                },
-                "boat6":{
-                    "name":"Name6",
-                    "class":"B1"
-                }
-            }
-        }
+      "date": "2021-08-12",
+      "stadium": 1,
+      "1R":{
+          "vote_limit":"2020-01-01 10:00:00",
+          "status":"発売終了",
+          "racers":{
+              "boat1":{
+                  "name":"Name1",
+                  "class":"A1"
+              },
+              "boat2":{
+                  "name":"Name2",
+                  "class":"A2"
+              },
+              "boat3":{
+                  "name":"Name3",
+                  "class":"B1"
+              },
+              "boat4":{
+                  "name":"Name4",
+                  "class":"B2"
+              },
+              "boat5":{
+                  "name":"Name5",
+                  "class":"A1"
+              },
+              "boat6":{
+                  "name":"Name6",
+                  "class":"B1"
+              }
+          }
+      },
+      ...,
+      "12R":{
+          "vote_limit":"2020-01-01 15:30:00",
+          "status":"発売終了",
+          "racers":{
+              "boat1":{
+                  "name":"Name1",
+                  "class":"A1"
+              },
+              "boat2":{
+                  "name":"Name2",
+                  "class":"A2"
+              },
+              "boat3":{
+                  "name":"Name3",
+                  "class":"B1"
+              },
+              "boat4":{
+                  "name":"Name4",
+                  "class":"B2"
+              },
+              "boat5":{
+                  "name":"Name5",
+                  "class":"A1"
+              },
+              "boat6":{
+                  "name":"Name6",
+                  "class":"B1"
+              }
+          }
+      }
     }
     ```
 
@@ -210,6 +213,9 @@ the latter is betting, depositing and withdrawing.
 
     ```python
     {
+      "date": "2021-08-12",
+      "stadium": 10,
+      "race": 1,
       "boat1": {
         "racerid": 9999,
         "class": "A1",
@@ -280,22 +286,26 @@ the latter is betting, depositing and withdrawing.
 
     ```python
     {
-        "win":{
-          "1": 1.0,
-          "2": 6.8,
-          "3": 9.3,
-          "4": 41.3,
-          "5": 36.1,
-          "6": 72.3
-        },
-        "place_show":{
-          "1": [1.0, 1.3],
-          "2": [3.3, 5.0],
-          "3": [1.5, 2.2],
-          "4": [5.7, 8.9],
-          "5": [1.1, 1.6],
-          "6": [22.0, 33.3]
-        }
+      "date": "2020-10-24",
+      "stadium": 14,
+      "race": 1,
+      "win":{
+        "1": 1.0,
+        "2": 6.8,
+        "3": 9.3,
+        "4": 41.3,
+        "5": 36.1,
+        "6": 72.3
+      },
+      "place_show":{
+        "1": [1.0, 1.3],
+        "2": [3.3, 5.0],
+        "3": [1.5, 2.2],
+        "4": [5.7, 8.9],
+        "5": [1.1, 1.6],
+        "6": [22.0, 33.3]
+      },
+      "update": "締切時オッズ"
     }
     ```
 
@@ -318,10 +328,14 @@ the latter is betting, depositing and withdrawing.
 
     ```python
     {
+      "date": "2020-10-24",
+      "stadium": 14,
+      "race": 1,
       "1=2": [1.2,1.4],
       "1=3": [1.3,1.8],
       ...,
-      "5=6": [27.2,30.9]
+      "5=6": [27.2,30.9],
+      "update": "9:02"
     }
     ```
 
@@ -344,6 +358,9 @@ the latter is betting, depositing and withdrawing.
 
     ```python
     {
+      "date": "2020-10-24",
+      "stadium": 14,
+      "race": 1,
       "exacta":{
         "1-2": 2.5,
         "1-3": 2.8,
@@ -355,7 +372,8 @@ the latter is betting, depositing and withdrawing.
         "1=3": 2.1,
         ...,
         "5=6": 298.3
-      }
+      },
+      "update": "12:30"
     }
     ```
 
@@ -378,10 +396,14 @@ the latter is betting, depositing and withdrawing.
 
     ```python
     {
+      "date": "2020-10-24",
+      "stadium": 14,
+      "race": 1,
       "1-2-3": 5.6,
       "1-2-4": 14.4,
       ...,
-      "6-5-4": 8650.0
+      "6-5-4": 8650.0,
+      "update": "締切時オッズ"
     }
     ```
 
@@ -404,26 +426,30 @@ the latter is betting, depositing and withdrawing.
 
     ```python
     {
-        "1=2=3": "欠場",
-        "1=2=4": "欠場",
-        "1=2=5": "欠場",
-        "1=2=6": "欠場",
-        "1=3=4": "欠場",
-        "2=3=4": 4.2,
-        "1=3=5": "欠場",
-        "2=3=5": 30,
-        "1=3=6": "欠場",
-        "2=3=6": 2.3,
-        "1=4=5": "欠場",
-        "2=4=5": 25,
-        "3=4=5": 79.2,
-        "1=4=6": "欠場",
-        "2=4=6": 1.9,
-        "3=4=6": 60,
-        "1=5=6": "欠場",
-        "2=5=6": 26.7,
-        "3=5=6": 132.1,
-        "4=5=6": 90.1
+      "date": "2020-10-24",
+      "stadium": 14,
+      "race": 1,
+      "1=2=3": "欠場",
+      "1=2=4": "欠場",
+      "1=2=5": "欠場",
+      "1=2=6": "欠場",
+      "1=3=4": "欠場",
+      "2=3=4": 4.2,
+      "1=3=5": "欠場",
+      "2=3=5": 30,
+      "1=3=6": "欠場",
+      "2=3=6": 2.3,
+      "1=4=5": "欠場",
+      "2=4=5": 25,
+      "3=4=5": 79.2,
+      "1=4=6": "欠場",
+      "2=4=6": 1.9,
+      "3=4=6": 60,
+      "1=5=6": "欠場",
+      "2=5=6": 26.7,
+      "3=5=6": 132.1,
+      "4=5=6": 90.1,
+      "update": "15:30"
     }
     ```
 
@@ -446,6 +472,9 @@ the latter is betting, depositing and withdrawing.
 
     ```python
     {
+      "date": "2020-08-25",
+      "stadium": 14,
+      "race": 7,
       "boat1":{
           "name":"Name1",
           "weight":55.1,
@@ -519,63 +548,66 @@ the latter is betting, depositing and withdrawing.
 
     ```python
     {
-        "result":[
-            {
-                "rank":1,
-                "boat":1,
-                "name":"WHO1",
-                "racerid":9999,
-                "time":"1'50\"0"
-            },
-            ...,
-            {
-                "rank":6,
-                "boat":2,
-                "name":"WHO6",
-                "racerid":8888,
-                "time":""
-            }
-        ],
-        "kimarite":"逃げ",
-        "start_information":{
-            "course1":{
-                "boat":1,
-                "ST":0.05
-            },
-            ...,
-            "course6":{
-                "boat":6,
-                "ST":0.11
-            }
-        },
-        "payoff":{
-            "trifecta":{
-                "result":"1-5-6",
-                "payoff":12345,
-                "popularity":34
-            },
-            ...,
-            "quinella_place":[
-                {
-                    "result":"1=5",
-                    "payoff":220,
-                    "popularity":3
-                },
-                ...
-            ],
-            ...,
-        },
-        "weather_information":{
-            "direction":16,
-            "weather":"晴",
-            "temperature":17.0,
-            "wind_direction":6,
-            "wind_speed":5,
-            "water_temperature":21.0,
-            "wave_height":5
-        },
-        "return":[],
-        "note":[]
+      "date": "2020-10-24",
+      "stadium": 14,
+      "race": 1,
+      "result":[
+          {
+              "rank":1,
+              "boat":1,
+              "name":"WHO1",
+              "racerid":9999,
+              "time":"1'50\"0"
+          },
+          ...,
+          {
+              "rank":6,
+              "boat":2,
+              "name":"WHO6",
+              "racerid":8888,
+              "time":""
+          }
+      ],
+      "kimarite":"逃げ",
+      "start_information":{
+          "course1":{
+              "boat":1,
+              "ST":0.05
+          },
+          ...,
+          "course6":{
+              "boat":6,
+              "ST":0.11
+          }
+      },
+      "payoff":{
+          "trifecta":{
+              "result":"1-5-6",
+              "payoff":12345,
+              "popularity":34
+          },
+          ...,
+          "quinella_place":[
+              {
+                  "result":"1=5",
+                  "payoff":220,
+                  "popularity":3
+              },
+              ...
+          ],
+          ...,
+      },
+      "weather_information":{
+          "direction":16,
+          "weather":"晴",
+          "temperature":17.0,
+          "wind_direction":6,
+          "wind_speed":5,
+          "water_temperature":21.0,
+          "wave_height":5
+      },
+      "return":[],
+      "note":[]
     }
     ```
 
@@ -728,30 +760,38 @@ The map between integers and stadiums is given by `STADIUMS_MAP` in `pyjpboatrac
 - Chrome
 - Firefox
 - bash
+- curl
 
 ### Issues
 
-:construction: Under construction
+- For any bugs, use [BUG REPORT](https://github.com/hmasdev/pyjpboatrace/issues/new?assignees=&labels=bug&template=bug_report.md&title=%5BBUG%5D) to create an issue.
+
+- For any enhancement, use [FEATURE REQUEST](https://github.com/hmasdev/pyjpboatrace/issues/new?assignees=&labels=enhancement&template=feature_request.md&title=) to create an issue.
+
+- For other topics, create an issue with a clear and concise description.
 
 ### Pull Request
 
 1. Fork ([https://github.com/hmasdev/pyjpboatrace/fork](https://github.com/hmasdev/pyjpboatrace/fork));
 2. Create your feature branch (`git checkout -b feautre/xxxx`);
-3. Test codes ();
+3. Test codes according to [Test Subsection](#HowToTestAnchor);
 4. Commit your changes (`git commit -am 'Add xxxx feature`);
 5. Push to the branch (`git push origin feature/xxxx`);
 6. Create new Pull Request
 
 ### Test
 
+<div id="HowToTestAnchor"></div>
+
 You can do unit tests and integration tests as follows:
 
 ```bash
 $ ./download_html_for_test.sh  # Only 1 time
-$ pipenv run pytest  # unit test and integration test
+$ pipenv run pytest -m "not integrate and not spending_money" # unit tests
+$ pipenv run pytest  # unit tests and integration tests
 ```
 
-However, `pipenv run pytest` does not test depositing, withdrawing or betting.
+`pipenv run pytest` does not test depositing, withdrawing or betting.
 If you want to test them, make `.secrets.json` at first:
 
 ```json
