@@ -126,11 +126,11 @@
         ]
     },
     "weather_information": {
-        "direction": 13,
+        "direction": 14,
         "temperature": 9,
         "weather": "晴",
         "wind_speed": 1,
-        "wind_direction": 13,
+        "wind_direction": 14,
         "water_temperature": 10,
         "wave_height": 1
     },

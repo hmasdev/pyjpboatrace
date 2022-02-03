@@ -119,10 +119,10 @@
         ]
     },
     "weather_information":{
-        "direction":15,
+        "direction":14,
         "weather":"曇り",
         "temperature":22.0,
-        "wind_direction":13,
+        "wind_direction":12,
         "wind_speed":1,
         "water_temperature":28.0,
         "wave_height":1
