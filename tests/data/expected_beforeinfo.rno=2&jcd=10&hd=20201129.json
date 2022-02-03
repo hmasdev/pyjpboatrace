@@ -89,7 +89,7 @@
         }
     },
     "weather_information": {
-        "direction": 13,
+        "direction": 14,
         "weather": "晴",
         "temperature": 9,
         "wind_direction": 17,
