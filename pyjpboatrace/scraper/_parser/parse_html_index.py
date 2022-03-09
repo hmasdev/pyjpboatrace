@@ -39,7 +39,7 @@ def parse_html_index(html: str):
             tds.pop()  # ignore vote button
 
         grade = tds.pop()['class']
-        timeframe = tds.pop()['class']
+        timeframe = tds.pop().get("class", "")
         title = tds.pop().select_one('a').get_text()
         period, day = tds.pop().get_text('\n').split('\n')
 

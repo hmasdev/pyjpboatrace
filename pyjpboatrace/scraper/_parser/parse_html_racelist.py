@@ -74,7 +74,7 @@ def parse_html_racelist(html: str):
             # extract
             temp = tds.pop()
             b = ''
-            if 'is-boatColor' in temp['class'][-1]:
+            if temp['class'] and ('is-boatColor' in temp['class'][-1]):
                 b = int(temp['class'][-1][-1])
             r = int(temp.text) if temp.text.isdigit() else ''
             c = lst_tds[1].pop().text
@@ -144,7 +144,7 @@ def parse_html_racelist(html: str):
     ])
     dic['race_title'] = list(map(
         lambda s: ''.join(s.split()),
-        soup.select_one('span.heading2_titleDetail').text.split()
+        soup.select_one('h3').text.split()
     ))
 
     return dic
