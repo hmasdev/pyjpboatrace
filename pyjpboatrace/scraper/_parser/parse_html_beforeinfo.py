@@ -24,7 +24,7 @@ def parse_html_beforeinfo(html: str):
         tds.pop()  # skip heeader-like
         temp = tds.pop()
         r = temp.text
-        b = temp['class'][-1][-1] if temp['class'] else ''
+        b = temp['class'][-1][-1] if temp.get("class", "") else ''
         # # 2nd tds
         tds = lst_tds[1]
         c = tds[0].text
