@@ -1,136 +1,147 @@
-{
-    "date": "2018-01-01",
-    "stadium": 21,
-    "race": 3,
-    "result":[
-        {
-            "rank":"Ｆ",
-            "boat":1,
-            "name":"小羽正作",
-            "racerid":3683,
-            "time":""
-        },
-        {
-            "rank":"Ｆ",
-            "boat":2,
-            "name":"國弘翔平",
-            "racerid":4697,
-            "time":""
-        },
-        {
-            "rank":"Ｆ",
-            "boat":3,
-            "name":"河野真也",
-            "racerid":4513,
-            "time":""
-        },
-        {
-            "rank":"Ｆ",
-            "boat":4,
-            "name":"安部慎一",
-            "racerid":4727,
-            "time":""
-        },
-        {
-            "rank":"Ｆ",
-            "boat":5,
-            "name":"奈須啓太",
-            "racerid":4330,
-            "time":""
-        },{
-            "rank":"Ｆ",
-            "boat":6,
-            "name":"山崎毅",
-            "racerid":2903,
-            "time":""
-        }
-    ],
-    "kimarite":"",
-    "start_information":{
-        "course1":{
-            "boat":1,
-            "ST":-0.03
-        },
-        "course2":{
-            "boat":2,
-            "ST":-0.06
-        },
-        "course3":{
-            "boat":3,
-            "ST":-0.07
-        },
-        "course4":{
-            "boat":4,
-            "ST":-0.06
-        },
-        "course5":{
-            "boat":5,
-            "ST":-0.08
-        },
-        "course6":{
-            "boat":6,
-            "ST":-0.06
-        }
-    },
-    "payoff":{
-        "trifecta":{
-            "result":"不成立",
-            "payoff":100,
-            "popularity":""
-        },
-        "trio":{
-            "result":"不成立",
-            "payoff":100,
-            "popularity":""
-        },
-        "exacta":{
-            "result":"不成立",
-            "payoff":100,
-            "popularity":""
-        },
-        "quinella":{
-            "result":"不成立",
-            "payoff":100,
-            "popularity":""
-        },
-        "quinella_place":[
+    {
+        "date": "2018-01-01",
+        "stadium": 21,
+        "race": 3,
+        "result": [
             {
-                "result":"不成立",
-                "payoff":100,
-                "popularity":""
+                "rank": "Ｆ",
+                "boat": 1,
+                "name": "小羽正作",
+                "racerid": 3683,
+                "time": ""
+            },
+            {
+                "rank": "Ｆ",
+                "boat": 2,
+                "name": "國弘翔平",
+                "racerid": 4697,
+                "time": ""
+            },
+            {
+                "rank": "Ｆ",
+                "boat": 3,
+                "name": "河野真也",
+                "racerid": 4513,
+                "time": ""
+            },
+            {
+                "rank": "Ｆ",
+                "boat": 4,
+                "name": "安部慎一",
+                "racerid": 4727,
+                "time": ""
+            },
+            {
+                "rank": "Ｆ",
+                "boat": 5,
+                "name": "奈須啓太",
+                "racerid": 4330,
+                "time": ""
+            },
+            {
+                "rank": "Ｆ",
+                "boat": 6,
+                "name": "山崎毅",
+                "racerid": 2903,
+                "time": ""
             }
         ],
-        "win":{
-            "result":"不成立",
-            "payoff":100,
-            "popularity":""
-        },
-        "place_show":[
-            {
-                "result":"不成立",
-                "payoff":100,
-                "popularity":""
+        "kimarite": "",
+        "start_information": {
+            "course1": {
+                "boat": 1,
+                "ST": -0.03
+            },
+            "course2": {
+                "boat": 2,
+                "ST": -0.06
+            },
+            "course3": {
+                "boat": 3,
+                "ST": -0.07
+            },
+            "course4": {
+                "boat": 4,
+                "ST": -0.06
+            },
+            "course5": {
+                "boat": 5,
+                "ST": -0.08
+            },
+            "course6": {
+                "boat": 6,
+                "ST": -0.06
             }
+        },
+        "payoff": {
+            "trifecta": [
+                {
+                    "result": "不成立",
+                    "payoff": 100,
+                    "popularity": ""
+                }
+            ],
+            "trio": [
+                {
+                    "result": "不成立",
+                    "payoff": 100,
+                    "popularity": ""
+                }
+            ],
+            "exacta": [
+                {
+                    "result": "不成立",
+                    "payoff": 100,
+                    "popularity": ""
+                }
+            ],
+            "quinella": [
+                {
+                    "result": "不成立",
+                    "payoff": 100,
+                    "popularity": ""
+                }
+            ],
+            "quinella_place": [
+                {
+                    "result": "不成立",
+                    "payoff": 100,
+                    "popularity": ""
+                }
+            ],
+            "win": [
+                {
+                    "result": "不成立",
+                    "payoff": 100,
+                    "popularity": ""
+                }
+            ],
+            "place_show": [
+                {
+                    "result": "不成立",
+                    "payoff": 100,
+                    "popularity": ""
+                }
+            ]
+        },
+        "weather_information": {
+            "direction": 1,
+            "weather": "晴",
+            "temperature": 6.0,
+            "wind_direction": 7,
+            "wind_speed": 4,
+            "water_temperature": 7.0,
+            "wave_height": 4
+        },
+        "return": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+        ],
+        "note": [
+            "【返還艇あり】"
         ]
-    },
-    "weather_information":{
-        "direction":1,
-        "weather":"晴",
-        "temperature":6.0,
-        "wind_direction":7,
-        "wind_speed":4,
-        "water_temperature":7.0,
-        "wave_height":4
-    },
-    "return":[
-        1,
-        2,
-        3,
-        4,
-        5,
-        6
-    ],
-    "note":[
-        "【返還艇あり】"
-    ]
-}
+    }

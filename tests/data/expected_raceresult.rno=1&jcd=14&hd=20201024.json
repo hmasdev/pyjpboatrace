@@ -73,26 +73,34 @@
         }
     },
     "payoff":{
-        "trifecta":{
-            "result":"1-5-6",
-            "payoff":22310,
-            "popularity":34
-        },
-        "trio":{
-            "result":"1=5=6",
-            "payoff":11230,
-            "popularity":13
-        },
-        "exacta":{
-            "result":"1-5",
-            "payoff":710,
-            "popularity":3
-        },
-        "quinella":{
-            "result":"1=5",
-            "payoff":590,
-            "popularity":4
-        },
+        "trifecta":[
+            {
+                "result":"1-5-6",
+                "payoff":22310,
+                "popularity":34
+            }
+        ],
+        "trio":[
+            {
+                "result":"1=5=6",
+                "payoff":11230,
+                "popularity":13
+            }
+        ],
+        "exacta":[
+            {
+                "result":"1-5",
+                "payoff":710,
+                "popularity":3
+            }
+        ],
+        "quinella":[
+            {
+                "result":"1=5",
+                "payoff":590,
+                "popularity":4
+            }
+        ],
         "quinella_place":[
             {
                 "result":"1=5",
@@ -110,11 +118,13 @@
                 "popularity":12
             }
         ],
-        "win":{
+        "win":[
+            {
             "result":"1",
             "payoff":100,
             "popularity":""
-        },
+            }
+        ],
         "place_show":[
             {
                 "result":"1",
