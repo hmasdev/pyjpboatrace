@@ -582,11 +582,14 @@ the latter is betting, depositing and withdrawing.
           }
       },
       "payoff":{
-          "trifecta":{
-              "result":"1-5-6",
-              "payoff":12345,
-              "popularity":34
-          },
+          "trifecta":[
+              {
+                "result":"1-5-6",
+                "payoff":12345,
+                "popularity":34
+              },
+              ... 
+          ],
           ...,
           "quinella_place":[
               {
