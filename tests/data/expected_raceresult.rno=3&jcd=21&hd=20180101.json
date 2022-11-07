@@ -74,34 +74,75 @@
             }
         },
         "payoff": {
-            "trifecta": [
+            "trifecta_all": [
                 {
                     "result": "不成立",
                     "payoff": 100,
                     "popularity": ""
                 }
             ],
-            "trio": [
+            "trio_all": [
                 {
                     "result": "不成立",
                     "payoff": 100,
                     "popularity": ""
                 }
             ],
-            "exacta": [
+            "exacta_all": [
                 {
                     "result": "不成立",
                     "payoff": 100,
                     "popularity": ""
                 }
             ],
-            "quinella": [
+            "quinella_all": [
                 {
                     "result": "不成立",
                     "payoff": 100,
                     "popularity": ""
                 }
             ],
+            "quinella_place_all": [
+                {
+                    "result": "不成立",
+                    "payoff": 100,
+                    "popularity": ""
+                }
+            ],
+            "win_all": [
+                {
+                    "result": "不成立",
+                    "payoff": 100,
+                    "popularity": ""
+                }
+            ],
+            "place_show_all": [
+                {
+                    "result": "不成立",
+                    "payoff": 100,
+                    "popularity": ""
+                }
+            ],
+            "trifecta": {
+                "result": "不成立",
+                "payoff": 100,
+                "popularity": ""
+            },
+            "trio": {
+                "result": "不成立",
+                "payoff": 100,
+                "popularity": ""
+            },
+            "exacta": {
+                "result": "不成立",
+                "payoff": 100,
+                "popularity": ""
+            },
+            "quinella": {
+                "result": "不成立",
+                "payoff": 100,
+                "popularity": ""
+            },
             "quinella_place": [
                 {
                     "result": "不成立",
@@ -109,13 +150,11 @@
                     "popularity": ""
                 }
             ],
-            "win": [
-                {
-                    "result": "不成立",
-                    "payoff": 100,
-                    "popularity": ""
-                }
-            ],
+            "win": {
+                "result": "不成立",
+                "payoff": 100,
+                "popularity": ""
+            },
             "place_show": [
                 {
                     "result": "不成立",

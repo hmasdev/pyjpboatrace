@@ -70,34 +70,90 @@
         "course6": {}
     },
     "payoff": {
-        "trifecta": [
+        "trifecta_all": [
             {
                 "result": "6-4-3",
                 "payoff": 37020,
                 "popularity": 29
             }
         ],
-        "trio": [
+        "trio_all": [
             {
                 "result": "3=4=6",
                 "payoff": 6000,
                 "popularity": 7
             }
         ],
-        "exacta": [
+        "exacta_all": [
             {
                 "result": "6-4",
                 "payoff": 7670,
                 "popularity": 9
             }
         ],
-        "quinella": [
+        "quinella_all": [
             {
                 "result": "4=6",
                 "payoff": 2020,
                 "popularity": 4
             }
         ],
+        "quinella_place_all": [
+            {
+                "result": "4=6",
+                "payoff": 350,
+                "popularity": 6
+            },
+            {
+                "result": "3=6",
+                "payoff": 600,
+                "popularity": 8
+            },
+            {
+                "result": "3=4",
+                "payoff": 440,
+                "popularity": 7
+            }
+        ],
+        "win_all": [
+            {
+                "result": "6",
+                "payoff": 4330,
+                "popularity": ""
+            }
+        ],
+        "place_show_all": [
+            {
+                "result": "6",
+                "payoff": 240,
+                "popularity": ""
+            },
+            {
+                "result": "4",
+                "payoff": 130,
+                "popularity": ""
+            }
+        ],
+        "trifecta": {
+            "result": "6-4-3",
+            "payoff": 37020,
+            "popularity": 29
+        },
+        "trio": {
+            "result": "3=4=6",
+            "payoff": 6000,
+            "popularity": 7
+        },
+        "exacta": {
+            "result": "6-4",
+            "payoff": 7670,
+            "popularity": 9
+        },
+        "quinella": {
+            "result": "4=6",
+            "payoff": 2020,
+            "popularity": 4
+        },
         "quinella_place": [
             {
                 "result": "4=6",
@@ -115,11 +171,11 @@
                 "popularity": 7
             }
         ],
-        "win": [{
+        "win": {
             "result": "6",
             "payoff": 4330,
             "popularity": ""
-        }],
+        },
         "place_show": [
             {
                 "result": "6",

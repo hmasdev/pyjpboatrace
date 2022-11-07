@@ -53,7 +53,7 @@ def parse_html_raceresult(html: str):
 
         # trifecta
         trs = lst_trs[0]
-        dic['trifecta'] = [
+        dic['trifecta_all'] = [
             {
                 'result': ''.join(tr.select('td')[-3].text.split()),
                 'payoff': str2num(
@@ -67,14 +67,13 @@ def parse_html_raceresult(html: str):
             }
             for tr in trs
         ]
-        dic['trifecta'] = [
-            d for d in dic['trifecta']
+        dic['trifecta_all'] = [
+            d for d in dic['trifecta_all']
             if any(map(lambda v: v != '', d.values()))
         ]
-
         # trio
         trs = lst_trs[1]
-        dic['trio'] = [
+        dic['trio_all'] = [
             {
                 'result': ''.join(tr.select('td')[-3].text.split()),
                 'payoff': str2num(
@@ -88,13 +87,13 @@ def parse_html_raceresult(html: str):
             }
             for tr in trs
         ]
-        dic['trio'] = [
-            d for d in dic['trio']
+        dic['trio_all'] = [
+            d for d in dic['trio_all']
             if any(map(lambda v: v != '', d.values()))
         ]
         # exacta
         trs = lst_trs[2]
-        dic['exacta'] = [
+        dic['exacta_all'] = [
             {
                 'result': ''.join(tr.select('td')[-3].text.split()),
                 'payoff': str2num(
@@ -108,13 +107,13 @@ def parse_html_raceresult(html: str):
             }
             for tr in trs
         ]
-        dic['exacta'] = [
-            d for d in dic['exacta']
+        dic['exacta_all'] = [
+            d for d in dic['exacta_all']
             if any(map(lambda v: v != '', d.values()))
         ]
        # quinella
         trs = lst_trs[3]
-        dic['quinella'] = [
+        dic['quinella_all'] = [
             {
                 'result': ''.join(tr.select('td')[-3].text.split()),
                 'payoff': str2num(
@@ -128,13 +127,13 @@ def parse_html_raceresult(html: str):
             }
             for tr in trs
         ]
-        dic['quinella'] = [
-            d for d in dic['quinella']
+        dic['quinella_all'] = [
+            d for d in dic['quinella_all']
             if any(map(lambda v: v != '', d.values()))
         ]
         # quinella place
         trs = lst_trs[4]
-        dic['quinella_place'] = [
+        dic['quinella_place_all'] = [
             {
                 'result': ''.join(tr.select('td')[-3].text.split()),
                 'payoff': str2num(
@@ -149,13 +148,13 @@ def parse_html_raceresult(html: str):
             }
             for tr in trs
         ]
-        dic['quinella_place'] = [
-            d for d in dic['quinella_place']
+        dic['quinella_place_all'] = [
+            d for d in dic['quinella_place_all']
             if any(map(lambda v: v != '', d.values()))
         ]
         # win
         trs = lst_trs[5]
-        dic['win'] = [
+        dic['win_all'] = [
             {
                 'result': ''.join(tr.select('td')[-3].text.split()),
                 'payoff': str2num(
@@ -169,13 +168,13 @@ def parse_html_raceresult(html: str):
             }
             for tr in trs
         ]
-        dic['win'] = [
-            d for d in dic['win']
+        dic['win_all'] = [
+            d for d in dic['win_all']
             if any(map(lambda v: v != '', d.values()))
         ]
         # place show
         trs = lst_trs[6]
-        dic['place_show'] = [
+        dic['place_show_all'] = [
             {
                 'result': ''.join(tr.select('td')[-3].text.split()),
                 'payoff': str2num(
@@ -189,11 +188,29 @@ def parse_html_raceresult(html: str):
             }
             for tr in trs
         ]
-        dic['place_show'] = [
-            d for d in dic['place_show']
+        dic['place_show_all'] = [
+            d for d in dic['place_show_all']
             if any(map(lambda v: v != '', d.values()))
         ]
 
+        #　Code to ensure backward compatibility
+        # trifecta
+        dic['trifecta'] = dic['trifecta_all'][0]
+        # trio
+        dic['trio'] = dic['trio_all'][0]
+        # exacta
+        dic['exacta'] = dic['exacta_all'][0]
+        # quinella
+        dic['quinella'] = dic['quinella_all'][0]
+        # quinella place
+        dic['quinella_place'] = dic['quinella_place_all']
+        # win
+        dic['win'] = dic['win_all'][0] 
+        # place show
+        dic['place_show'] = dic['place_show_all']
+
+        print ("-debug-")
+        print (dic)
         return dic
 
     def parse_weather(divs):
