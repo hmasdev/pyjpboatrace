@@ -77,10 +77,7 @@ def parse_html_raceresult(html: str):
             {
                 'result': ''.join(tr.select('td')[-3].text.split()),
                 'payoff': str2num(
-                    tr.select('td')[-2]
-                      .text
-                      .replace('¥', '')
-                      .replace(',', ''),
+                    tr.select('td')[-2].text.replace('¥', '').replace(',', ''),
                     int, ''
                 ),
                 'popularity': str2num(tr.select('td')[-1].text, int, '')
@@ -111,7 +108,7 @@ def parse_html_raceresult(html: str):
             d for d in dic['exacta_all']
             if any(map(lambda v: v != '', d.values()))
         ]
-       # quinella
+        # quinella
         trs = lst_trs[3]
         dic['quinella_all'] = [
             {
@@ -193,7 +190,7 @@ def parse_html_raceresult(html: str):
             if any(map(lambda v: v != '', d.values()))
         ]
 
-        #　Code to ensure backward compatibility
+        # Code to ensure backward compatibility
         # trifecta
         dic['trifecta'] = dic['trifecta_all'][0]
         # trio
@@ -205,7 +202,7 @@ def parse_html_raceresult(html: str):
         # quinella place
         dic['quinella_place'] = dic['quinella_place_all']
         # win
-        dic['win'] = dic['win_all'][0] 
+        dic['win'] = dic['win_all'][0]
         # place show
         dic['place_show'] = dic['place_show_all']
 
@@ -267,8 +264,7 @@ def parse_html_raceresult(html: str):
     def parse_returns(divs):
         lst = sum(
             map(
-                lambda div: list(
-                    map(lambda span: span.text, div.select('span'))),
+                lambda div: list(map(lambda span: span.text, div.select('span'))),  # noqa
                 divs
             ),
             []
@@ -298,8 +294,7 @@ def parse_html_raceresult(html: str):
         raise NoDataException()
 
     # table
-    grid_units = soup.select(
-        'div.grid.is-type2.h-clear > div.grid_unit')  # probably 4 units
+    grid_units = soup.select('div.grid.is-type2.h-clear > div.grid_unit')  # probably 4 units # noqa
     ranks_table = grid_units[0].select('div.table1 > table > tbody')
     starts_table = grid_units[1].select('div.table1 > table > tbody > tr > td')
     payoff_table = grid_units[2].select('div.table1 > table > tbody')
