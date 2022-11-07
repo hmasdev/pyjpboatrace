@@ -209,8 +209,6 @@ def parse_html_raceresult(html: str):
         # place show
         dic['place_show'] = dic['place_show_all']
 
-        print ("-debug-")
-        print (dic)
         return dic
 
     def parse_weather(divs):
