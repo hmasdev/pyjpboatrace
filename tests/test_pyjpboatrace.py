@@ -552,6 +552,29 @@ def test_get_race_result_missing_racer(d, std, race, boatrace_tools):
 
 
 @pytest.mark.integrate
+@pytest.mark.parametrize(
+    "d,std,race",
+    [
+        (date(2019, 4, 8), 11, 5),
+        (date(2021, 6, 14), 12, 1),
+        (date(2021, 1, 3), 14, 10),
+    ]
+)
+def test_get_race_result_for_tie_case(d, std, race, boatrace_tools):
+    # MISSING RACERS CASE #
+    # preparation
+    dstr = d.strftime('%Y%m%d')
+    # expectation
+    expected = get_expected_json(
+        f'expected_raceresult.rno={race}&jcd={std:02d}&hd={dstr}.json',
+    )
+    # actual
+    actual = boatrace_tools.get_race_result(d, std, race)
+    # assertion
+    assert actual == expected
+
+
+@pytest.mark.integrate
 def test_get_race_result_cancelled_race(boatrace_tools: PyJPBoatrace):
     # CANCELLED RACERS CASE #
     # preparation

@@ -1,0 +1,239 @@
+{
+    "date": "2021-01-03",
+    "stadium": 14,
+    "race": 10,
+    "result": [
+        {
+            "rank": 1,
+            "boat": 1,
+            "racerid": 4571,
+            "name": "菅章哉",
+            "time": "1'49\"5"
+        },
+        {
+            "rank": 2,
+            "boat": 6,
+            "racerid": 4063,
+            "name": "市橋卓士",
+            "time": "1'50\"7"
+        },
+        {
+            "rank": 3,
+            "boat": 2,
+            "racerid": 3282,
+            "name": "池本輝明",
+            "time": "1'51\"8"
+        },
+        {
+            "rank": 3,
+            "boat": 5,
+            "racerid": 4732,
+            "name": "堀本和也",
+            "time": "1'51\"8"
+        },
+        {
+            "rank": 5,
+            "boat": 4,
+            "racerid": 3717,
+            "name": "立間充宏",
+            "time": ""
+        },
+        {
+            "rank": 6,
+            "boat": 3,
+            "racerid": 3562,
+            "name": "山下和彦",
+            "time": ""
+        }
+    ],
+    "start_information": {
+        "course1": {
+            "boat": 1,
+            "ST": 0.11
+        },
+        "course2": {
+            "boat": 2,
+            "ST": 0.18
+        },
+        "course3": {
+            "boat": 3,
+            "ST": 0.09
+        },
+        "course4": {
+            "boat": 4,
+            "ST": 0.16
+        },
+        "course5": {
+            "boat": 5,
+            "ST": 0.14
+        },
+        "course6": {
+            "boat": 6,
+            "ST": 0.16
+        }
+    },
+    "payoff": {
+        "trifecta_all": [
+            {
+                "result": "1-6-2",
+                "payoff": 2050,
+                "popularity": 20
+            },
+            {
+                "result": "1-6-5",
+                "payoff": 1840,
+                "popularity": 16
+            }
+        ],
+        "trio_all": [
+            {
+                "result": "1=2=6",
+                "payoff": 540,
+                "popularity": 5
+            },
+            {
+                "result": "1=5=6",
+                "payoff": 710,
+                "popularity": 9
+            }
+        ],
+        "exacta_all": [
+            {
+                "result": "1-6",
+                "payoff": 1090,
+                "popularity": 5
+            }
+        ],
+        "quinella_all": [
+            {
+                "result": "1=6",
+                "payoff": 1090,
+                "popularity": 5
+            }
+        ],
+        "quinella_place_all": [
+            {
+                "result": "1=6",
+                "payoff": 160,
+                "popularity": 3
+            },
+            {
+                "result": "1=2",
+                "payoff": 150,
+                "popularity": 2
+            },
+            {
+                "result": "1=5",
+                "payoff": 230,
+                "popularity": 5
+            },
+            {
+                "result": "2=6",
+                "payoff": 500,
+                "popularity": 11
+            },
+            {
+                "result": "5=6",
+                "payoff": 720,
+                "popularity": 14
+            }
+        ],
+        "win_all": [
+            {
+                "result": "1",
+                "payoff": 120,
+                "popularity": ""
+            }
+        ],
+        "place_show_all": [
+            {
+                "result": "1",
+                "payoff": 110,
+                "popularity": ""
+            },
+            {
+                "result": "6",
+                "payoff": 240,
+                "popularity": ""
+            }
+        ],
+        "trifecta": {
+            "result": "1-6-2",
+            "payoff": 2050,
+            "popularity": 20
+        },
+        "trio": {
+            "result": "1=2=6",
+            "payoff": 540,
+            "popularity": 5
+        },
+        "exacta": {
+            "result": "1-6",
+            "payoff": 1090,
+            "popularity": 5
+        },
+        "quinella": {
+            "result": "1=6",
+            "payoff": 1090,
+            "popularity": 5
+        },
+        "quinella_place": [
+            {
+                "result": "1=6",
+                "payoff": 160,
+                "popularity": 3
+            },
+            {
+                "result": "1=2",
+                "payoff": 150,
+                "popularity": 2
+            },
+            {
+                "result": "1=5",
+                "payoff": 230,
+                "popularity": 5
+            },
+            {
+                "result": "2=6",
+                "payoff": 500,
+                "popularity": 11
+            },
+            {
+                "result": "5=6",
+                "payoff": 720,
+                "popularity": 14
+            }
+        ],
+        "win": {
+            "result": "1",
+            "payoff": 120,
+            "popularity": ""
+        },
+        "place_show": [
+            {
+                "result": "1",
+                "payoff": 110,
+                "popularity": ""
+            },
+            {
+                "result": "6",
+                "payoff": 240,
+                "popularity": ""
+            }
+        ]
+    },
+    "weather_information": {
+        "direction": 15,
+        "temperature": 8.0,
+        "weather": "晴",
+        "wind_speed": 7,
+        "wind_direction": 5,
+        "water_temperature": 10.0,
+        "wave_height": 7
+    },
+    "return": [],
+    "kimarite": "逃げ",
+    "note": [
+        "【同着あり】"
+    ]
+}
