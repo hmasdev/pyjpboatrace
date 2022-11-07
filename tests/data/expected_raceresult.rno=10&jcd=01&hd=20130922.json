@@ -1,137 +1,192 @@
-{
-    "date": "2013-09-22",
-    "stadium": 1,
-    "race": 10,
-    "result":[
-        {
-            "rank":1,
-            "boat":1,
-            "name":"前田将太",
-            "racerid":4504,
-            "time":"2'02\"3"
-        },
-        {
-            "rank":2,
-            "boat":2,
-            "name":"片岡雅裕",
-            "racerid":4459,
-            "time":"2'07\"4"
-        },
-        {
-            "rank":"転",
-            "boat":3,
-            "name":"島田賢人",
-            "racerid":4505,
-            "time":""
-        },
-        {
-            "rank":"失",
-            "boat":6,
-            "name":"青木玄太",
-            "racerid":4448,
-            "time":""
-        },
-        {
-            "rank":"Ｆ",
-            "boat":4,
-            "name":"磯部誠",
-            "racerid":4586,
-            "time":""
-        },{
-            "rank":"Ｆ",
-            "boat":5,
-            "name":"谷川祐一",
-            "racerid":4594,
-            "time":""
-        }
-    ],
-    "kimarite":"逃げ",
-    "start_information":{
-        "course1":{
-            "boat":1,
-            "ST":0.08
-        },
-        "course2":{
-            "boat":2,
-            "ST":0.10
-        },
-        "course3":{
-            "boat":3,
-            "ST":0.05
-        },
-        "course4":{
-            "boat":4,
-            "ST":-0.01
-        },
-        "course5":{
-            "boat":5,
-            "ST":-0.03
-        },
-        "course6":{
-            "boat":6,
-            "ST":0.06
-        }
-    },
-    "payoff":{
-        "trifecta":{
-            "result":"不成立",
-            "payoff":100,
-            "popularity":""
-        },
-        "trio":{
-            "result":"不成立",
-            "payoff":100,
-            "popularity":""
-        },
-        "exacta":{
-            "result":"1-2",
-            "payoff":160,
-            "popularity":1
-        },
-        "quinella":{
-            "result":"1=2",
-            "payoff":140,
-            "popularity":1
-        },
-        "quinella_place":[
+    {
+        "date": "2013-09-22",
+        "stadium": 1,
+        "race": 10,
+        "result": [
             {
-                "result":"1=2",
-                "payoff":180,
-                "popularity":1
-            }
-        ],
-        "win":{
-            "result":"1",
-            "payoff":120,
-            "popularity":""
-        },
-        "place_show":[
-            {
-                "result":"1",
-                "payoff":100,
-                "popularity":""
+                "rank": 1,
+                "boat": 1,
+                "name": "前田将太",
+                "racerid": 4504,
+                "time": "2'02\"3"
             },
             {
-                "result":"2",
-                "payoff":130,
-                "popularity":""
+                "rank": 2,
+                "boat": 2,
+                "name": "片岡雅裕",
+                "racerid": 4459,
+                "time": "2'07\"4"
+            },
+            {
+                "rank": "転",
+                "boat": 3,
+                "name": "島田賢人",
+                "racerid": 4505,
+                "time": ""
+            },
+            {
+                "rank": "失",
+                "boat": 6,
+                "name": "青木玄太",
+                "racerid": 4448,
+                "time": ""
+            },
+            {
+                "rank": "Ｆ",
+                "boat": 4,
+                "name": "磯部誠",
+                "racerid": 4586,
+                "time": ""
+            },
+            {
+                "rank": "Ｆ",
+                "boat": 5,
+                "name": "谷川祐一",
+                "racerid": 4594,
+                "time": ""
             }
+        ],
+        "kimarite": "逃げ",
+        "start_information": {
+            "course1": {
+                "boat": 1,
+                "ST": 0.08
+            },
+            "course2": {
+                "boat": 2,
+                "ST": 0.10
+            },
+            "course3": {
+                "boat": 3,
+                "ST": 0.05
+            },
+            "course4": {
+                "boat": 4,
+                "ST": -0.01
+            },
+            "course5": {
+                "boat": 5,
+                "ST": -0.03
+            },
+            "course6": {
+                "boat": 6,
+                "ST": 0.06
+            }
+        },
+        "payoff": {
+            "trifecta_all": [
+                {
+                    "result": "不成立",
+                    "payoff": 100,
+                    "popularity": ""
+                }
+            ],
+            "trio_all": [
+                {
+                    "result": "不成立",
+                    "payoff": 100,
+                    "popularity": ""
+                }
+            ],
+            "exacta_all": [
+                {
+                    "result": "1-2",
+                    "payoff": 160,
+                    "popularity": 1
+                }
+            ],
+            "quinella_all": [
+                {
+                    "result": "1=2",
+                    "payoff": 140,
+                    "popularity": 1
+                }
+            ],
+            "quinella_place_all": [
+                {
+                    "result": "1=2",
+                    "payoff": 180,
+                    "popularity": 1
+                }
+            ],
+            "win_all": [
+                {
+                    "result": "1",
+                    "payoff": 120,
+                    "popularity": ""
+                }
+            ],
+            "place_show_all": [
+                {
+                    "result": "1",
+                    "payoff": 100,
+                    "popularity": ""
+                },
+                {
+                    "result": "2",
+                    "payoff": 130,
+                    "popularity": ""
+                }
+            ],
+            "trifecta": {
+                "result": "不成立",
+                "payoff": 100,
+                "popularity": ""
+            },
+            "trio": {
+                "result": "不成立",
+                "payoff": 100,
+                "popularity": ""
+            },
+            "exacta": {
+                "result": "1-2",
+                "payoff": 160,
+                "popularity": 1
+            },
+            "quinella": {
+                "result": "1=2",
+                "payoff": 140,
+                "popularity": 1
+            },
+            "quinella_place": [
+                {
+                    "result": "1=2",
+                    "payoff": 180,
+                    "popularity": 1
+                }
+            ],
+            "win": {
+                "result": "1",
+                "payoff": 120,
+                "popularity": ""
+            },
+            "place_show": [
+                {
+                    "result": "1",
+                    "payoff": 100,
+                    "popularity": ""
+                },
+                {
+                    "result": "2",
+                    "payoff": 130,
+                    "popularity": ""
+                }
+            ]
+        },
+        "weather_information": {
+            "direction": 14,
+            "weather": "曇り",
+            "temperature": 22.0,
+            "wind_direction": 12,
+            "wind_speed": 1,
+            "water_temperature": 28.0,
+            "wave_height": 1
+        },
+        "return": [
+            4,
+            5
+        ],
+        "note": [
+            "【返還艇あり】"
         ]
-    },
-    "weather_information":{
-        "direction":14,
-        "weather":"曇り",
-        "temperature":22.0,
-        "wind_direction":12,
-        "wind_speed":1,
-        "water_temperature":28.0,
-        "wave_height":1
-    },
-    "return":[
-        4,
-        5
-    ],
-    "note":[
-        "【返還艇あり】"
-    ]
-}
+    }

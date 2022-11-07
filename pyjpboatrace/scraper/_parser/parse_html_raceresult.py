@@ -52,63 +52,88 @@ def parse_html_raceresult(html: str):
                 return [f"FailedToParse: {td.text}"]
 
         # trifecta
-        tds = lst_trs[0][0].select('td')
-        dic['trifecta'] = {
-            'result': ''.join(extract_result(tds[1])),
-            'payoff': str2num(
-                tds[2].select_one('span')
+        trs = lst_trs[0]
+        dic['trifecta_all'] = [
+            {
+                'result': ''.join(tr.select('td')[-3].text.split()),
+                'payoff': str2num(
+                    tr.select('td')[-2]
                       .text
                       .replace('¥', '')
                       .replace(',', ''),
-                int,
-                ''
-            ),
-            'popularity': str2num(tds[3].text, int, '')
-        }
+                    int, ''
+                ),
+                'popularity': str2num(tr.select('td')[-1].text, int, '')
+            }
+            for tr in trs
+        ]
+        dic['trifecta_all'] = [
+            d for d in dic['trifecta_all']
+            if any(map(lambda v: v != '', d.values()))
+        ]
         # trio
-        tds = lst_trs[1][0].select('td')
-        dic['trio'] = {
-            'result': ''.join(extract_result(tds[1])),
-            'payoff': str2num(
-                tds[2].select_one('span')
+        trs = lst_trs[1]
+        dic['trio_all'] = [
+            {
+                'result': ''.join(tr.select('td')[-3].text.split()),
+                'payoff': str2num(
+                    tr.select('td')[-2]
                       .text
                       .replace('¥', '')
                       .replace(',', ''),
-                int,
-                ''
-            ),
-            'popularity': str2num(tds[3].text, int, '')
-        }
+                    int, ''
+                ),
+                'popularity': str2num(tr.select('td')[-1].text, int, '')
+            }
+            for tr in trs
+        ]
+        dic['trio_all'] = [
+            d for d in dic['trio_all']
+            if any(map(lambda v: v != '', d.values()))
+        ]
         # exacta
-        tds = lst_trs[2][0].select('td')
-        dic['exacta'] = {
-            'result': ''.join(extract_result(tds[1])),
-            'payoff': str2num(
-                tds[2].select_one('span')
+        trs = lst_trs[2]
+        dic['exacta_all'] = [
+            {
+                'result': ''.join(tr.select('td')[-3].text.split()),
+                'payoff': str2num(
+                    tr.select('td')[-2]
                       .text
                       .replace('¥', '')
                       .replace(',', ''),
-                int,
-                ''
-            ),
-            'popularity': str2num(tds[3].text, int, '')
-        }
-        # quinella
-        tds = lst_trs[3][0].select('td')
-        dic['quinella'] = {
-            'result': ''.join(extract_result(tds[1])),
-            'payoff': str2num(
-                tds[2].select_one('span')
-                      .text.replace('¥', '')
+                    int, ''
+                ),
+                'popularity': str2num(tr.select('td')[-1].text, int, '')
+            }
+            for tr in trs
+        ]
+        dic['exacta_all'] = [
+            d for d in dic['exacta_all']
+            if any(map(lambda v: v != '', d.values()))
+        ]
+       # quinella
+        trs = lst_trs[3]
+        dic['quinella_all'] = [
+            {
+                'result': ''.join(tr.select('td')[-3].text.split()),
+                'payoff': str2num(
+                    tr.select('td')[-2]
+                      .text
+                      .replace('¥', '')
                       .replace(',', ''),
-                int,
-                ''
-            ),
-            'popularity': str2num(tds[3].text, int, '')
-        }
+                    int, ''
+                ),
+                'popularity': str2num(tr.select('td')[-1].text, int, '')
+            }
+            for tr in trs
+        ]
+        dic['quinella_all'] = [
+            d for d in dic['quinella_all']
+            if any(map(lambda v: v != '', d.values()))
+        ]
         # quinella place
         trs = lst_trs[4]
-        dic['quinella_place'] = [
+        dic['quinella_place_all'] = [
             {
                 'result': ''.join(tr.select('td')[-3].text.split()),
                 'payoff': str2num(
@@ -123,27 +148,13 @@ def parse_html_raceresult(html: str):
             }
             for tr in trs
         ]
-        dic['quinella_place'] = [
-            d for d in dic['quinella_place']
+        dic['quinella_place_all'] = [
+            d for d in dic['quinella_place_all']
             if any(map(lambda v: v != '', d.values()))
         ]
         # win
-        tds = lst_trs[5][0].select('td')
-        dic['win'] = {
-            'result': ''.join(extract_result(tds[1])),
-            'payoff': str2num(
-                tds[2].select_one('span')
-                      .text
-                      .replace('¥', '')
-                      .replace(',', ''),
-                int,
-                ''
-            ),
-            'popularity': str2num(tds[3].text, int, '')
-        }
-        # place show
-        trs = lst_trs[6]
-        dic['place_show'] = [
+        trs = lst_trs[5]
+        dic['win_all'] = [
             {
                 'result': ''.join(tr.select('td')[-3].text.split()),
                 'payoff': str2num(
@@ -157,10 +168,46 @@ def parse_html_raceresult(html: str):
             }
             for tr in trs
         ]
-        dic['place_show'] = [
-            d for d in dic['place_show']
+        dic['win_all'] = [
+            d for d in dic['win_all']
             if any(map(lambda v: v != '', d.values()))
         ]
+        # place show
+        trs = lst_trs[6]
+        dic['place_show_all'] = [
+            {
+                'result': ''.join(tr.select('td')[-3].text.split()),
+                'payoff': str2num(
+                    tr.select('td')[-2]
+                      .text
+                      .replace('¥', '')
+                      .replace(',', ''),
+                    int, ''
+                ),
+                'popularity': str2num(tr.select('td')[-1].text, int, '')
+            }
+            for tr in trs
+        ]
+        dic['place_show_all'] = [
+            d for d in dic['place_show_all']
+            if any(map(lambda v: v != '', d.values()))
+        ]
+
+        #　Code to ensure backward compatibility
+        # trifecta
+        dic['trifecta'] = dic['trifecta_all'][0]
+        # trio
+        dic['trio'] = dic['trio_all'][0]
+        # exacta
+        dic['exacta'] = dic['exacta_all'][0]
+        # quinella
+        dic['quinella'] = dic['quinella_all'][0]
+        # quinella place
+        dic['quinella_place'] = dic['quinella_place_all']
+        # win
+        dic['win'] = dic['win_all'][0] 
+        # place show
+        dic['place_show'] = dic['place_show_all']
 
         return dic
 
