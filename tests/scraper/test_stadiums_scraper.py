@@ -29,6 +29,7 @@ def test_make_url(d: date):
     "d",
     [
         date(2020, 9, 8),
+        date(2022, 10, 30),
     ]
 )
 def test_get(d: date):

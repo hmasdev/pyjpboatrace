@@ -37,9 +37,15 @@ def boatrace_tools(chrome_driver) -> PyJPBoatrace:  # noqa
 
 
 @pytest.mark.integrate
-def test_get_stadiums(boatrace_tools: PyJPBoatrace):
+@pytest.mark.parametrize(
+    "d",
+    [
+        date(2020, 9, 8),
+        date(2022, 10, 30),
+    ]
+)
+def test_get_stadiums(d: date, boatrace_tools: PyJPBoatrace):
     # preparation
-    d = date(2020, 9, 8)
     dstr = d.strftime('%Y%m%d')
     # expectation
     expected = get_expected_json(f"expected_index.hd={dstr}.json")

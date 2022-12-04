@@ -6,6 +6,7 @@ grade_mapper = {
     'is-G3b': 'G3',
     'is-G2b': 'G2',
     'is-G1b': 'G1',
+    'is-SGa': "SG",
     'is-lady': 'lady',
     'is-venus': 'venus',
     'is-rookie__3rdadd': 'rookie',
