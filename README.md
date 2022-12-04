@@ -1124,6 +1124,27 @@ the latter is betting, depositing and withdrawing.
 
     </details>
 
+  - NOTE: you may be confused by the output of `PyJPBoatrace().get_race_result` because the contents of "payoff" key in the output have the following keys:
+
+    - "exacta"
+    - "exacta_all"
+    - "place_show"
+    - "place_show_all"
+    - "quinella"
+    - "quinella_all"
+    - "quinella_place"
+    - "quinella_place_all"
+    - "trifecta"
+    - "trifecta_all"
+    - "trio"
+    - "trio_all"
+    - "win"
+    - "win_all"
+
+    For "win", "exacta", "quinella", "trifecta" and "trio", the difference between a key without "all" footer and a key with "all" footer is that the former means ONE result while the latter means ALL results.
+    For example, if "1-2-3" and "1-2-4" is hit as trifecta in a race, that is, if 3rd boat and 4th boat are tied for third place, the valud of "trifecta" key is `{'payoff': ..., 'popularity': ..., 'result': '1-2-3'}` while the value of "trifecta_all" key is `[{'payoff': ..., 'popularity': ..., 'result': '1-2-3'}, {'payoff': ..., 'popularity': ..., 'result': '1-2-4'}]`.
+    On the other hand, for "place_show" and "quinella_place", there is no difference between a key without "all" footer and a key with "all" footer.
+
 These functions return `dict` object.
 
 #### Operations
