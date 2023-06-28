@@ -24,7 +24,7 @@ one of the following browers is required at least:
 
 ### Dependencies
 
-- python >= 3.7
+- python >= 3.8
 - requests>=2.25.0
 - beautifulsoup4>=4.9.3
 - selenium>=3.141.0
