@@ -30,7 +30,7 @@ jobs:
       - name: Test
         run: |
           bash ./download_html_for_test.sh
-          pipenv run pytest
+          pipenv run pytest -m "not integrate and not spending_money"
       - name: Delete virtualenv
         run: |
           pipenv --rm
