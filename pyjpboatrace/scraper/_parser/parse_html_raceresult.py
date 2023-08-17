@@ -13,10 +13,10 @@ def parse_html_raceresult(html: str):
         return [
             {
                 'rank': str2num(tds[0].text, int, tds[0].text),
-                'boat':str2num(tds[1].text, int, ''),
-                'racerid':str2num(tds[2].select('span')[0].text, int, ''),
-                'name':''.join(tds[2].select('span')[1].text.split()),
-                'time':''.join(tds[3].text.split())
+                'boat': str2num(tds[1].text, int, ''),
+                'racerid': str2num(tds[2].select('span')[0].text, int, ''),
+                'name': ''.join(tds[2].select('span')[1].text.split()),
+                'time': ''.join(tds[3].text.split()),
             }
             for tds in lst_tds
         ]
