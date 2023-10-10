@@ -540,7 +540,8 @@ def test_get_race_result(boatrace_tools: PyJPBoatrace):
     [
         (date(2020, 11, 29), 10, 2),
         (date(2018, 1, 1), 21, 3),
-        (date(2013, 9, 22), 1, 10),
+        # NOTE: https://boatrace.jp/owpc/pc/race/raceresult?rno=10&jcd=01&hd=20130922 has not responsed data since 2023/10/08.  # noqa
+        # (date(2013, 9, 22), 1, 10),
     ]
 )
 def test_get_race_result_missing_racer(d, std, race, boatrace_tools):

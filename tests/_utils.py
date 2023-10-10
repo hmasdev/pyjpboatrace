@@ -22,7 +22,7 @@ def create_side_effect(
     Returns:
         Callable[..., Any]: side-effect function
     """
-    return lambda arg: dic.get(arg, default_value)
+    return lambda *arg: dic.get(arg, default_value)
 
 
 def is_boatrace_time() -> bool:

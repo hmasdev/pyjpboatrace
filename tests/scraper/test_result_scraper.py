@@ -57,12 +57,14 @@ def test_make_url(d: date, stadium: int, race: int):
             21,
             3,
         ),
-        (
-            # racer missing 3
-            date(2013, 9, 22),
-            1,
-            10,
-        ),
+        # (
+        #     # racer missing 3
+        #     # NOTE: https://boatrace.jp/owpc/pc/race/raceresult?rno=10&jcd=01&hd=20130922 has not responsed data since 2023/10/08.  # noqa
+        #     # TODO: check the data retention period
+        #     date(2013, 9, 22),
+        #     1,
+        #     10,
+        # ),
     ]
 )
 def test_get(d: date, stadium: int, race: int):
