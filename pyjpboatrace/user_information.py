@@ -16,11 +16,11 @@ class UserInformation:
 
     def __init__(
         self,
-        userid: str = None,
-        pin: str = None,
-        auth_pass: str = None,
-        vote_pass: str = None,  # TODO rename vote_pass -> bet_pass
-        json_file: str = None,
+        userid: str | None = None,
+        pin: str | None = None,
+        auth_pass: str | None = None,
+        vote_pass: str | None = None,  # TODO rename vote_pass -> bet_pass
+        json_file: str | None = None,
         logger: Logger = getLogger(__name__)
     ):
         # preparation

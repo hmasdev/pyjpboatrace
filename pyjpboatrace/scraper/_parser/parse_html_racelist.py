@@ -144,7 +144,7 @@ def parse_html_racelist(html: str):
     ])
     dic['race_title'] = list(map(
         lambda s: ''.join(s.split()),
-        soup.select_one('h3').text.split()
+        soup.select_one('h3').text.split()  # type: ignore
     ))
 
     return dic

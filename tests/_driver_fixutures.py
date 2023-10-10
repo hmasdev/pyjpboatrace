@@ -11,7 +11,7 @@ from pyjpboatrace.drivers import (
 
 
 @pytest.fixture(scope="session")
-def chrome_driver() -> webdriver.Chrome:
+def chrome_driver() -> webdriver.Chrome:  # type: ignore  # noqa
     d = None
     try:
         d = create_chrome_driver()
@@ -22,7 +22,7 @@ def chrome_driver() -> webdriver.Chrome:
 
 
 @pytest.fixture(scope="session")
-def firefox_driver() -> webdriver.Firefox:
+def firefox_driver() -> webdriver.Firefox:  # type: ignore  # noqa
     d = None
     try:
         d = create_firefox_driver()
@@ -33,7 +33,7 @@ def firefox_driver() -> webdriver.Firefox:
 
 
 @pytest.fixture(scope="session")
-def edge_driver() -> webdriver.Edge:
+def edge_driver() -> webdriver.Edge:  # type: ignore  # noqa
     d = None
     try:
         d = create_edge_driver()
@@ -44,7 +44,7 @@ def edge_driver() -> webdriver.Edge:
 
 
 @pytest.fixture(scope="session")
-def httpget_driver() -> HTTPGetDriver:
+def httpget_driver() -> HTTPGetDriver:  # type: ignore  # noqa
     d = None
     try:
         d = create_httpget_driver()

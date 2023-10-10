@@ -24,7 +24,7 @@ from ._utils import (
 
 
 @pytest.fixture(scope='module')
-def boatrace_tools(chrome_driver) -> PyJPBoatrace:  # noqa
+def boatrace_tools(chrome_driver) -> PyJPBoatrace:  # type: ignore  # noqa
     user = get_user_info()
     pyjpboatrace = PyJPBoatrace(
         driver=chrome_driver,
@@ -407,7 +407,7 @@ def test_get_real_time_odds(method_name: str, boatrace_tools: PyJPBoatrace):
     assert actual.get("date") == today.strftime("%Y-%m-%d")
     assert actual.get("stadium") == stadium
     assert actual.get("race") == race
-    assert re.fullmatch(r"(\d|\d\d):\d\d", actual.get("update"))
+    assert re.fullmatch(r"(\d|\d\d):\d\d", actual.get("update"))  # type: ignore  # noqa
 
 
 @pytest.mark.integrate
@@ -700,7 +700,7 @@ def test_bet(boatrace_tools: PyJPBoatrace):
 
     _flag = False
     for key in stadiums_dic:
-        stadium = {s: i for i, s in STADIUMS_MAP}.get(key)
+        stadium = {s: i for i, s in STADIUMS_MAP}[key]
         races_dic = boatrace_tools.get_12races(date.today(), stadium)
         for r, dic in races_dic.items():
             if dic.get("status") == "投票":
