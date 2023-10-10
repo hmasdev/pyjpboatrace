@@ -1,5 +1,7 @@
+from unittest.mock import call
 import pytest
 from selenium import webdriver
+from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
 from unittest.mock import MagicMock, Mock
 
@@ -27,29 +29,27 @@ def test_betting_limit_check_operator_do(depo):
     # create mock
     mock_user = MagicMock(UserInformation, vote_pass=None)
     mock_driver = MagicMock(webdriver.Chrome)
-    mock_driver.find_element_by_id = Mock(
+    mock_driver.find_element = Mock(
         side_effect=create_side_effect(
             {
-                "currentBetLimitAmount": Mock(WebElement, text=str(depo)),
+                (By.ID, "currentBetLimitAmount"): Mock(WebElement, text=str(depo)),  # noqa
             },
             default_value=Mock(WebElement),
         )
     )
 
     # preparation
-    betting_limit_checker = BettingLimitCheckOperator(
-        mock_user,
-        mock_driver,
-    )
+    betting_limit_checker = BettingLimitCheckOperator(mock_user, mock_driver)  # noqa
 
     # execute
     actual = betting_limit_checker.do()
 
     # assert
     assert actual == int(depo.replace(",", ""))
-    mock_driver.find_element_by_id.assert_called_once_with(
-        'currentBetLimitAmount'
-    )
+    assert mock_driver.find_element.call_args_list == [
+        call(By.ID, 'currentBetLimitAmount'),
+        call(By.ID, 'currentBetLimitAmount'),
+    ]
 
 
 @pytest.mark.parametrize(
@@ -66,10 +66,10 @@ def test_betting_limit_check_operator_for_driver(driver_class, is_raised):
     # create mock
     mock_user = MagicMock(UserInformation, vote_pass=None)
     mock_driver = MagicMock(driver_class)
-    mock_driver.find_element_by_id = Mock(
+    mock_driver.find_element = Mock(
         side_effect=create_side_effect(
             {
-                "currentBetLimitAmount": Mock(WebElement, text=str(10000)),
+                (By.ID, "currentBetLimitAmount"): Mock(WebElement, text=str(10000)),  # noqa
             },
             default_value=Mock(WebElement),
         )

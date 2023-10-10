@@ -37,38 +37,26 @@ class DepositOperator(BaseOperator, DriverCheckMixin):
         visit_ibmbraceorjp(self._user, self._driver, timeout)
 
         # click deposit/withdraw
-        WebDriverWait(self._driver, timeout).until(
-            EC.presence_of_element_located((By.ID, 'gnavi01'))
-        )
-        self._driver.find_element_by_id('gnavi01').click()
+        WebDriverWait(self._driver, timeout).until(EC.presence_of_element_located((By.ID, 'gnavi01')))  # noqa
+        self._driver.find_element(By.ID, 'gnavi01').click()
 
-        WebDriverWait(self._driver, timeout).until(
-            EC.presence_of_element_located((By.ID, 'charge'))
-        )
-        self._driver.find_element_by_id('charge').click()
+        WebDriverWait(self._driver, timeout).until(EC.presence_of_element_located((By.ID, 'charge')))  # noqa
+        self._driver.find_element(By.ID, 'charge').click()
 
         # input
-        WebDriverWait(self._driver, timeout).until(
-            EC.presence_of_element_located((By.ID, 'chargeInstructAmt'))
-        )
-        self._driver.find_element_by_id('chargeInstructAmt')\
+        WebDriverWait(self._driver, timeout).until(EC.presence_of_element_located((By.ID, 'chargeInstructAmt')))  # noqa
+        self._driver.find_element(By.ID, 'chargeInstructAmt')\
             .send_keys(str(depo_amt_unit_thousands_yen))
 
-        WebDriverWait(self._driver, timeout).until(
-            EC.presence_of_element_located((By.ID, 'chargeBetPassword'))
-        )
-        self._driver.find_element_by_id('chargeBetPassword')\
+        WebDriverWait(self._driver, timeout).until(EC.presence_of_element_located((By.ID, 'chargeBetPassword')))  # noqa
+        self._driver.find_element(By.ID, 'chargeBetPassword')\
                     .send_keys(self._user.vote_pass)
 
         # press button
-        WebDriverWait(self._driver, timeout).until(
-            EC.presence_of_element_located((By.ID, 'executeCharge'))
-        )
-        self._driver.find_element_by_id('executeCharge')\
+        WebDriverWait(self._driver, timeout).until(EC.presence_of_element_located((By.ID, 'executeCharge')))  # noqa
+        self._driver.find_element(By.ID, 'executeCharge')\
             .click()
 
-        WebDriverWait(self._driver, timeout).until(
-            EC.presence_of_element_located((By.ID, 'ok'))
-        )
-        self._driver.find_element_by_id('ok')\
+        WebDriverWait(self._driver, timeout).until(EC.presence_of_element_located((By.ID, 'ok')))  # noqa
+        self._driver.find_element(By.ID, 'ok')\
             .click()

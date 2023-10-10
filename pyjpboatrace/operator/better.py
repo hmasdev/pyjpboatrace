@@ -89,29 +89,22 @@ class BettingOperator(BaseOperator, DriverCheckMixin):
             raise ZeroDepositException('Current deposit is zero.')
 
         # click stadium
-        WebDriverWait(self._driver, timeout).until(
-            EC.presence_of_element_located((By.ID, f'jyo{stadium:02d}'))
-        )
-        element = self._driver.find_element_by_id(f'jyo{stadium:02d}')
+        WebDriverWait(self._driver, timeout).until(EC.presence_of_element_located((By.ID, f'jyo{stadium:02d}')))  # noqa
+        element = self._driver.find_element(By.ID, f'jyo{stadium:02d}')
         if 'borderNone' in element.get_attribute('class'):
             # invalid stadium case
             # TODO add test
-            raise InactiveStadium(
-                f'The stadium {stadium:02d} has not active races')
+            raise InactiveStadium(f'The stadium {stadium:02d} has not active races')  # noqa
         else:
             element.click()
 
         # click race
-        WebDriverWait(self._driver, timeout).until(
-            EC.presence_of_element_located((By.ID, f'selRaceNo{race:02d}'))
-        )
-        element = self._driver.find_element_by_id(f'selRaceNo{race:02d}')
+        WebDriverWait(self._driver, timeout).until(EC.presence_of_element_located((By.ID, f'selRaceNo{race:02d}')))  # noqa
+        element = self._driver.find_element(By.ID, f'selRaceNo{race:02d}')
         if 'end' in element.get_attribute('class'):
             # invalid race case
             # TODO add test
-            raise InactiveRace(
-                f'Race{race:02d} in stadium {stadium:02d} has ended or is not hold.'  # noqa
-            )
+            raise InactiveRace(f'Race{race:02d} in stadium {stadium:02d} has ended or is not hold.')  # noqa
         else:
             element.click()
 
@@ -135,7 +128,7 @@ class BettingOperator(BaseOperator, DriverCheckMixin):
                 continue
 
             # click kind
-            self._driver.find_element_by_id(f'betkati{kind_idx+1}').click()
+            self._driver.find_element(By.ID, f'betkati{kind_idx+1}').click()
             time.sleep(1)
 
             # input bet
@@ -145,18 +138,16 @@ class BettingOperator(BaseOperator, DriverCheckMixin):
                 boats = tuple(map(int, order.split(sep)))
                 print(kind, order, amt)
                 for boat_idx, boat in enumerate(boats):
-                    self._driver.find_element_by_id(
-                        f'regbtn_{boat}_{boat_idx+1}'
-                    ).click()
+                    self._driver.find_element(By.ID, f'regbtn_{boat}_{boat_idx+1}').click()  # noqa
 
-                self._driver.find_element_by_id('amount').send_keys('\b'*10)  # noqa
-                self._driver.find_element_by_id('amount').send_keys(amt//100)  # noqa
-                self._driver.find_element_by_id('regAmountBtn').click()
+                self._driver.find_element(By.ID, 'amount').send_keys('\b'*10)  # noqa
+                self._driver.find_element(By.ID, 'amount').send_keys(amt//100)  # noqa
+                self._driver.find_element(By.ID, 'regAmountBtn').click()
 
                 amount = amount + amt
 
         # complete input
-        self._driver.find_element_by_class_name('btnSubmit').click()
+        self._driver.find_element(By.CLASS_NAME, 'btnSubmit').click()
 
         # insufficient depost
         if amount > limit:
@@ -167,10 +158,10 @@ class BettingOperator(BaseOperator, DriverCheckMixin):
             )
 
         # confirmation
-        self._driver.find_element_by_id('amount').send_keys(amount)
-        self._driver.find_element_by_id('pass').send_keys(self._user.vote_pass)
-        self._driver.find_element_by_id('submitBet').click()
-        self._driver.find_element_by_id('ok').click()
+        self._driver.find_element(By.ID, 'amount').send_keys(amount)
+        self._driver.find_element(By.ID, 'pass').send_keys(self._user.vote_pass)  # noqa
+        self._driver.find_element(By.ID, 'submitBet').click()
+        self._driver.find_element(By.ID, 'ok').click()
         # TODO check whether amount is equal to the amount betted
         # TODO vote time limit comes during this function
 

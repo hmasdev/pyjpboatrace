@@ -44,32 +44,22 @@ class WithdrawOperator(BaseOperator, DriverCheckMixin):
         visit_ibmbraceorjp(self._user, self._driver, timeout)
 
         # click deposit/withdraw
-        WebDriverWait(self._driver, timeout).until(
-            EC.presence_of_element_located((By.ID, 'gnavi01'))
-        )
-        self._driver.find_element_by_id('gnavi01').click()
+        WebDriverWait(self._driver, timeout).until(EC.presence_of_element_located((By.ID, 'gnavi01')))  # noqa
+        self._driver.find_element(By.ID, 'gnavi01').click()
 
-        WebDriverWait(self._driver, timeout).until(
-            EC.presence_of_element_located((By.ID, 'account'))
-        )
-        self._driver.find_element_by_id('account').click()
+        WebDriverWait(self._driver, timeout).until(EC.presence_of_element_located((By.ID, 'account')))  # noqa
+        self._driver.find_element(By.ID, 'account').click()
 
         # input
-        WebDriverWait(self._driver, timeout).until(
-            EC.presence_of_element_located((By.ID, 'accountBetPassword'))
-        )
-        self._driver.find_element_by_id('accountBetPassword')\
+        WebDriverWait(self._driver, timeout).until(EC.presence_of_element_located((By.ID, 'accountBetPassword')))  # noqa
+        self._driver.find_element(By.ID, 'accountBetPassword')\
             .send_keys(self._user.vote_pass)
 
         # press button
-        WebDriverWait(self._driver, timeout).until(
-            EC.presence_of_element_located((By.ID, 'executeAccount'))
-        )
-        self._driver.find_element_by_id('executeAccount')\
+        WebDriverWait(self._driver, timeout).until(EC.presence_of_element_located((By.ID, 'executeAccount')))  # noqa
+        self._driver.find_element(By.ID, 'executeAccount')\
             .click()
 
-        WebDriverWait(self._driver, timeout).until(
-            EC.presence_of_element_located((By.ID, 'ok'))
-        )
-        self._driver.find_element_by_id('ok')\
+        WebDriverWait(self._driver, timeout).until(EC.presence_of_element_located((By.ID, 'ok')))  # noqa
+        self._driver.find_element(By.ID, 'ok')\
             .click()

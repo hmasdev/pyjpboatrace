@@ -1,14 +1,11 @@
-from msedge.selenium_tools import Edge, EdgeOptions
 from selenium import webdriver
 import requests
 from requests import Response
 from requests.exceptions import ConnectionError, InvalidSchema
 from selenium.common.exceptions import WebDriverException
 from selenium.common.exceptions import InvalidArgumentException
+from selenium.webdriver.edge.options import Options as EdgeOptions
 from typing import Callable
-from webdriver_manager.chrome import ChromeDriverManager
-from webdriver_manager.firefox import GeckoDriverManager
-from webdriver_manager.microsoft import EdgeChromiumDriverManager
 
 
 def create_chrome_driver() -> webdriver.Chrome:
@@ -34,10 +31,7 @@ def create_chrome_driver() -> webdriver.Chrome:
         '\\Safari/537.36"'
     )
     # create driver
-    driver = webdriver.Chrome(
-        ChromeDriverManager().install(),
-        options=options
-    )
+    driver = webdriver.Chrome(options=options)
     return driver
 
 
@@ -61,12 +55,9 @@ def create_firefox_driver() -> webdriver.Firefox:
             'Safari/537.36"',
         ])
     )
+    options.profile = profile
     # create driver
-    driver = webdriver.Firefox(
-        executable_path=GeckoDriverManager().install(),
-        options=options,
-        firefox_profile=profile,
-    )
+    driver = webdriver.Firefox(options=options)
     return driver
 
 
@@ -82,13 +73,10 @@ def create_edge_driver() -> webdriver.Edge:
     # options
     options = EdgeOptions()
     options.use_chromium = True
-    # options.add_argument("headless")  # TODO set user agent
+    options.add_argument("--headless=new")  # TODO set user agent
     options.add_argument("disable-gpu")
     # create driver
-    driver = Edge(
-        executable_path=EdgeChromiumDriverManager().install(),
-        options=options
-    )
+    driver = webdriver.Edge(options=options)
     return driver
 
 

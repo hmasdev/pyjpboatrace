@@ -1,5 +1,7 @@
+import logging
 import pytest
 from selenium import webdriver
+from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
 from unittest.mock import MagicMock, Mock
 
@@ -16,10 +18,10 @@ def test_withdraw_operator_do():
     # create mock
     mock_user = MagicMock(UserInformation, vote_pass=None)
     mock_driver = MagicMock(webdriver.Chrome)
-    mock_driver.find_element_by_id = Mock(
+    mock_driver.find_element = Mock(
         side_effect=create_side_effect(
             {
-                "currentBetLimitAmount": Mock(WebElement, text=str(100)),
+                (By.ID, "currentBetLimitAmount"): Mock(WebElement, text=str(100)),  # noqa
             },
             default_value=Mock(WebElement),
         )
@@ -32,14 +34,20 @@ def test_withdraw_operator_do():
     withdrawer.do()
 
     # assert
-    args_list = mock_driver.find_element_by_id.call_args_list
-
-    assert "currentBetLimitAmount" == args_list.pop(0)[0][0]
-    assert "gnavi01" == args_list.pop(0)[0][0]
-    assert "account" == args_list.pop(0)[0][0]
-    assert "accountBetPassword" == args_list.pop(0)[0][0]
-    assert "executeAccount" == args_list.pop(0)[0][0]
-    assert "ok" == args_list.pop(0)[0][0]
+    args_list = mock_driver.find_element.call_args_list
+    logging.debug(args_list)
+    assert (By.ID, "currentBetLimitAmount") == args_list.pop(0)[0]  # NOTE: WebDriverWait.until context  # noqa
+    assert (By.ID, "currentBetLimitAmount") == args_list.pop(0)[0]
+    assert (By.ID, "gnavi01") == args_list.pop(0)[0]  # NOTE: WebDriverWait.until context  # noqa
+    assert (By.ID, "gnavi01") == args_list.pop(0)[0]
+    assert (By.ID, "account") == args_list.pop(0)[0]  # NOTE: WebDriverWait.until context  # noqa
+    assert (By.ID, "account") == args_list.pop(0)[0]
+    assert (By.ID, "accountBetPassword") == args_list.pop(0)[0]  # NOTE: WebDriverWait.until context  # noqa
+    assert (By.ID, "accountBetPassword") == args_list.pop(0)[0]
+    assert (By.ID, "executeAccount") == args_list.pop(0)[0]  # NOTE: WebDriverWait.until context  # noqa
+    assert (By.ID, "executeAccount") == args_list.pop(0)[0]
+    assert (By.ID, "ok") == args_list.pop(0)[0]  # NOTE: WebDriverWait.until context  # noqa
+    assert (By.ID, "ok") == args_list.pop(0)[0]
     assert not args_list
 
 
@@ -48,10 +56,10 @@ def test_withdraw_oprator_do_without_deposit():
     # create mock
     mock_user = MagicMock(UserInformation, vote_pass=None)
     mock_driver = MagicMock(webdriver.Chrome)
-    mock_driver.find_element_by_id = Mock(
+    mock_driver.find_element = Mock(
         side_effect=create_side_effect(
             {
-                "currentBetLimitAmount": Mock(WebElement, text=str(0)),
+                (By.ID, "currentBetLimitAmount"): Mock(WebElement, text=str(0)),  # noqa
             },
             default_value=Mock(WebElement),
         )
@@ -79,10 +87,10 @@ def test_withdraw_operator_do_for_driver(driver_class, is_raised):
     # create mock
     mock_user = MagicMock(UserInformation, vote_pass=None)
     mock_driver = MagicMock(driver_class)
-    mock_driver.find_element_by_id = Mock(
+    mock_driver.find_element = Mock(
         side_effect=create_side_effect(
             {
-                "currentBetLimitAmount": Mock(WebElement, text=str(100)),
+                (By.ID, "currentBetLimitAmount"): Mock(WebElement, text=str(100)),  # noqa
             },
             default_value=Mock(WebElement),
         )

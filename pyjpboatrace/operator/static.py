@@ -55,9 +55,7 @@ def get_bet_limit(
     visit_ibmbraceorjp(user, driver, timeout)
 
     # get vote limit
-    WebDriverWait(driver, timeout).until(
-        EC.presence_of_element_located((By.ID, 'currentBetLimitAmount'))
-    )
-    limit = driver.find_element_by_id('currentBetLimitAmount').text
+    WebDriverWait(driver, timeout).until(EC.presence_of_element_located((By.ID, 'currentBetLimitAmount')))  # noqa
+    limit = driver.find_element(By.ID, 'currentBetLimitAmount').text
 
     return int(limit.replace(',', ''))

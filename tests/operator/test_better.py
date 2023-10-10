@@ -1,5 +1,7 @@
+import logging
 import pytest
 from selenium import webdriver
+from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
 from unittest.mock import MagicMock, Mock
 
@@ -30,7 +32,7 @@ def test_betting_operator_do_with_no_deposit():
     # create mock
     mock_user = MagicMock(UserInformation)
     mock_driver = MagicMock(webdriver.Chrome)
-    mock_driver.find_element_by_id.return_value = Mock(
+    mock_driver.find_element.return_value = Mock(
         WebElement,
         text=str(depo)
     )
@@ -56,11 +58,11 @@ def test_betting_operator_do_with_inactive_stadium():
     # create mock
     mock_user = MagicMock(UserInformation)
     mock_driver = MagicMock(webdriver.Chrome)
-    mock_driver.find_element_by_id = Mock(
+    mock_driver.find_element = Mock(
         side_effect=create_side_effect(
             {
-                "currentBetLimitAmount": Mock(WebElement, text=str(depo)),
-                f"jyo{stadium:02d}": Mock(
+                (By.ID, "currentBetLimitAmount"): Mock(WebElement, text=str(depo)),  # noqa
+                (By.ID, f"jyo{stadium:02d}"): Mock(
                     WebElement,
                     get_attribute=Mock(return_value=["borderNone", ])
                 ),
@@ -90,15 +92,15 @@ def test_betting_operator_do_with_inactive_race():
     mock_user = MagicMock(UserInformation)
     mock_driver = MagicMock(webdriver.Chrome)
     mock_driver.get = Mock()
-    mock_driver.find_element_by_id = Mock(
+    mock_driver.find_element = Mock(
         side_effect=create_side_effect(
             {
-                "currentBetLimitAmount": Mock(WebElement, text=str(depo)),
-                f"jyo{stadium:02d}": Mock(
+                (By.ID, "currentBetLimitAmount"): Mock(WebElement, text=str(depo)),  # noqa
+                (By.ID, f"jyo{stadium:02d}"): Mock(
                     WebElement,
                     get_attribute=Mock(return_value=[])
                 ),
-                f"selRaceNo{race:02d}": Mock(
+                (By.ID, f"selRaceNo{race:02d}"): Mock(
                     WebElement,
                     get_attribute=Mock(return_value=["end", ])
                 ),
@@ -127,15 +129,15 @@ def test_betting_operator_do_with_insufficient_deposit():
     # create mock
     mock_user = MagicMock(UserInformation)
     mock_driver = MagicMock(webdriver.Chrome)
-    mock_driver.find_element_by_id = Mock(
+    mock_driver.find_element = Mock(
         side_effect=create_side_effect(
             {
-                "currentBetLimitAmount": Mock(WebElement, text=str(depo)),
-                f"jyo{stadium:02d}": Mock(
+                (By.ID, "currentBetLimitAmount"): Mock(WebElement, text=str(depo)),  # noqa
+                (By.ID, f"jyo{stadium:02d}"): Mock(
                     WebElement,
                     get_attribute=Mock(return_value=[])
                 ),
-                f"selRaceNo{race:02d}": Mock(
+                (By.ID, f"selRaceNo{race:02d}"): Mock(
                     WebElement,
                     get_attribute=Mock(return_value=[])
                 ),
@@ -173,15 +175,15 @@ def test_betting_operator_do():
     # create mock
     mock_user = MagicMock(UserInformation, vote_pass=None)
     mock_driver = MagicMock(webdriver.Chrome)
-    mock_driver.find_element_by_id = Mock(
+    mock_driver.find_element = Mock(
         side_effect=create_side_effect(
             {
-                "currentBetLimitAmount": Mock(WebElement, text=str(depo)),
-                f"jyo{stadium:02d}": Mock(
+                (By.ID, "currentBetLimitAmount"): Mock(WebElement, text=str(depo)),  # noqa
+                (By.ID, f"jyo{stadium:02d}"): Mock(
                     WebElement,
                     get_attribute=Mock(return_value=[])
                 ),
-                f"selRaceNo{race:02d}": Mock(
+                (By.ID, f"selRaceNo{race:02d}"): Mock(
                     WebElement,
                     get_attribute=Mock(return_value=[])
                 ),
@@ -197,35 +199,37 @@ def test_betting_operator_do():
     better.do(stadium, race, betdict)
 
     # assert
-    args_list = mock_driver.find_element_by_id.call_args_list
-    assert "currentBetLimitAmount" == args_list.pop(0)[0][0]
-    assert f"jyo{stadium:02d}" == args_list.pop(0)[0][0]
-    assert f"selRaceNo{race:02d}" == args_list.pop(0)[0][0]
+    args_list = mock_driver.find_element.call_args_list
+    logging.debug(args_list)
+    assert (By.ID, "currentBetLimitAmount") == args_list.pop(0)[0]  # NOTE: WebDriverWait.until context  # noqa
+    assert (By.ID, "currentBetLimitAmount") == args_list.pop(0)[0]
+    assert (By.ID, f"jyo{stadium:02d}") == args_list.pop(0)[0]  # NOTE: WebDriverWait.until context  # noqa
+    assert (By.ID, f"jyo{stadium:02d}") == args_list.pop(0)[0]
+    assert (By.ID, f"selRaceNo{race:02d}") == args_list.pop(0)[0]  # NOTE: WebDriverWait.until context  # noqa
+    assert (By.ID, f"selRaceNo{race:02d}") == args_list.pop(0)[0]
 
     bet_list = list(betdict.items())
-    while args_list[0][0][0].startswith("betkati"):
+    while args_list[0][0][1].startswith("betkati"):
 
         # TODO assert more detailed
-        assert args_list.pop(0)[0][0].startswith("betkati")
+        assert args_list.pop(0)[0][1].startswith("betkati")
 
         bd = bet_list.pop(0)  # bet for kind
         for katishiki in bd[1]:
             for _ in katishiki.replace("=", "-").split("-"):
                 # TODO assert more detailed
-                assert args_list.pop(0)[0][0].startswith("regbtn")
-            assert "amount" == args_list.pop(0)[0][0]
-            assert "amount" == args_list.pop(0)[0][0]
-            assert "regAmountBtn" == args_list.pop(0)[0][0]
-
-    assert "amount" == args_list.pop(0)[0][0]
-    assert "pass" == args_list.pop(0)[0][0]
-    assert "submitBet" == args_list.pop(0)[0][0]
-    assert "ok" == args_list.pop(0)[0][0]
+                assert args_list.pop(0)[0][1].startswith("regbtn")
+            assert (By.ID, "amount") == args_list.pop(0)[0]
+            assert (By.ID, "amount") == args_list.pop(0)[0]
+            assert (By.ID, "regAmountBtn") == args_list.pop(0)[0]
 
     # assert for input complete
     # TODO check when find_element_by_class_name is called
-    mock_driver.find_element_by_class_name.assert_called_once()
-    mock_driver.find_element_by_class_name.assert_called_with("btnSubmit")
+    assert (By.CLASS_NAME, "btnSubmit") == args_list.pop(0)[0]
+    assert (By.ID, "amount") == args_list.pop(0)[0]
+    assert (By.ID, "pass") == args_list.pop(0)[0]
+    assert (By.ID, "submitBet") == args_list.pop(0)[0]
+    assert (By.ID, "ok") == args_list.pop(0)[0]
 
 
 @pytest.mark.parametrize(
@@ -255,15 +259,15 @@ def test_betting_operator_for_driver(driver_class, is_raised):
     # create mock
     mock_user = MagicMock(UserInformation, vote_pass=None)
     mock_driver = MagicMock(driver_class)
-    mock_driver.find_element_by_id = Mock(
+    mock_driver.find_element = Mock(
         side_effect=create_side_effect(
             {
-                "currentBetLimitAmount": Mock(WebElement, text=str(10000)),
-                f"jyo{stadium:02d}": Mock(
+                (By.ID, "currentBetLimitAmount"): Mock(WebElement, text=str(10000)),  # noqa
+                (By.ID, f"jyo{stadium:02d}"): Mock(
                     WebElement,
                     get_attribute=Mock(return_value=[])
                 ),
-                f"selRaceNo{race:02d}": Mock(
+                (By.ID, f"selRaceNo{race:02d}"): Mock(
                     WebElement,
                     get_attribute=Mock(return_value=[])
                 ),

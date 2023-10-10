@@ -1,5 +1,7 @@
+import logging
 import pytest
 from selenium import webdriver
+from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
 from unittest.mock import MagicMock, Mock
 
@@ -17,7 +19,7 @@ def test_deposit_operator_do():
     # create mock
     mock_user = MagicMock(UserInformation, vote_pass=None)
     mock_driver = MagicMock(webdriver.Chrome)
-    mock_driver.find_element_by_id = Mock(
+    mock_driver.find_element = Mock(
         return_value=Mock(WebElement)
     )
 
@@ -28,14 +30,20 @@ def test_deposit_operator_do():
     depositor.do(depo_amt_unit_thousands_yen)
 
     # assert
-    args_list = mock_driver.find_element_by_id.call_args_list
-
-    assert "gnavi01" == args_list.pop(0)[0][0]
-    assert "charge" == args_list.pop(0)[0][0]
-    assert "chargeInstructAmt" == args_list.pop(0)[0][0]
-    assert "chargeBetPassword" == args_list.pop(0)[0][0]
-    assert "executeCharge" == args_list.pop(0)[0][0]
-    assert "ok" == args_list.pop(0)[0][0]
+    args_list = mock_driver.find_element.call_args_list
+    logging.debug(args_list)
+    assert (By.ID, "gnavi01") == args_list.pop(0)[0]  # NOTE: WebDriverWait.until context  # noqa
+    assert (By.ID, "gnavi01") == args_list.pop(0)[0]
+    assert (By.ID, "charge") == args_list.pop(0)[0]  # NOTE: WebDriverWait.until context  # noqa
+    assert (By.ID, "charge") == args_list.pop(0)[0]
+    assert (By.ID, "chargeInstructAmt") == args_list.pop(0)[0]  # NOTE: WebDriverWait.until context  # noqa
+    assert (By.ID, "chargeInstructAmt") == args_list.pop(0)[0]
+    assert (By.ID, "chargeBetPassword") == args_list.pop(0)[0]  # NOTE: WebDriverWait.until context  # noqa
+    assert (By.ID, "chargeBetPassword") == args_list.pop(0)[0]
+    assert (By.ID, "executeCharge") == args_list.pop(0)[0]  # NOTE: WebDriverWait.until context  # noqa
+    assert (By.ID, "executeCharge") == args_list.pop(0)[0]
+    assert (By.ID, "ok") == args_list.pop(0)[0]  # NOTE: WebDriverWait.until context  # noqa
+    assert (By.ID, "ok") == args_list.pop(0)[0]
     assert not args_list
 
 
