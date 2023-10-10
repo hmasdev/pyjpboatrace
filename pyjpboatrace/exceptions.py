@@ -34,3 +34,7 @@ class InactiveStadium(Exception):
 
 class InactiveRace(Exception):
     pass
+
+
+class UserInformationNotGivenException(Exception):
+    pass

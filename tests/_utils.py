@@ -10,13 +10,13 @@ from pyjpboatrace.user_information import UserInformation
 
 
 def create_side_effect(
-    dic: Dict[str, Any],
+    dic: Dict[tuple, Any],
     default_value: Any = None,
 ) -> Callable[..., Any]:
     """Create a side effect of mock
 
     Args:
-        dic (Dict[str, Any]): Argument-Return Map
+        dic (Dict[tuple, Any]): Argument-Return Map
         default_value (Any, optional): Default return. Defaults to None.
 
     Returns:

@@ -107,12 +107,12 @@ def parse_html_index(html: str):
 
     # extract date
     d = datetime.datetime.strptime(
-        soup.select_one('p.btnGroup3_refreshBtn > a')['href'].split('hd=')[-1],
+        soup.select_one('p.btnGroup3_refreshBtn > a')['href'].split('hd=')[-1],  # type: ignore  # noqa
         '%Y%m%d'
     )
 
     # table
-    table = soup.select_one('div.table1').select('table > tbody')
+    table = soup.select_one('div.table1').select('table > tbody')  # type: ignore  # noqa
 
     # parse
     dic = dict([

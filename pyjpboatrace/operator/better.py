@@ -91,7 +91,7 @@ class BettingOperator(BaseOperator, DriverCheckMixin):
         # click stadium
         WebDriverWait(self._driver, timeout).until(EC.presence_of_element_located((By.ID, f'jyo{stadium:02d}')))  # noqa
         element = self._driver.find_element(By.ID, f'jyo{stadium:02d}')
-        if 'borderNone' in element.get_attribute('class'):
+        if 'borderNone' in element.get_attribute('class'):  # type: ignore  # noqa
             # invalid stadium case
             # TODO add test
             raise InactiveStadium(f'The stadium {stadium:02d} has not active races')  # noqa
@@ -101,7 +101,7 @@ class BettingOperator(BaseOperator, DriverCheckMixin):
         # click race
         WebDriverWait(self._driver, timeout).until(EC.presence_of_element_located((By.ID, f'selRaceNo{race:02d}')))  # noqa
         element = self._driver.find_element(By.ID, f'selRaceNo{race:02d}')
-        if 'end' in element.get_attribute('class'):
+        if 'end' in element.get_attribute('class'):  # type: ignore  # noqa
             # invalid race case
             # TODO add test
             raise InactiveRace(f'Race{race:02d} in stadium {stadium:02d} has ended or is not hold.')  # noqa

@@ -5,6 +5,7 @@ from typing import Any, Dict, Optional
 
 from . import scraper, operator
 from .drivers import create_httpget_driver
+from .exceptions import UserInformationNotGivenException
 from .user_information import UserInformation
 from .validator import validate_date, validate_race, validate_stadium
 
@@ -33,7 +34,7 @@ class PyJPBoatrace(object):
 
     def __init__(
         self,
-        driver: webdriver.remote.webdriver.WebDriver = create_httpget_driver(),
+        driver: webdriver.remote.webdriver.WebDriver = create_httpget_driver(),  # type: ignore  # noqa
         user_information: Optional[UserInformation] = None,
         close_driver_when_closing_pyjpboatrace: bool = True,
         logger: Logger = getLogger(__name__),
@@ -62,10 +63,20 @@ class PyJPBoatrace(object):
         self.TrifectaOdds = scraper.TrifectaOddsScraper(driver)
         self.Result = scraper.ResultScraper(driver)
 
-        self.Bet = operator.BettingOperator(user_information, driver)
-        self.Depost = operator.DepositOperator(user_information, driver)
-        self.Withdraw = operator.WithdrawOperator(user_information, driver)
-        self.BettingLimitCheck = operator.BettingLimitCheckOperator(user_information, driver)  # noqa
+        self.Bet: Optional[operator.BettingOperator]
+        self.Depost: Optional[operator.DepositOperator]
+        self.Withdraw: Optional[operator.WithdrawOperator]
+        self.BettingLimitCheck: Optional[operator.BettingLimitCheckOperator]
+        if user_information is not None:
+            self.Bet = operator.BettingOperator(user_information, driver)
+            self.Depost = operator.DepositOperator(user_information, driver)
+            self.Withdraw = operator.WithdrawOperator(user_information, driver)
+            self.BettingLimitCheck = operator.BettingLimitCheckOperator(user_information, driver)  # noqa
+        else:
+            self.Bet = None
+            self.Depost = None
+            self.Withdraw = None
+            self.BettingLimitCheck = None
 
     def __enter__(self):
         return self
@@ -325,9 +336,10 @@ class PyJPBoatrace(object):
                 Occurred when driver is not Chrome, Firefox or Edge.
         """
         # deposit
-        self.Depost.do(
-            num_of_thousands_yen,
-        )
+        if self.Depost is not None:
+            self.Depost.do(num_of_thousands_yen)
+        else:
+            raise UserInformationNotGivenException()
 
     def get_bet_limit(self) -> int:
         """To check the amount of money deposited.
@@ -340,7 +352,10 @@ class PyJPBoatrace(object):
             int: the amount of deposited money
         """
         # get bet limit
-        return self.BettingLimitCheck.do()
+        if self.BettingLimitCheck is not None:
+            return self.BettingLimitCheck.do()
+        else:
+            raise UserInformationNotGivenException()
 
     def withdraw(self) -> None:
         """To withdraw deposit.
@@ -352,7 +367,10 @@ class PyJPBoatrace(object):
                 Occurred when driver is not Chrome, Firefox or Edge.
         """
         # withdraw
-        self.Withdraw.do()
+        if self.Withdraw is not None:
+            self.Withdraw.do()
+        else:
+            raise UserInformationNotGivenException()
 
     def bet(
         self,
@@ -413,6 +431,8 @@ class PyJPBoatrace(object):
                 Occurred when race no. is valid but the race is probabily over.
             InsufficientDepositException:
                 Occurred when the sum of your bet is greater than deposit.
+            UserInformationNotGivenException:
+                Occurred when user_information is not given when instantiating PyJPBoatrace.
 
         Returns:
             bool: whether betting is succeeded
@@ -428,7 +448,7 @@ class PyJPBoatrace(object):
                 'trio',
 
         TODO: to create the data structure for betting dict.
-        """
+        """  # noqa
         # create bet dict
         betdict = {
             'trifecta': trifecta_betting_dict,
@@ -441,6 +461,8 @@ class PyJPBoatrace(object):
         }
 
         # bet
+        if self.Bet is None:
+            raise UserInformationNotGivenException()
         return self.Bet.do(
             stadium=stadium,
             race=race,

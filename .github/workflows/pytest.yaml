@@ -27,6 +27,10 @@ jobs:
       - name: Lint
         run: |
           pipenv run flake8 . --show-source
+      - name: Static Type Check
+        run: |
+          pipenv run mypy pyjpboatrace
+          pipenv run mypy tests
       - name: Test
         run: |
           bash ./download_html_for_test.sh

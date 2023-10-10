@@ -1285,7 +1285,7 @@ The map between integers and stadiums is given by `STADIUMS_MAP` in `pyjpboatrac
 
 ### Requirement
 
-- Python >= 3.7
+- Python >= 3.8
 - Pipenv (You can install pipenv by `pip install pipenv`)
 - Chrome
 - Firefox
@@ -1308,6 +1308,24 @@ The map between integers and stadiums is given by `STADIUMS_MAP` in `pyjpboatrac
 4. Commit your changes (`git commit -am 'Add xxxx feature`);
 5. Push to the branch (`git push origin feature/xxxx`);
 6. Create new Pull Request
+
+### Setup the develop environment
+
+If you use `pipenv`, executing the following command to create your develop environment:
+
+```bash
+$ pipenv sync --dev
+```
+
+If you do not `pipenv`, `venv` is an alternative library to create your develop environment:
+
+```bash
+$ python -m venv venv
+$ source venv/Scripts/activate
+$ pip install -e .[dev]
+```
+
+Note that `pipenv` is recommended.
 
 ### Test
 
@@ -1340,6 +1358,17 @@ $ pipenv run pytest -m "spending_money"
 ```
 
 WARNING: Tests with `spending_money` spend 700 yen.
+
+### Check the format of code and static types
+
+You should execute the following codes to check the format of code and static types:
+
+```bash
+$ pipenv run flake8 pyjpboatrace
+$ pipenv run flake8 tests
+$ pipenv run mypy pyjpboatrace
+$ pipenv run mypy tests
+```
 
 ## LICENSE
 
