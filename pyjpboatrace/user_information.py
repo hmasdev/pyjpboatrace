@@ -2,6 +2,7 @@ import os
 import json
 from getpass import getpass
 from logging import Logger, getLogger
+from typing import Optional
 
 
 class UserInformation:
@@ -16,11 +17,11 @@ class UserInformation:
 
     def __init__(
         self,
-        userid: str | None = None,
-        pin: str | None = None,
-        auth_pass: str | None = None,
-        vote_pass: str | None = None,  # TODO rename vote_pass -> bet_pass
-        json_file: str | None = None,
+        userid: Optional[str] = None,
+        pin: Optional[str] = None,
+        auth_pass: Optional[str] = None,
+        vote_pass: Optional[str] = None,  # TODO rename vote_pass -> bet_pass
+        json_file: Optional[str] = None,
         logger: Logger = getLogger(__name__)
     ):
         # preparation

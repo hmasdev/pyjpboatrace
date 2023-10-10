@@ -63,10 +63,10 @@ class PyJPBoatrace(object):
         self.TrifectaOdds = scraper.TrifectaOddsScraper(driver)
         self.Result = scraper.ResultScraper(driver)
 
-        self.Bet: operator.BettingOperator | None
-        self.Depost: operator.DepositOperator | None
-        self.Withdraw: operator.WithdrawOperator | None
-        self.BettingLimitCheck: operator.BettingLimitCheckOperator | None
+        self.Bet: Optional[operator.BettingOperator]
+        self.Depost: Optional[operator.DepositOperator]
+        self.Withdraw: Optional[operator.WithdrawOperator]
+        self.BettingLimitCheck: Optional[operator.BettingLimitCheckOperator]
         if user_information is not None:
             self.Bet = operator.BettingOperator(user_information, driver)
             self.Depost = operator.DepositOperator(user_information, driver)
