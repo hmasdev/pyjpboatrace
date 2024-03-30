@@ -6,6 +6,13 @@ on:
 
 jobs:
   test:
+    uses: ./.github/workflows/pytest.yaml
+  static-type-check:
+    uses: ./.github/workflows/static-type-check.yaml
+  code-style-check:
+    uses: ./.github/workflows/code-style-check.yaml
+  deploy:
+    needs: [test, static-type-check, code-style-check]
     runs-on: ubuntu-latest
     env:
       PRIVATE_REPO_USER: "hmasdev"
