@@ -30,7 +30,7 @@ def test_betting_operator_do_with_no_deposit():
     depo = 0
 
     # create mock
-    mock_user = MagicMock(UserInformation)
+    mock_user = MagicMock(UserInformation, vote_pass='dummy')
     mock_driver = MagicMock(webdriver.Chrome)
     mock_driver.find_element.return_value = Mock(
         WebElement,
@@ -56,7 +56,7 @@ def test_betting_operator_do_with_inactive_stadium():
     depo = 100
 
     # create mock
-    mock_user = MagicMock(UserInformation)
+    mock_user = MagicMock(UserInformation, vote_pass='dummy')
     mock_driver = MagicMock(webdriver.Chrome)
     mock_driver.find_element = Mock(
         side_effect=create_side_effect(
@@ -89,7 +89,7 @@ def test_betting_operator_do_with_inactive_race():
     depo = 100
 
     # create mock
-    mock_user = MagicMock(UserInformation)
+    mock_user = MagicMock(UserInformation, vote_pass='dummy')
     mock_driver = MagicMock(webdriver.Chrome)
     mock_driver.get = Mock()
     mock_driver.find_element = Mock(
@@ -127,7 +127,7 @@ def test_betting_operator_do_with_insufficient_deposit():
     depo = 100
 
     # create mock
-    mock_user = MagicMock(UserInformation)
+    mock_user = MagicMock(UserInformation, vote_pass='dummy')
     mock_driver = MagicMock(webdriver.Chrome)
     mock_driver.find_element = Mock(
         side_effect=create_side_effect(
@@ -173,7 +173,7 @@ def test_betting_operator_do():
     depo = 100000
 
     # create mock
-    mock_user = MagicMock(UserInformation, vote_pass=None)
+    mock_user = MagicMock(UserInformation, vote_pass='dummy')
     mock_driver = MagicMock(webdriver.Chrome)
     mock_driver.find_element = Mock(
         side_effect=create_side_effect(

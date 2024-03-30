@@ -16,7 +16,7 @@ from .._utils import create_side_effect
 def test_withdraw_operator_do():
 
     # create mock
-    mock_user = MagicMock(UserInformation, vote_pass=None)
+    mock_user = MagicMock(UserInformation, vote_pass='dummy')
     mock_driver = MagicMock(webdriver.Chrome)
     mock_driver.find_element = Mock(
         side_effect=create_side_effect(
@@ -54,7 +54,7 @@ def test_withdraw_operator_do():
 def test_withdraw_oprator_do_without_deposit():
 
     # create mock
-    mock_user = MagicMock(UserInformation, vote_pass=None)
+    mock_user = MagicMock(UserInformation, vote_pass='dummy')
     mock_driver = MagicMock(webdriver.Chrome)
     mock_driver.find_element = Mock(
         side_effect=create_side_effect(

@@ -1,4 +1,4 @@
-name: Pytest
+name: Static Type Check
 
 on:
   workflow_call:
@@ -24,7 +24,6 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           python -m pip install -e .[dev]
-      - name: Pytest
+      - name: Static Type Check
         run: |
-          bash ./download_html_for_test.sh
-          pytest -m "not integrate and not spending_money"
+          mypy pyjpboatrace tests
