@@ -17,7 +17,7 @@ def test_deposit_operator_do():
     depo_amt_unit_thousands_yen = 5
 
     # create mock
-    mock_user = MagicMock(UserInformation, vote_pass=None)
+    mock_user = MagicMock(UserInformation, vote_pass='dummy')
     mock_driver = MagicMock(webdriver.Chrome)
     mock_driver.find_element = Mock(
         return_value=Mock(WebElement)

@@ -24,6 +24,7 @@ class BettingOperator(BaseOperator, DriverCheckMixin):
         race: int,
         betdict: dict,
         timeout: int = 15,
+        raise_validation_error: bool = False,
     ) -> bool:
         """To bet money on the race.
 
@@ -32,8 +33,10 @@ class BettingOperator(BaseOperator, DriverCheckMixin):
             race (int): race no.
             betdict (dict): betting target dictionary.
             timeout (int, optional): timeout parameter. Defaults to 15.
+            raise_validation_error (bool, optional): whether raise validation error. Defaults to False.
 
         Raises:
+            ValueError: Occurred when raise_validation_error is True and the vote password is not set.
             ValueError: Occurred when invalid stadium no. given.
             ValueError: Occurred when invalid race no. given.
             UnableActionException:
@@ -61,7 +64,7 @@ class BettingOperator(BaseOperator, DriverCheckMixin):
                 'trio',
 
         TODO: to create the data structure for betdict.
-        """
+        """  # noqa
         self._check_driver()
         validate_race(race)
         validate_stadium(stadium)
@@ -70,6 +73,7 @@ class BettingOperator(BaseOperator, DriverCheckMixin):
             race,
             betdict,
             timeout=timeout,
+            raise_validation_error=raise_validation_error,
         )
 
     def __bet(
@@ -78,7 +82,15 @@ class BettingOperator(BaseOperator, DriverCheckMixin):
         race: int,
         betdict: dict,
         timeout: int = 15,
+        raise_validation_error: bool = False,
     ) -> bool:
+        # validation
+        if self._user.vote_pass is None:
+            if raise_validation_error:
+                raise ValueError('Vote password is not set.')
+            self._logger.error('Vote password is not set.')
+            return False
+
         # visit
         visit_ibmbraceorjp(self._user, self._driver, timeout)
 
@@ -110,7 +122,7 @@ class BettingOperator(BaseOperator, DriverCheckMixin):
 
         # create betting list
         # TODO make kinds constant
-        amount = 0
+        amount: int = 0
         for kind_idx, kind in enumerate([
             'win',
             'placeshow',
@@ -158,7 +170,7 @@ class BettingOperator(BaseOperator, DriverCheckMixin):
             )
 
         # confirmation
-        self._driver.find_element(By.ID, 'amount').send_keys(amount)
+        self._driver.find_element(By.ID, 'amount').send_keys(str(amount))
         self._driver.find_element(By.ID, 'pass').send_keys(self._user.vote_pass)  # noqa
         self._driver.find_element(By.ID, 'submitBet').click()
         self._driver.find_element(By.ID, 'ok').click()

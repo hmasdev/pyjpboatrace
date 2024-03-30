@@ -20,18 +20,14 @@ def parse_html_odds3t(html: str):
                 for i, (b3, odds) in enumerate(zip(tds[1::3], tds[2::3])):
                     b1 = i + 1
                     b3 = str2num(b3.text, int, -1)
-                    dic[f'{b1}-{b2-(b1>=b2)}-{b3}'] = str2num(odds.text,
-                                                              float,
-                                                              odds.text)
+                    dic[f'{b1}-{b2-(b1 >= b2)}-{b3}'] = str2num(odds.text, float, odds.text)  # noqa
 
             else:
                 # previous b2
                 for i, (b3, odds) in enumerate(zip(tds[::2], tds[1::2])):
                     b1 = i + 1
                     b3 = str2num(b3.text, int, -1)
-                    dic[f'{b1}-{b2-(b1>=b2)}-{b3}'] = str2num(odds.text,
-                                                              float,
-                                                              odds.text)
+                    dic[f'{b1}-{b2-(b1 >= b2)}-{b3}'] = str2num(odds.text, float, odds.text)  # noqa
 
         return dic
 

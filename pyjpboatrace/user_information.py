@@ -25,10 +25,10 @@ class UserInformation:
         logger: Logger = getLogger(__name__)
     ):
         # preparation
-        self.userid = None
-        self.pin = None
-        self.auth_pass = None
-        self.vote_pass = None
+        self.userid: str | None = None
+        self.pin: str | None = None
+        self.auth_pass: str | None = None
+        self.vote_pass: str | None = None
 
         # load json
         if json_file is not None and os.path.exists(json_file):

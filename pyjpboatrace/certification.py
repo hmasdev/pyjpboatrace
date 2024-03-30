@@ -27,6 +27,9 @@ def login(
         logger (Logger, optional): logger. Defaults to getLogger(__name__).
 
     Raises:
+        ValueError: Occurred when user.userid is None.
+        ValueError: Occurred when user.pin is None.
+        ValueError: Occurred when user.auth_pass is None.
         LoginFailException: Occurred when login failure.
 
     Returns:
@@ -37,6 +40,14 @@ def login(
             Return True when login is succeeded;
             Raise LoginFailException when login is failed.
     """
+    # validate
+    if user.userid is None:
+        raise ValueError('User ID is not set.')
+    if user.pin is None:
+        raise ValueError('PIN is not set.')
+    if user.auth_pass is None:
+        raise ValueError('Authentification password is not set.')
+
     # get
     driver.get(BOATRACEJP_LOGIN_URL)
 
