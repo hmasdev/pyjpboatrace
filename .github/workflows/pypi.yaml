@@ -28,8 +28,7 @@ jobs:
       - name: Install requirements
         run: |
           python -m pip install --upgrade pip
-          pip install pipenv
-          pipenv install --dev
+          python -m pip install -e .[dev]
       - name: Init .pypirc
         run: |
           echo -e '[pypi]' >> ~/.pypirc
@@ -37,11 +36,8 @@ jobs:
           echo -e "password: ${{ secrets.PYPI_PASSWORD }}" >> ~/.pypirc
       - name: Upload
         run: |
-          pipenv run python setup.py sdist bdist_wheel
-          pipenv run twine upload --repository pypi dist/*
+          python setup.py sdist bdist_wheel
+          twine upload --repository pypi dist/*
       - name: Delete .pypirc
         run: |
           rm ~/.pypirc
-      - name: Delete virtualenv
-        run: |
-          pipenv --rm
