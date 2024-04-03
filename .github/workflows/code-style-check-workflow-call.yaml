@@ -2,11 +2,6 @@ name: Code Style Check
 
 on:
   workflow_call:
-  push:
-  pull_request:
-    types: [opened, synchronize]
-  schedule:
-    - cron: "0 17 * * 6"
 
 jobs:
   test:

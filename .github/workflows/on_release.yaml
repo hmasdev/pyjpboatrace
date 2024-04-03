@@ -11,8 +11,10 @@ jobs:
     uses: ./.github/workflows/static-type-check-workflow-call.yaml
   code-style-check:
     uses: ./.github/workflows/code-style-check-workflow-call.yaml
+  validate-version:
+    uses: ./.github/workflows/validate-version-workflow-call.yaml
   deploy:
-    needs: [test, static-type-check, code-style-check]
+    needs: [test, static-type-check, code-style-check, validate-version]
     runs-on: ubuntu-latest
     env:
       PRIVATE_REPO_USER: "hmasdev"
