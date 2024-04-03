@@ -1,4 +1,4 @@
-name: PyPI
+name: On Release to PyPI
 
 on:
   release:
@@ -6,11 +6,11 @@ on:
 
 jobs:
   test:
-    uses: ./.github/workflows/pytest.yaml
+    uses: ./.github/workflows/pytest-workflow-call.yaml
   static-type-check:
-    uses: ./.github/workflows/static-type-check.yaml
+    uses: ./.github/workflows/static-type-check-workflow-call.yaml
   code-style-check:
-    uses: ./.github/workflows/code-style-check.yaml
+    uses: ./.github/workflows/code-style-check-workflow-call.yaml
   deploy:
     needs: [test, static-type-check, code-style-check]
     runs-on: ubuntu-latest
