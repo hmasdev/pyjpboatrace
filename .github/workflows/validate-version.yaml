@@ -1,0 +1,28 @@
+name: Validate Version
+
+on:
+  workflow_call:
+
+jobs:
+  validate_version:
+    runs-on: ubuntu-latest
+    env:
+      PRIVATE_REPO_USER: "hmasdev"
+    strategy:
+      matrix:
+        python-version: [3.9]
+    steps:
+      - uses: actions/checkout@v1
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v1
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install requirements
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+      - name: Check Version
+        run: |
+          # Check if the tag is the same as simple_typing_application.__version__
+          tag=$(git describe --tags --abbrev=0)
+          python -c "import os; import simple_typing_application; assert simple_typing_application.__version__ == os.getenv('tag')"

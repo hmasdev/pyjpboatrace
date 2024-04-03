@@ -1,0 +1,13 @@
+name: On Pull Request
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  test:
+    uses: ./.github/workflows/pytest-workflow-call.yaml
+  static-type-check:
+    uses: ./.github/workflows/static-type-check-workflow-call.yaml
+  code-style-check:
+    uses: ./.github/workflows/code-style-check-workflow-call.yaml
