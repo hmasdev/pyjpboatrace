@@ -2,6 +2,11 @@ name: Validate Version
 
 on:
   workflow_call:
+    inputs:
+      git-ref:
+        required: false
+        type: string
+        default: "main"
 
 jobs:
   validate_version:
@@ -12,7 +17,9 @@ jobs:
       matrix:
         python-version: [3.9]
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ inputs.git-ref }}
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v1
         with:

@@ -7,12 +7,20 @@ on:
 jobs:
   test:
     uses: ./.github/workflows/pytest-workflow-call.yaml
+    with:
+      git-ref: ${{ github.sha }}
   static-type-check:
     uses: ./.github/workflows/static-type-check-workflow-call.yaml
+    with:
+      git-ref: ${{ github.sha }}
   code-style-check:
     uses: ./.github/workflows/code-style-check-workflow-call.yaml
+    with:
+      git-ref: ${{ github.sha }}
   validate-version:
     uses: ./.github/workflows/validate-version-workflow-call.yaml
+    with:
+      git-ref: ${{ github.sha }}
   deploy:
     needs: [test, static-type-check, code-style-check, validate-version]
     runs-on: ubuntu-latest
