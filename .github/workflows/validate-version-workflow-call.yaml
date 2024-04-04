@@ -23,6 +23,6 @@ jobs:
           python -m pip install -e .
       - name: Check Version
         run: |
-          # Check if the tag is the same as simple_typing_application.__version__
+          # Check if the tag is the same as pyjpboatrace.__version__
           tag=$(git describe --tags --abbrev=0)
-          python -c "import os; import simple_typing_application; assert simple_typing_application.__version__ == os.getenv('tag')"
+          python -c "import os; import pyjpboatrace; assert pyjpboatrace.__version__ == os.getenv('tag')"
