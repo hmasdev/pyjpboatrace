@@ -1,0 +1,73 @@
+name: On Push Tags
+
+on:
+  push:
+    tags:
+      - "*.*.*"
+
+jobs:
+  validate-version:
+    uses: ./.github/workflows/validate-version-workflow-call.yaml
+  update-version:
+    needs: [validate-version]
+    if: ${{ failure() }}
+    runs-on: ubuntu-latest
+    env:
+      PRIVATE_REPO_USER: "hmasdev"
+    strategy:
+      matrix:
+        python-version: [3.9]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v1
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Update Tags
+        run: |
+          # Get the latest tag
+          export tag=$(git describe --tags --abbrev=0)
+          export branch="bot/update-version-to-$tag"
+          git checkout -b $branch
+
+          # Update the version in __init__.py
+          line_before_chg=$(grep -P "__version__ *= *['|\"]v?\d+\.\d+\.\d+.*['|\"]" pyjpboatrace/__init__.py)
+          line_after_chg="__version__ = '$tag'"
+          echo "line_before_chg: $line_before_chg"
+          echo "line_after_chg: $line_after_chg"
+          sed -i "s;$line_before_chg;$line_after_chg;g" pyjpboatrace/__init__.py
+
+          # Output the tag and branch
+          echo "tag=$tag" >> "$GITHUB_ENV"
+          echo "branch=$branch" >> "$GITHUB_ENV"
+
+          # Commit and push the changes
+          if [ $(grep "$line_after_chg" pyjpboatrace/__init__.py | wc -l) -eq 1 ]; then
+            git config --local user.name "github-actions[bot]"
+            git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add pyjpboatrace/__init__.py
+            git commit -m "Update Version to $tag"
+            msg=$(git tag -n $tag)
+            git tag -d $tag
+            git tag -a $tag -m "$msg automatically created by GitHub Actions"
+            git push --delete origin $tag
+            git push -u origin $tag
+            git push -u origin $branch
+          else
+            echo "Failed to update version"
+            exit 1
+          fi
+      - name: Create Pull Request
+        shell: bash
+        run: |
+          gh pr create \
+            --title "Update Version to $tag" \
+            --body "Update Version to $tag" \
+            --base main \
+            --head $branch \
+            --assignee hmasdev \
+            --reviewer hmasdev \
+            --label "bot"
+
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
