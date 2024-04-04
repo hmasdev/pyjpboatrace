@@ -37,7 +37,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - name: Install requirements
         run: |
-          python -m pip install --upgrade pip
+          python -m pip install --upgrade pip wheel setuptools twine
           python -m pip install -e .[dev]
       - name: Init .pypirc
         run: |
@@ -47,7 +47,7 @@ jobs:
       - name: Upload
         run: |
           python setup.py sdist bdist_wheel
-          twine upload --repository pypi dist/*
+          python -m twine upload --repository pypi dist/*
       - name: Delete .pypirc
         run: |
           rm ~/.pypirc
