@@ -11,7 +11,7 @@ from . import utils
 from . import validator
 
 
-__version__ = 'v0.3.0a3'
+__version__ = 'v0.3.0a4'
 
 __all__ = [
     PyJPBoatrace.__name__,
