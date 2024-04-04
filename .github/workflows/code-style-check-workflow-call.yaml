@@ -28,4 +28,5 @@ jobs:
           python -m pip install -e .[dev]
       - name: Code Style Check
         run: |
-          flake8 pyjpboatrace tests --show-source
+          flake8 pyjpboatrace --show-source
+          flake8 tests --show-source

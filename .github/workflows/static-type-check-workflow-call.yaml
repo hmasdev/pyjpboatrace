@@ -28,4 +28,5 @@ jobs:
           python -m pip install -e .[dev]
       - name: Static Type Check
         run: |
-          mypy pyjpboatrace tests
+          mypy pyjpboatrace
+          mypy tests
