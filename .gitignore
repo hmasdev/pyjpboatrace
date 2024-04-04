@@ -137,3 +137,5 @@ dmypy.json
 # Pipfile.lock
 # See https://pipenv.pypa.io/en/latest/basics/#general-recommendations-version-control
 Pipfile.lock
+
+:GITHUB_ENV
