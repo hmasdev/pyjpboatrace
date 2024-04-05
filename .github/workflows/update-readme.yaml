@@ -1,0 +1,41 @@
+name: Automatically update README
+
+on:
+  workflow_dispatch:
+
+env:
+  BRANCH_HEADER: "bot/update-readme-"
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Python 3.11
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: pip install -e .[dev]
+      - name: Run script
+        run: |
+          python update_readme.py > README.md
+      - name: Commit changes
+        run: |
+          git checkout -b ${BRANCH_HEADER}${{ github.run_id }}
+          git config --local user.name "github-actions[bot]"
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add README.md
+          git commit -m "Update README.md"
+      - name: Push changes
+        run: git push -u origin ${BRANCH_HEADER}${{ github.run_id }}
+      - name: Create pull request
+        run: |
+          gh pr create \
+            --title "Update README.md" \
+            --body "This PR updates the README.md file." \
+            --base main \
+            --head ${BRANCH_HEADER}${{ github.run_id }} \
+            --reviewer hmasdev \
+            --assignee hmasdev \
+            --label "bot"
