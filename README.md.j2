@@ -1,0 +1,646 @@
+# PyJPBoatRace: Python-based Japanese boatrace tools :speedboat:
+
+![GitHub top language](https://img.shields.io/github/languages/top/hmasdev/pyjpboatrace)
+![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/hmasdev/pyjpboatrace?sort=semver)
+![GitHub](https://img.shields.io/github/license/hmasdev/pyjpboatrace)
+![GitHub last commit](https://img.shields.io/github/last-commit/hmasdev/pyjpboatrace)
+
+![Scheduled Test](https://github.com/hmasdev/pyjpboatrace/actions/workflows/test_on_schedule.yaml/badge.svg)
+
+Japanese boat race is extremely exciting sports.
+It is also fun to predict the results of races.
+Prediction like machine learning method requires data.
+Thus, this package provides you with useful tools for data analysis and auto-betting for boatrace.
+
+## Installation
+
+### Requirements
+
+If you want to deposit, withdraw and betting with pyjpboatrace,
+one of the following browers is required at least:
+
+- Chrome
+- Firefox
+- Edge
+
+### Dependencies
+
+- python >= 3.8
+- requests>=2.28.1
+- beautifulsoup4>=4.11.1
+- selenium>=4.6
+
+### User installation
+
+```bash
+pip install -U pyjpboatrace
+```
+
+## How to use
+
+1. (optional) create an instance of UserInformation;
+2. (optional) create a selenium driver;
+3. create an instance of PyJPBoatrace;
+4. execute scraping and operating.
+
+NOTE: you must create a UserInformation instance and a selenium driver to order to deposit, withdraw or bet.
+
+### UserInformation
+
+- `pyjpboatrace.user_information.UserInformation(userid:str, pin:str, auth_pass:str, vote_pass:str, json_file:str)`
+
+NOTE: If you use a json file to create an instance of UserInformation, the json file should contain the following keys: userid, pin, auth_pass and vote_pass.
+
+### Selenium Driver
+
+You can use the following functions to create selenium drivers:
+
+- pyjpboatrace.drivers.create_chrome_driver()
+- pyjpboatrace.drivers.create_firefox_driver()
+- pyjpboatrace.drivers.create_edge_driver()
+- pyjpboatrace.drivers.create_httpget_driver()
+
+NOTE 1: you can use your own selenium driver.
+
+NOTE 2: If you use create_httpget_driver, you cannot execute the following operations, deposit, withdraw or bet.
+
+### Scraping and Operating
+
+PyJPBoatrace provides 2 main functions: scraping and operating.
+
+The former is scraping race information, odds and so on;
+the latter is betting, depositing and withdrawing.
+
+#### Scraping
+
+- Get a list of stadiums which hold races on the given day:
+
+  - API:
+
+    - ```python
+      PyJPBoatrace().get_stadiums(d: datetime.date) -> Dict[str, Any]
+      ```
+
+    - ```python
+      PyJPBoatrace().Stadiums.get(d: datetime.date) -> Dict[str, Any]
+      ```
+
+  - Return:
+    <details>
+    <summary> Sample </summary>
+
+    ```python
+    >>> from pyjpboatrace import PyJPBoatrace
+    >>> from datetime import date
+    >>> from pprint import pprint
+    >>> pprint({{ get_stadiums.command }})
+    {{ get_stadiums.output }}
+    ```
+
+    </details>
+
+- To get 12 races held in the given stadium on the given day:
+
+  - API:
+
+    - ```python
+      PyJPBoatrace().get_12races(d: datetime.date, stadium: int) -> Dict[str, Any]
+      ```
+
+    - ```python
+      PyJPBoatrace().Races.get(d: datetime.date, stadium: int) -> Dict[str, Any]
+      ```
+
+  - Return:
+    <details>
+    <summary> Sample </summary>
+
+    ```python
+    >>> from pyjpboatrace import PyJPBoatrace
+    >>> from datetime import date
+    >>> from pprint import pprint
+    >>> pprint({{ get_12races.command }})
+    {{ get_12races.output }}
+    ```
+
+    </details>
+
+- To get the basic information of the race in the stadium on a day:
+
+  - API:
+
+    - ```python
+      PyJPBoatrace().get_race_info(d: datetime.date, stadium: int, race: int) -> Dict[str, Any]
+      ```
+
+    - ```python
+      PyJPBoatrace().RaceInfo.get(d: datetime.date, stadium: int, race: int) -> Dict[str, Any]
+      ```
+
+  - Return:
+    <details>
+    <summary> Sample </summary>
+
+    ```python
+    >>> from pyjpboatrace import PyJPBoatrace
+    >>> from datetime import date
+    >>> from pprint import pprint
+    >>> pprint({{ get_race_info.command }})
+    {{ get_race_info.output }}
+    ```
+
+    </details>
+
+- To get the odds of win (単勝) and place-show (複勝) of the race in the stadium on the day:
+
+  - API:
+
+    - ```python
+      PyJPBoatrace().get_odds_win_placeshow(d: datetime.date, stadium: int, race: int) -> Dict[str, Any]
+      ```
+
+    - ```python
+      PyJPBoatrace().WinPlaceshowOdds.get(d: datetime.date, stadium: int, race: int) -> Dict[str, Any]
+      ```
+
+  - Return:
+    <details>
+    <summary> Sample </summary>
+
+    ```python
+    >>> from pyjpboatrace import PyJPBoatrace
+    >>> from datetime import date
+    >>> from pprint import pprint
+    >>> pprint({{ get_odds_win_placeshow.command }})
+    {{ get_odds_win_placeshow.output }}
+    ```
+
+    </details>
+
+- To get the odds of quinella place (拡連複) of the race in the stadioum on the day:
+
+  - API:
+
+    - ```python
+      PyJPBoatrace().get_odds_quinellaplace(d: datetime.date, stadium: int, race: int) -> Dict[str, Any]
+      ```
+
+    - ```python
+      PyJPBoatrace().QuinellaplaceOdds.get(d: datetime.date, stadium: int, race: int) -> Dict[str, Any]
+      ```
+
+  - Return:
+    <details>
+    <summary> Sample </summary>
+
+    ```python
+    >>> from pyjpboatrace import PyJPBoatrace
+    >>> from datetime import date
+    >>> from pprint import pprint
+    >>> pprint({{ get_odds_quinellaplace.command }})
+    {{ get_odds_quinellaplace.output }}
+    ```
+
+    </details>
+
+- To get the odds of exacta (二連単) and quinella (二連複) of the race in the stadioum on the day:
+
+  - API:
+
+    - ```python
+      PyJPBoatrace().get_odds_exacta_quinella(d: datetime.date, stadium: int, race: int) -> Dict[str, Any]
+      ```
+
+    - ```python
+      PyJPBoatrace().ExactaQuinellaOdds.get(d: datetime.date, stadium: int, race: int) -> Dict[str, Any]
+      ```
+
+  - Return:
+    <details>
+    <summary> Sample </summary>
+
+    ```python
+    >>> from pyjpboatrace import PyJPBoatrace
+    >>> from datetime import date
+    >>> from pprint import pprint
+    >>> pprint({{ get_odds_exacta_quinella.command }})
+    {{ get_odds_exacta_quinella.output }}
+    ```
+
+    </details>
+
+- To get the odds of trifecta (三連単) of the race in the stadioum on the day:
+
+  - API:
+
+    - ```python
+      PyJPBoatrace().get_odds_trifecta(d: datetime.date, stadium: int, race: int) -> Dict[str, Any]
+      ```
+
+    - ```python
+      PyJPBaotrace().TrifectaOdds.get(d: datetime.date, stadium: int, race: int) -> Dict[str, Any]
+      ```
+
+  - Return:
+    <details>
+    <summary> Sample </summary>
+
+    ```python
+    >>> from pyjpboatrace import PyJPBoatrace
+    >>> from datetime import date
+    >>> from pprint import pprint
+    >>> pprint({{ get_odds_trifecta.command }})
+    {{ get_odds_trifecta.output }}
+    ```
+
+    </details>
+
+- To get the oods of trio （三連複） of the race in the stadioum on the day:
+
+  - API:
+
+    - ```python
+      PyJPBoatrace().get_odds_trio(d: datetime.date, stadium: int, race: int) -> Dict[str, Any]
+      ```
+
+    - ```python
+      PyJPBoatrace().Trio.get(d: datetime.date, stadium: int, race: int) -> Dict[str, Any]
+      ```
+
+  - Return:
+    <details>
+    <summary> Sample </summary>
+
+    ```python
+    >>> from pyjpboatrace import PyJPBoatrace
+    >>> from datetime import date
+    >>> from pprint import pprint
+    >>> pprint({{ get_odds_trio.command }})
+    {{ get_odds_trio.output }}
+    ```
+
+    </details>
+
+- To get the just-before information, e.g. weather and start-timing, of the race in the stadioum on the day:
+
+  - API:
+
+    - ```python
+      PyJPBoatrace().get_just_before_info(d: datetime.date, stadium: int, race: int) -> Dict[str, Any]
+      ```
+
+    - ```python
+      PyJPBoatrace().JustBeforeInfo.get(d: datetime.date, stadium: int, race: int) -> Dict[str, Any]
+      ```
+
+  - Return:
+    <details>
+    <summary> Sample </summary>
+
+    ```python
+    >>> from pyjpboatrace import PyJPBoatrace
+    >>> from datetime import date
+    >>> from pprint import pprint
+    >>> pprint({{ get_just_before_info.command }})
+    {{ get_just_before_info.output }}
+    ```
+
+    </details>
+
+- To get the race result of the race in the stadioum on the day:
+
+  - API:
+
+    - ```python
+      PyJPBoatrace().get_race_result(d: datetime.date, stadium: int, race: int) -> Dict[str, Any]
+      ```
+
+    - ```python
+      PyJPBoatrace().Result.get(d: datetime.date, stadium: int, race: int) -> Dict[str, Any]
+      ```
+
+  - Return:
+    <details>
+    <summary> Sample </summary>
+
+    ```python
+    >>> from pyjpboatrace import PyJPBoatrace
+    >>> from datetime import date
+    >>> from pprint import pprint
+    >>> pprint({{ get_race_result.command }})
+    {{ get_race_result.output }}
+    ```
+
+    </details>
+
+  - NOTE: you may be confused by the output of `PyJPBoatrace().get_race_result` because the contents of "payoff" key in the output have the following keys:
+
+    - "exacta"
+    - "exacta_all"
+    - "place_show"
+    - "place_show_all"
+    - "quinella"
+    - "quinella_all"
+    - "quinella_place"
+    - "quinella_place_all"
+    - "trifecta"
+    - "trifecta_all"
+    - "trio"
+    - "trio_all"
+    - "win"
+    - "win_all"
+
+    For "win", "exacta", "quinella", "trifecta" and "trio", the difference between a key without "all" footer and a key with "all" footer is that the former means ONE result while the latter means ALL results.
+    For example, if "1-2-3" and "1-2-4" is hit as trifecta in a race, that is, if 3rd boat and 4th boat are tied for third place, the valud of "trifecta" key is `{'payoff': ..., 'popularity': ..., 'result': '1-2-3'}` while the value of "trifecta_all" key is `[{'payoff': ..., 'popularity': ..., 'result': '1-2-3'}, {'payoff': ..., 'popularity': ..., 'result': '1-2-4'}]`.
+    On the other hand, for "place_show" and "quinella_place", there is no difference between a key without "all" footer and a key with "all" footer.
+
+These functions return `dict` object.
+
+#### Operations
+
+- To deposit money for betting (Unit: 1,000 yen):
+  - API
+    - `PyJPBoatrace().deposit(num_of_thousands_yen: int) -> None`
+    - `PyJPBoatrace().Deposit.do(num_of_thousands_yen: int) -> None`
+  - Return:
+    - Nothing
+- To get the limit of betting amount, that is, your current deposit:
+  - API
+    - `PyJPBoatrace().get_bet_limit() -> int`
+    - `PyJPBoatrace().BettingLimitCheck.do() -> int`
+  - Return:
+    - `int`: the amount of deposit
+- To withdraw your current deposit:
+
+  - API:
+
+    - `PyJPBoatrace().withdraw() -> None`
+    - `PyJPBoatrace().Widthdraw.do() -> None`
+
+  - Return:
+    - Nothing
+
+- To bet some tickets.
+
+  - API:
+
+    - ```python
+      PyJPBoatrace().bet(
+        stadium:int,
+        race:int,
+        trifecta_betting_dict: Dict[str, int],
+        trio_betting_dict: Dict[str, int],
+        exacta_betting_dict: Dict[str, int],
+        quinela_betting_dict: Dict[str, int],
+        quinellaplace_betting_dict: Dict[str, int],
+        win_betting_dict: Dict[str, int],
+        placeshow_betting_dict: Dict[str, int],
+      ) -> bool
+      ```
+
+    - ```python
+      PyJPBoatrace().Bet.do(
+        stadium:int,
+        race:int,
+        trifecta_betting_dict: Dict[str, int],
+        trio_betting_dict: Dict[str, int],
+        exacta_betting_dict: Dict[str, int],
+        quinela_betting_dict: Dict[str, int],
+        quinellaplace_betting_dict: Dict[str, int],
+        win_betting_dict: Dict[str, int],
+        placeshow_betting_dict: Dict[str, int],
+      ) -> bool
+      ```
+
+  - Each dictionary consits of pairs of winning numbers and betting amount, e.g., `{'1-2-3':100}` for trifecta_betting_dict
+
+IMPORTANT NOTE: you must give a driver other than `HTTPGetDriver` to use above actions.
+
+### Demo
+
+#### Demo 1 : Getting odds data
+
+The following example is useful.
+Suppose that you want get the odds of trifecta of 4th race in stadium "桐生" on 2020/12/02 and dump the result into `data.json`.
+
+```python
+from datetime import date
+import json
+from pyjpboatrace import PyJPBoatrace
+
+# initialize
+boatrace_tools = PyJPBoatrace()
+
+# get data
+dic = boatrace_tools.get_odds_trifecta(d=date(2020,12,2), stadium=1, race=4)
+
+# dump data
+with open('data.json', 'w', encoding='utf-8') as f:
+    json.dump(dic, f, ensure_ascii=False)
+
+# close (you can use 'with' statement)
+boatrace_tools.close()
+```
+
+You can get many kinds of data as this example.
+
+#### Demo 2 : Betting
+
+Suppose it is 2020/12/02 and you want to bet 200 yen on trifecta 1-3-4 and 100 yen on trio 1=3=4 in the 2nd race in stadium "桐生" on 2020/12/02. NOTE: you need google chrome in the following example.
+
+```python
+from datetime import date
+from pyjpboatrace import PyJPBoatrace
+from pyjpboatrace.drivers import create_chrome_driver
+from pyjpboatrace.const import STADIUMS_MAP
+from pyjpboatrace.user_information import UserInformation
+
+# initialize
+user = UserInformation(
+    userid='YOUR_USER_ID',
+    pin='YOUR_PIN',
+    auth_pass='YOUR_AUTHENTIFICATION_PASSWORD',
+    vote_pass='YOUR_BETTING_PASSWORD',
+)
+boatrace_tools = PyJPBoatrace(
+    driver=create_chrome_driver(),
+    user_information=user
+)
+
+# deposit 1,000 yen
+boatrace_tools.deposit(1)
+
+# bet
+stadium = {s:i for i,s in STADIUMS_MAP}.get("桐生")
+race = 2
+boatrace_tools.bet(
+    stadium=stadium,
+    race=race,
+    trifecta_betting_dict={'1-3-4':200},
+    trio_betting_dict={'1=3=4':100}
+)
+
+# waiting for the race result ...
+
+# withdraw
+boatrace_tools.withdraw()
+
+# close (you can use 'with' statement)
+boatrace_tools.close()
+```
+
+### NOTE
+
+The map between integers and stadiums is given by `STADIUMS_MAP` in `pyjpboatrace.const`.
+
+## Contribution Guide
+
+### Requirement
+
+- Python >= 3.8
+- Chrome
+- Firefox
+- bash
+- curl
+
+### Issues
+
+- For any bugs, use [BUG REPORT](https://github.com/hmasdev/pyjpboatrace/issues/new?assignees=&labels=bug&template=bug_report.md&title=%5BBUG%5D) to create an issue.
+
+- For any enhancement, use [FEATURE REQUEST](https://github.com/hmasdev/pyjpboatrace/issues/new?assignees=&labels=enhancement&template=feature_request.md&title=) to create an issue.
+
+- For other topics, create an issue with a clear and concise description.
+
+### Pull Request
+
+1. Fork ([https://github.com/hmasdev/pyjpboatrace/fork](https://github.com/hmasdev/pyjpboatrace/fork));
+2. Create your feature branch (`git checkout -b feautre/xxxx`);
+3. Test codes according to [Test Subsection](#HowToTestAnchor);
+4. Commit your changes (`git commit -am 'Add xxxx feature`);
+5. Push to the branch (`git push origin feature/xxxx`);
+6. Create new Pull Request
+
+### Setup the develop environment
+
+First, fork this repository and clone it to your local machine.
+
+```bash
+git clone https://github.com/hmasdev/pyjpboatrace/
+cd pyjpboatrace
+```
+
+Then, create a virtual environment for your development,
+and install the required libraries.
+
+```bash
+python -m venv venv
+source venv/bin/activate  # for Linux or MacOS
+# venv\Scripts\activate  # for Windows
+pip install -e .[dev]
+```
+
+<details>
+<summary>[Deprecated] when using `pipenv`</summary>
+
+```bash
+pipenv sync --dev
+```
+
+</details>
+
+### Test
+
+<div id="HowToTestAnchor"></div>
+
+You can do unit tests and integration tests as follows:
+
+```bash
+./download_html_for_test.sh  # Only 1 time
+pytest -m "not integrate and not spending_money" # unit tests
+pytest # unit tests and integration tests
+```
+
+<details>
+<summary>[Deprecated] when using `pipenv`</summary>
+
+```bash
+./download_html_for_test.sh  # Only 1 time
+pipenv run pytest -m "not integrate and not spending_money" # unit tests
+pipenv run pytest  # unit tests and integration tests
+```
+
+</details>
+
+`pytest` does not test depositing, withdrawing or betting.
+If you want to test them, make `.secrets.json` at first:
+
+```json
+{
+  "userid": "YOUR_USER_ID",
+  "pin": "YOUR_PIN",
+  "auth_pass": "YOUR_AUTHENTIFICATION_PASSWORD",
+  "vote_pass": "YOUR_BETTING_PASSWORD"
+}
+```
+
+Then, run
+
+```bash
+pytest -m "spending_money"
+```
+
+<details>
+<summary>[Deprecated] when using `pipenv`</summary>
+
+```bash
+pipenv run pytest -m "spending_money"
+```
+
+</details>
+
+WARNING: Tests with `spending_money` spend 700 yen.
+
+### Check the format of code and static types
+
+You should execute the following codes to check the format of code and static types:
+
+```bash
+flake8 pyjpboatrace tests
+mypy pyjpboatrace tests
+```
+
+<details>
+<summary>[Deprecated] when using `pipenv`</summary>
+
+```bash
+pipenv run flake8 pyjpboatrace
+pipenv run flake8 tests
+pipenv run mypy pyjpboatrace
+pipenv run mypy tests
+```
+
+</details>
+
+### How to Update README.md
+
+To update the content of [README.md](./README.md), please do not edit the file directly.
+Instead, make your changes to [README.md.j2](./README.md.j2).
+
+After making updates to `README.md.j2`, execute the following command to regenerate `README.md`:
+
+```bash
+python update_readme.py > README.md
+```
+
+This process is necessary because README.md is dynamically generated from the README.md.j2 template.
+Direct modifications to README.md will be lost, as they are automatically overwritten by an automated process whenever the template is updated.
+
+Remember, to preserve your changes, always update README.md.j2 and not README.md directly.
+
+## LICENSE
+
+[MIT](https://github.com/hmasdev/pyjpboatrace/tree/main/LICENSE)
+
+## Authors
+
+[hmasdev](https://github.com/hmasdev)

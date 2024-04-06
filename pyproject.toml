@@ -40,6 +40,7 @@ Repository = "http://github.com/hmasdev/pyjpboatrace"
 dev = [
     "autopep8",
     "flake8>=3.8.4",
+    "Jinja2",
     "mypy>=0.812",
     "pytest>=6.1.2",
     "pytest-cov>=2.10.1",
