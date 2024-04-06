@@ -39,3 +39,5 @@ jobs:
             --reviewer hmasdev \
             --assignee hmasdev \
             --label "bot"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
