@@ -621,6 +621,21 @@ pipenv run mypy tests
 
 </details>
 
+### How to Update README.md
+
+To update the content of [README.md](./README.md), please do not edit the file directly.
+Instead, make your changes to [README.md.j2](./README.md.j2).
+
+After making updates to `README.md.j2`, execute the following command to regenerate `README.md`:
+
+```bash
+python update_readme.py > README.md
+```
+
+This process is necessary because README.md is dynamically generated from the README.md.j2 template.
+Direct modifications to README.md will be lost, as they are automatically overwritten by an automated process whenever the template is updated.
+
+Remember, to preserve your changes, always update README.md.j2 and not README.md directly.
 
 ## LICENSE
 
