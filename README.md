@@ -80,6 +80,7 @@ the latter is betting, depositing and withdrawing.
     - ```python
       PyJPBoatrace().get_stadiums(d: datetime.date) -> Dict[str, Any]
       ```
+
     - ```python
       PyJPBoatrace().Stadiums.get(d: datetime.date) -> Dict[str, Any]
       ```
@@ -94,85 +95,85 @@ the latter is betting, depositing and withdrawing.
     >>> from pprint import pprint
     >>> pprint(PyJPBoatrace().get_stadiums(date(2021, 8, 12)))
     {'date': '2021-08-12',
-    'びわこ': {'day': '３日目',
-            'grade': ['ippan'],
-            'period': ['2021-08-10', '2021-08-15'],
-            'status': '-',
-            'timeframe': '',
-            'title': '滋賀県知事杯争奪第２６回びわこカップ'},
-    '三国': {'day': '２日目',
+     'びわこ': {'day': '３日目',
+             'grade': ['ippan'],
+             'period': ['2021-08-10', '2021-08-15'],
+             'status': '-',
+             'timeframe': '',
+             'title': '滋賀県知事杯争奪第２６回びわこカップ'},
+     '三国': {'day': '２日目',
             'grade': ['ippan'],
             'period': ['2021-08-11', '2021-08-16'],
             'status': '-',
             'timeframe': 'morning',
             'title': '第４９回しぶき賞'},
-    '下関': {'day': '最終日',
+     '下関': {'day': '最終日',
             'grade': ['ippan'],
             'period': ['2021-08-06', '2021-08-12'],
             'status': '-',
             'timeframe': 'nighter',
             'title': 'Ｈａｙａｓｈｉｋａｎｅ杯'},
-    '唐津': {'day': '最終日',
+     '唐津': {'day': '最終日',
             'grade': ['ippan'],
             'period': ['2021-08-07', '2021-08-12'],
             'status': '-',
             'timeframe': 'morning',
             'title': '唐津大賞がばい王者決定戦'},
-    '多摩川': {'day': '最終日',
-            'grade': ['ippan'],
-            'period': ['2021-08-08', '2021-08-12'],
-            'status': '-',
-            'timeframe': 'summer',
-            'title': '第５９回スポーツニッポン賞'},
-    '宮島': {'day': '最終日',
+     '多摩川': {'day': '最終日',
+             'grade': ['ippan'],
+             'period': ['2021-08-08', '2021-08-12'],
+             'status': '-',
+             'timeframe': 'summer',
+             'title': '第５９回スポーツニッポン賞'},
+     '宮島': {'day': '最終日',
             'grade': ['ippan'],
             'period': ['2021-08-07', '2021-08-12'],
             'status': '-',
             'timeframe': '',
             'title': '第５１回スポーツニッポン杯'},
-    '尼崎': {'day': '４日目',
+     '尼崎': {'day': '４日目',
             'grade': ['ippan'],
             'period': ['2021-08-09', '2021-08-14'],
             'status': '-',
             'timeframe': '',
             'title': '日本財団会長杯争奪第４９回オール兵庫王座決定戦'},
-    '常滑': {'day': '２日目',
+     '常滑': {'day': '２日目',
             'grade': ['ippan'],
             'period': ['2021-08-11', '2021-08-16'],
             'status': '-',
             'timeframe': '',
             'title': '名鉄杯争奪２０２１納涼お盆レース'},
-    '平和島': {'day': '３日目',
-            'grade': ['ippan'],
-            'period': ['2021-08-10', '2021-08-15'],
-            'status': '-',
-            'timeframe': 'summer',
-            'title': '第６１回デイリースポーツサマーカップ'},
-    '戸田': {'day': '初日',
+     '平和島': {'day': '３日目',
+             'grade': ['ippan'],
+             'period': ['2021-08-10', '2021-08-15'],
+             'status': '-',
+             'timeframe': 'summer',
+             'title': '第６１回デイリースポーツサマーカップ'},
+     '戸田': {'day': '初日',
             'grade': ['ippan'],
             'period': ['2021-08-12', '2021-08-17'],
             'status': '-',
             'timeframe': '',
             'title': '第４４回戸田ボート大賞・サンケイスポーツ杯'},
-    '桐生': {'day': '３日目',
+     '桐生': {'day': '３日目',
             'grade': ['ippan'],
             'period': ['2021-08-10', '2021-08-15'],
             'status': '-',
             'timeframe': 'nighter',
             'title': '第５５回報知新聞社杯\u3000お盆レース'},
-    '若松': {'day': '４日目',
+     '若松': {'day': '４日目',
             'grade': ['ippan'],
             'period': ['2021-08-08', '2021-08-13'],
             'status': '-',
             'timeframe': 'nighter',
             'title': '日刊スポーツ杯お盆特選競走'},
-    '蒲郡': {'day': '初日',
+     '蒲郡': {'day': '初日',
             'grade': ['ippan'],
             'period': ['2021-08-12', '2021-08-17'],
             'status': '-',
             'timeframe': 'nighter',
             'title': '日刊スポーツ杯争奪\u3000納涼しぶきお盆特別選抜戦'},
-    '鳴門': {'day': '４日目',
+     '鳴門': {'day': '４日目',
             'grade': ['ippan'],
             'period': ['2021-08-09', '2021-08-14'],
             'status': '-',
@@ -189,6 +190,7 @@ the latter is betting, depositing and withdrawing.
     - ```python
       PyJPBoatrace().get_12races(d: datetime.date, stadium: int) -> Dict[str, Any]
       ```
+
     - ```python
       PyJPBoatrace().Races.get(d: datetime.date, stadium: int) -> Dict[str, Any]
       ```
@@ -232,72 +234,72 @@ the latter is betting, depositing and withdrawing.
                        'boat4': {'class': 'B1', 'name': '松本純平'},
                        'boat5': {'class': 'A2', 'name': '橋本久和'},
                        'boat6': {'class': 'B2', 'name': '宮崎安奈'}},
-             'status': '発売終了',
-             'vote_limit': '2021-08-12 15:22:00'},
+            'status': '発売終了',
+            'vote_limit': '2021-08-12 15:22:00'},
      '2R': {'racers': {'boat1': {'class': 'B1', 'name': '佐口達也'},
                        'boat2': {'class': 'A2', 'name': '本橋克洋'},
                        'boat3': {'class': 'B1', 'name': '寺本昇平'},
                        'boat4': {'class': 'B1', 'name': '津久井拓也'},
                        'boat5': {'class': 'B1', 'name': '久保原秀人'},
                        'boat6': {'class': 'A2', 'name': '中里英夫'}},
-             'status': '発売終了',
-             'vote_limit': '2021-08-12 15:49:00'},
+            'status': '発売終了',
+            'vote_limit': '2021-08-12 15:49:00'},
      '3R': {'racers': {'boat1': {'class': 'B1', 'name': '小川時光'},
                        'boat2': {'class': 'A2', 'name': '野村誠'},
                        'boat3': {'class': 'B2', 'name': '黄金井裕子'},
                        'boat4': {'class': 'A2', 'name': '藤生雄人'},
                        'boat5': {'class': 'B1', 'name': '高山秀雄'},
                        'boat6': {'class': 'A1', 'name': '関浩哉'}},
-             'status': '発売終了',
-             'vote_limit': '2021-08-12 16:16:00'},
+            'status': '発売終了',
+            'vote_limit': '2021-08-12 16:16:00'},
      '4R': {'racers': {'boat1': {'class': 'B1', 'name': '栗原謙治'},
                        'boat2': {'class': 'A2', 'name': '金子賢志'},
                        'boat3': {'class': 'B1', 'name': '関根彰人'},
                        'boat4': {'class': 'A1', 'name': '金子拓矢'},
                        'boat5': {'class': 'B2', 'name': '大久保佑香'},
                        'boat6': {'class': 'B1', 'name': '土屋太朗'}},
-             'status': '発売終了',
-             'vote_limit': '2021-08-12 16:45:00'},
+            'status': '発売終了',
+            'vote_limit': '2021-08-12 16:45:00'},
      '5R': {'racers': {'boat1': {'class': 'B1', 'name': '原加央理'},
                        'boat2': {'class': 'B1', 'name': '佐藤航'},
                        'boat3': {'class': 'B1', 'name': '蜂須瑞生'},
                        'boat4': {'class': 'A2', 'name': '一柳和孝'},
                        'boat5': {'class': 'B1', 'name': '外崎悟'},
                        'boat6': {'class': 'A1', 'name': '毒島誠'}},
-             'status': '発売終了',
-             'vote_limit': '2021-08-12 17:13:00'},
+            'status': '発売終了',
+            'vote_limit': '2021-08-12 17:13:00'},
      '6R': {'racers': {'boat1': {'class': 'A1', 'name': '椎名豊'},
                        'boat2': {'class': 'B1', 'name': '久保田美紀'},
                        'boat3': {'class': 'B1', 'name': '太田克哉'},
                        'boat4': {'class': 'B1', 'name': '島倉都'},
                        'boat5': {'class': 'B1', 'name': '金澤一洋'},
                        'boat6': {'class': 'B1', 'name': '寺本昇平'}},
-             'status': '発売終了',
-             'vote_limit': '2021-08-12 17:42:00'},
+            'status': '発売終了',
+            'vote_limit': '2021-08-12 17:42:00'},
      '7R': {'racers': {'boat1': {'class': 'A2', 'name': '木村浩士'},
                        'boat2': {'class': 'B1', 'name': '久保原秀人'},
                        'boat3': {'class': 'A1', 'name': '上村純一'},
                        'boat4': {'class': 'B1', 'name': '鹿島敏弘'},
                        'boat5': {'class': 'B2', 'name': '宮崎安奈'},
                        'boat6': {'class': 'B2', 'name': '黄金井裕子'}},
-             'status': '発売終了',
-             'vote_limit': '2021-08-12 18:11:00'},
+            'status': '発売終了',
+            'vote_limit': '2021-08-12 18:11:00'},
      '8R': {'racers': {'boat1': {'class': 'A2', 'name': '鳥居塚孝博'},
                        'boat2': {'class': 'B1', 'name': '高山秀雄'},
                        'boat3': {'class': 'B1', 'name': '吉田稔'},
                        'boat4': {'class': 'B1', 'name': '田中定雄'},
                        'boat5': {'class': 'A1', 'name': '久田敏之'},
                        'boat6': {'class': 'B2', 'name': '大久保佑香'}},
-             'status': '発売終了',
-             'vote_limit': '2021-08-12 18:41:00'},
+            'status': '発売終了',
+            'vote_limit': '2021-08-12 18:41:00'},
      '9R': {'racers': {'boat1': {'class': 'B1', 'name': '崎利仁'},
                        'boat2': {'class': 'A2', 'name': '中里英夫'},
                        'boat3': {'class': 'B1', 'name': '塚原武之'},
                        'boat4': {'class': 'A1', 'name': '土屋智則'},
                        'boat5': {'class': 'B1', 'name': '関根彰人'},
                        'boat6': {'class': 'A1', 'name': '山崎智也'}},
-             'status': '発売終了',
-             'vote_limit': '2021-08-12 19:12:00'},
+            'status': '発売終了',
+            'vote_limit': '2021-08-12 19:12:00'},
      'date': '2021-08-12',
      'stadium': 1}
     ```
@@ -311,6 +313,7 @@ the latter is betting, depositing and withdrawing.
     - ```python
       PyJPBoatrace().get_race_info(d: datetime.date, stadium: int, race: int) -> Dict[str, Any]
       ```
+
     - ```python
       PyJPBoatrace().RaceInfo.get(d: datetime.date, stadium: int, race: int) -> Dict[str, Any]
       ```
@@ -350,23 +353,23 @@ the latter is betting, depositing and withdrawing.
                            'course': 5,
                            'race': 6,
                            'rank': 4},
-                           {'ST': 0.14,
+                          {'ST': 0.14,
                            'boat': 3,
                            'course': 3,
                            'race': 12,
                            'rank': 5},
-                           {},
-                           {},
-                           {},
-                           {},
-                           {},
-                           {},
-                           {},
-                           {},
-                           {},
-                           {},
-                           {},
-                           {}],
+                          {},
+                          {},
+                          {},
+                          {},
+                          {},
+                          {},
+                          {},
+                          {},
+                          {},
+                          {},
+                          {},
+                          {}],
                'weight': 52.6},
      'boat2': {'F': 0,
                'L': 0,
@@ -394,19 +397,19 @@ the latter is betting, depositing and withdrawing.
                            'course': 3,
                            'race': 6,
                            'rank': 3},
-                           {},
-                           {},
-                           {},
-                           {},
-                           {},
-                           {},
-                           {},
-                           {},
-                           {},
-                           {},
-                           {},
-                           {},
-                           {}],
+                          {},
+                          {},
+                          {},
+                          {},
+                          {},
+                          {},
+                          {},
+                          {},
+                          {},
+                          {},
+                          {},
+                          {},
+                          {}],
                'weight': 53.1},
      'boat3': {'F': 0,
                'L': 0,
@@ -434,23 +437,23 @@ the latter is betting, depositing and withdrawing.
                            'course': 5,
                            'race': 4,
                            'rank': 5},
-                           {'ST': 0.2,
+                          {'ST': 0.2,
                            'boat': 2,
                            'course': 2,
                            'race': 11,
                            'rank': 4},
-                           {},
-                           {},
-                           {},
-                           {},
-                           {},
-                           {},
-                           {},
-                           {},
-                           {},
-                           {},
-                           {},
-                           {}],
+                          {},
+                          {},
+                          {},
+                          {},
+                          {},
+                          {},
+                          {},
+                          {},
+                          {},
+                          {},
+                          {},
+                          {}],
                'weight': 50.0},
      'boat4': {'F': 0,
                'L': 0,
@@ -478,19 +481,19 @@ the latter is betting, depositing and withdrawing.
                            'course': 3,
                            'race': 3,
                            'rank': 5},
-                           {},
-                           {},
-                           {},
-                           {},
-                           {},
-                           {},
-                           {},
-                           {},
-                           {},
-                           {},
-                           {},
-                           {},
-                           {}],
+                          {},
+                          {},
+                          {},
+                          {},
+                          {},
+                          {},
+                          {},
+                          {},
+                          {},
+                          {},
+                          {},
+                          {},
+                          {}],
                'weight': 52.3},
      'boat5': {'F': 0,
                'L': 0,
@@ -518,23 +521,23 @@ the latter is betting, depositing and withdrawing.
                            'course': 2,
                            'race': 3,
                            'rank': 3},
-                           {'ST': 0.21,
+                          {'ST': 0.21,
                            'boat': 4,
                            'course': 5,
                            'race': 10,
                            'rank': 2},
-                           {},
-                           {},
-                           {},
-                           {},
-                           {},
-                           {},
-                           {},
-                           {},
-                           {},
-                           {},
-                           {},
-                           {}],
+                          {},
+                          {},
+                          {},
+                          {},
+                          {},
+                          {},
+                          {},
+                          {},
+                          {},
+                          {},
+                          {},
+                          {}],
                'weight': 52.2},
      'boat6': {'F': 0,
                'L': 0,
@@ -562,19 +565,19 @@ the latter is betting, depositing and withdrawing.
                            'course': 6,
                            'race': 4,
                            'rank': 6},
-                           {},
-                           {},
-                           {},
-                           {},
-                           {},
-                           {},
-                           {},
-                           {},
-                           {},
-                           {},
-                           {},
-                           {},
-                           {}],
+                          {},
+                          {},
+                          {},
+                          {},
+                          {},
+                          {},
+                          {},
+                          {},
+                          {},
+                          {},
+                          {},
+                          {},
+                          {}],
                'weight': 52.6},
      'date': '2021-08-12',
      'race': 1,
@@ -591,6 +594,7 @@ the latter is betting, depositing and withdrawing.
     - ```python
       PyJPBoatrace().get_odds_win_placeshow(d: datetime.date, stadium: int, race: int) -> Dict[str, Any]
       ```
+
     - ```python
       PyJPBoatrace().WinPlaceshowOdds.get(d: datetime.date, stadium: int, race: int) -> Dict[str, Any]
       ```
@@ -626,6 +630,7 @@ the latter is betting, depositing and withdrawing.
     - ```python
       PyJPBoatrace().get_odds_quinellaplace(d: datetime.date, stadium: int, race: int) -> Dict[str, Any]
       ```
+
     - ```python
       PyJPBoatrace().QuinellaplaceOdds.get(d: datetime.date, stadium: int, race: int) -> Dict[str, Any]
       ```
@@ -669,6 +674,7 @@ the latter is betting, depositing and withdrawing.
     - ```python
       PyJPBoatrace().get_odds_exacta_quinella(d: datetime.date, stadium: int, race: int) -> Dict[str, Any]
       ```
+
     - ```python
       PyJPBoatrace().ExactaQuinellaOdds.get(d: datetime.date, stadium: int, race: int) -> Dict[str, Any]
       ```
@@ -742,6 +748,7 @@ the latter is betting, depositing and withdrawing.
     - ```python
       PyJPBoatrace().get_odds_trifecta(d: datetime.date, stadium: int, race: int) -> Dict[str, Any]
       ```
+
     - ```python
       PyJPBaotrace().TrifectaOdds.get(d: datetime.date, stadium: int, race: int) -> Dict[str, Any]
       ```
@@ -890,6 +897,7 @@ the latter is betting, depositing and withdrawing.
     - ```python
       PyJPBoatrace().get_odds_trio(d: datetime.date, stadium: int, race: int) -> Dict[str, Any]
       ```
+
     - ```python
       PyJPBoatrace().Trio.get(d: datetime.date, stadium: int, race: int) -> Dict[str, Any]
       ```
@@ -938,6 +946,7 @@ the latter is betting, depositing and withdrawing.
     - ```python
       PyJPBoatrace().get_just_before_info(d: datetime.date, stadium: int, race: int) -> Dict[str, Any]
       ```
+
     - ```python
       PyJPBoatrace().JustBeforeInfo.get(d: datetime.date, stadium: int, race: int) -> Dict[str, Any]
       ```
@@ -1027,6 +1036,7 @@ the latter is betting, depositing and withdrawing.
     - ```python
       PyJPBoatrace().get_race_result(d: datetime.date, stadium: int, race: int) -> Dict[str, Any]
       ```
+
     - ```python
       PyJPBoatrace().Result.get(d: datetime.date, stadium: int, race: int) -> Dict[str, Any]
       ```
@@ -1048,7 +1058,9 @@ the latter is betting, depositing and withdrawing.
                 'place_show': [{'payoff': 100, 'popularity': '', 'result': '1'},
                                {'payoff': 150, 'popularity': '', 'result': '5'}],
                 'place_show_all': [{'payoff': 100, 'popularity': '', 'result': '1'},
-                                   {'payoff': 150, 'popularity': '', 'result': '5'}],
+                                   {'payoff': 150,
+                                    'popularity': '',
+                                    'result': '5'}],
                 'quinella': {'payoff': 440, 'popularity': 2, 'result': '1=5'},
                 'quinella_all': [{'payoff': 440, 'popularity': 2, 'result': '1=5'}],
                 'quinella_place': [{'payoff': 110,
@@ -1083,23 +1095,23 @@ the latter is betting, depositing and withdrawing.
                  'racerid': 3654,
                  'rank': 1,
                  'time': '1\'49"2'},
-                 {'boat': 5,
+                {'boat': 5,
                  'name': '木田峰由季',
                  'racerid': 4587,
                  'rank': 2,
                  'time': '1\'50"8'},
-                 {'boat': 3,
+                {'boat': 3,
                  'name': '堀本裕也',
                  'racerid': 3895,
                  'rank': 3,
                  'time': '1\'52"6'},
-                 {'boat': 2,
+                {'boat': 2,
                  'name': '大澤誠也',
                  'racerid': 5074,
                  'rank': 4,
                  'time': '1\'54"1'},
-                 {'boat': 6, 'name': '加藤優弥', 'racerid': 5185, 'rank': 5, 'time': ''},
-                 {'boat': 4,
+                {'boat': 6, 'name': '加藤優弥', 'racerid': 5185, 'rank': 5, 'time': ''},
+                {'boat': 4,
                  'name': '信濃由行',
                  'racerid': 3620,
                  'rank': 6,
@@ -1187,6 +1199,7 @@ These functions return `dict` object.
         placeshow_betting_dict: Dict[str, int],
       ) -> bool
       ```
+
     - ```python
       PyJPBoatrace().Bet.do(
         stadium:int,
@@ -1314,25 +1327,25 @@ The map between integers and stadiums is given by `STADIUMS_MAP` in `pyjpboatrac
 First, fork this repository and clone it to your local machine.
 
 ```bash
-$ git clone https://github.com/hmasdev/pyjpboatrace/
-$ cd pyjpboatrace
+git clone https://github.com/hmasdev/pyjpboatrace/
+cd pyjpboatrace
 ```
 
 Then, create a virtual environment for your development,
 and install the required libraries.
 
 ```bash
-$ python -m venv venv
-$ source venv/bin/activate  # for Linux or MacOS
-$ # venv\Scripts\activate  # for Windows
-$ pip install -e .[dev]
+python -m venv venv
+source venv/bin/activate  # for Linux or MacOS
+# venv\Scripts\activate  # for Windows
+pip install -e .[dev]
 ```
 
 <details>
 <summary>[Deprecated] when using `pipenv`</summary>
 
 ```bash
-$ pipenv sync --dev
+pipenv sync --dev
 ```
 
 </details>
@@ -1344,18 +1357,18 @@ $ pipenv sync --dev
 You can do unit tests and integration tests as follows:
 
 ```bash
-$ ./download_html_for_test.sh  # Only 1 time
-$ pytest -m "not integrate and not spending_money" # unit tests
-$ pytest # unit tests and integration tests
+./download_html_for_test.sh  # Only 1 time
+pytest -m "not integrate and not spending_money" # unit tests
+pytest # unit tests and integration tests
 ```
 
 <details>
 <summary>[Deprecated] when using `pipenv`</summary>
 
 ```bash
-$ ./download_html_for_test.sh  # Only 1 time
-$ pipenv run pytest -m "not integrate and not spending_money" # unit tests
-$ pipenv run pytest  # unit tests and integration tests
+./download_html_for_test.sh  # Only 1 time
+pipenv run pytest -m "not integrate and not spending_money" # unit tests
+pipenv run pytest  # unit tests and integration tests
 ```
 
 </details>
@@ -1375,14 +1388,14 @@ If you want to test them, make `.secrets.json` at first:
 Then, run
 
 ```bash
-$ pytest -m "spending_money"
+pytest -m "spending_money"
 ```
 
 <details>
 <summary>[Deprecated] when using `pipenv`</summary>
 
 ```bash
-$ pipenv run pytest -m "spending_money"
+pipenv run pytest -m "spending_money"
 ```
 
 </details>
@@ -1394,22 +1407,37 @@ WARNING: Tests with `spending_money` spend 700 yen.
 You should execute the following codes to check the format of code and static types:
 
 ```bash
-$ flake8 pyjpboatrace tests
-$ mypy pyjpboatrace tests
+flake8 pyjpboatrace tests
+mypy pyjpboatrace tests
 ```
 
 <details>
 <summary>[Deprecated] when using `pipenv`</summary>
 
 ```bash
-$ pipenv run flake8 pyjpboatrace
-$ pipenv run flake8 tests
-$ pipenv run mypy pyjpboatrace
-$ pipenv run mypy tests
+pipenv run flake8 pyjpboatrace
+pipenv run flake8 tests
+pipenv run mypy pyjpboatrace
+pipenv run mypy tests
 ```
 
 </details>
 
+### How to Update README.md
+
+To update the content of [README.md](./README.md), please do not edit the file directly.
+Instead, make your changes to [README.md.j2](./README.md.j2).
+
+After making updates to `README.md.j2`, execute the following command to regenerate `README.md`:
+
+```bash
+python update_readme.py > README.md
+```
+
+This process is necessary because README.md is dynamically generated from the README.md.j2 template.
+Direct modifications to README.md will be lost, as they are automatically overwritten by an automated process whenever the template is updated.
+
+Remember, to preserve your changes, always update README.md.j2 and not README.md directly.
 
 ## LICENSE
 
