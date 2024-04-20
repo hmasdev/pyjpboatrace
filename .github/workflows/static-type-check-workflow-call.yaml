@@ -1,6 +1,12 @@
 name: Static Type Check
 
 on:
+  workflow_dispatch:
+    inputs:
+      git-ref:
+        required: false
+        type: string
+        default: "main"
   workflow_call:
     inputs:
       git-ref:
