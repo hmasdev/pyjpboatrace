@@ -2,6 +2,8 @@ name: Automatically update README
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: "0 0 1 * *"
 
 env:
   BRANCH_HEADER: "bot/update-readme-"
