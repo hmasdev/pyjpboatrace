@@ -4,8 +4,8 @@
 ![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/hmasdev/pyjpboatrace?sort=semver)
 ![GitHub](https://img.shields.io/github/license/hmasdev/pyjpboatrace)
 ![GitHub last commit](https://img.shields.io/github/last-commit/hmasdev/pyjpboatrace)
-
-![Scheduled Test](https://github.com/hmasdev/pyjpboatrace/actions/workflows/test_on_schedule.yaml/badge.svg)
+[![PyPI version](https://badge.fury.io/py/pyjpboatrace.svg)](https://pypi.org/project/pyjpboatrace/)
+![Scheduled Test](https://github.com/hmasdev/pyjpboatrace/actions/workflows/tests_on_schedule.yaml/badge.svg)
 
 Japanese boat race is extremely exciting sports.
 It is also fun to predict the results of races.
