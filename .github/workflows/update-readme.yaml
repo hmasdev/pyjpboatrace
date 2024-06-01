@@ -22,7 +22,18 @@ jobs:
       - name: Run script
         run: |
           python update_readme.py > README.md
+      - name: Check if README.md has changed
+        id: check_changes
+        run: |
+          if [[ -n $(git status --porcelain README.md) ]]; then
+            echo "README.md has changed."
+            echo "changes_detected=true" >> "$GITHUB_ENV"
+          else
+            echo "README.md has not changed."
+            echo "changes_detected=false" >> "$GITHUB_ENV"
+          fi
       - name: Commit changes
+        if: env.changes_detected == 'true'
         run: |
           git checkout -b ${BRANCH_HEADER}${{ github.run_id }}
           git config --local user.name "github-actions[bot]"
@@ -30,8 +41,10 @@ jobs:
           git add README.md
           git commit -m "Update README.md"
       - name: Push changes
+        if: env.changes_detected == 'true'
         run: git push -u origin ${BRANCH_HEADER}${{ github.run_id }}
       - name: Create pull request
+        if: env.changes_detected == 'true'
         run: |
           gh pr create \
             --title "Update README.md" \
