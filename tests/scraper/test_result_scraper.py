@@ -82,7 +82,7 @@ def test_get(d: date, stadium: int, race: int):
     assert actual == expected
 
 
-@ pytest.mark.parametrize(
+@pytest.mark.parametrize(
     "d,stadium,race",
     [
         (
