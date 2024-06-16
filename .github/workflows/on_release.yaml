@@ -39,14 +39,36 @@ jobs:
         run: |
           python -m pip install --upgrade pip wheel setuptools twine
           python -m pip install -e .[dev]
+      - name: Build
+        run: |
+          python setup.py sdist bdist_wheel
+          echo "whl_name=$(ls dist/*whl | cut -d / -f 2)" >> $GITHUB_ENV
+          echo "tar_name=$(ls dist/*tar.gz | cut -d / -f 2)" >> $GITHUB_ENV
+      - name: Upload Wheel to GitHub
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ./dist/*.whl
+          asset_name: ${{ env.whl_name }}
+          asset_content_type: application/octet-stream
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Upload tar.gz to GitHub
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ./dist/*.tar.gz
+          asset_name: ${{ env.tar_name }}
+          asset_content_type: application/octet-stream
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Init .pypirc
         run: |
           echo -e '[pypi]' >> ~/.pypirc
           echo -e "username: ${{ secrets.PYPI_USERNAME }}" >> ~/.pypirc
           echo -e "password: ${{ secrets.PYPI_PASSWORD }}" >> ~/.pypirc
-      - name: Upload
+      - name: Upload to PyPI
         run: |
-          python setup.py sdist bdist_wheel
           python -m twine upload --repository pypi dist/*
       - name: Delete .pypirc
         run: |
