@@ -1,6 +1,6 @@
-from bs4 import BeautifulSoup
 from logging import Logger, getLogger
 
+from bs4 import BeautifulSoup
 
 _logger: Logger = getLogger(__name__)
 

@@ -1,10 +1,11 @@
 from abc import ABCMeta, abstractmethod
 from logging import Logger, getLogger
-from selenium import webdriver
 from typing import Any
+
+from selenium import webdriver
+
 from ..exceptions import UnableActionException
 from ..user_information import UserInformation
-
 
 _logger: Logger = getLogger(__name__)
 

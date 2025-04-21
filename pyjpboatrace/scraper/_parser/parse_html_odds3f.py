@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
-from ...utils import str2num
+
 from ...exceptions import RaceCancelledException
+from ...utils import str2num
 from .scrape_odds_update_time import scrape_odds_update_time
 
 

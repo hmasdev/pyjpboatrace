@@ -1,6 +1,8 @@
-import pytest
 import os
+
+import pytest
 from selenium.common.exceptions import WebDriverException
+
 from ._driver_fixutures import driver  # noqa
 
 EXPECTED_DIREC = 'tests/data'

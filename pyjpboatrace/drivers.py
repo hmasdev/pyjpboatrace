@@ -1,11 +1,11 @@
-from selenium import webdriver
+from typing import Callable
+
 import requests
 from requests import Response
 from requests.exceptions import ConnectionError, InvalidSchema
-from selenium.common.exceptions import WebDriverException
-from selenium.common.exceptions import InvalidArgumentException
+from selenium import webdriver
+from selenium.common.exceptions import InvalidArgumentException, WebDriverException
 from selenium.webdriver.edge.options import Options as EdgeOptions
-from typing import Callable
 
 
 def create_chrome_driver() -> webdriver.Chrome:

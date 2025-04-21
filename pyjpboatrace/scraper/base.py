@@ -1,8 +1,8 @@
 from abc import ABCMeta, abstractmethod
 from logging import Logger, getLogger
-from selenium import webdriver
 from typing import Any, Callable, Dict
 
+from selenium import webdriver
 
 _logger: Logger = getLogger(__name__)
 

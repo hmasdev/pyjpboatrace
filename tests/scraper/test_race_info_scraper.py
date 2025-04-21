@@ -1,6 +1,7 @@
 from datetime import date
-import pytest
 from unittest.mock import Mock
+
+import pytest
 
 from pyjpboatrace.drivers import HTTPGetDriver
 from pyjpboatrace.scraper.race_info_scraper import RaceInfoScraper

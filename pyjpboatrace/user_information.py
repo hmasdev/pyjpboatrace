@@ -1,9 +1,8 @@
-import os
 import json
+import os
 from getpass import getpass
 from logging import Logger, getLogger
 from typing import Optional
-
 
 _logger: Logger = getLogger(__name__)
 

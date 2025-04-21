@@ -1,14 +1,14 @@
 import datetime
-from logging import getLogger, Logger
-from selenium import webdriver
+from logging import Logger, getLogger
 from typing import Any, Dict, Optional
 
-from . import scraper, operator
+from selenium import webdriver
+
+from . import operator, scraper
 from .drivers import create_httpget_driver
 from .exceptions import UserInformationNotGivenException
 from .user_information import UserInformation
 from .validator import validate_date, validate_race, validate_stadium
-
 
 _logger: Logger = getLogger(__name__)
 

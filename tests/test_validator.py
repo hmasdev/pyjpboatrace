@@ -1,10 +1,12 @@
 from datetime import date, timedelta
+
 import pytest
+
 from pyjpboatrace.const import NUM_RACES, NUM_STADIUMS
 from pyjpboatrace.validator import (
-    validate_stadium,
     validate_date,
     validate_race,
+    validate_stadium,
 )
 
 

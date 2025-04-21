@@ -1,15 +1,16 @@
+from . import (
+    certification,
+    const,
+    drivers,
+    exceptions,
+    operator,
+    pyjpboatrace,
+    scraper,
+    user_information,
+    utils,
+    validator,
+)
 from .pyjpboatrace import PyJPBoatrace
-from . import certification
-from . import const
-from . import drivers
-from . import exceptions
-from . import operator
-from . import pyjpboatrace
-from . import scraper
-from . import user_information
-from . import utils
-from . import validator
-
 
 __version__ = 'v0.4.1'
 

@@ -1,10 +1,11 @@
 import pytest
-from pyjpboatrace.user_information import UserInformation
-from pyjpboatrace.certification import login, check_login_status, logout
-from pyjpboatrace.exceptions import LoginFailException
 
-from ._utils import get_user_info
+from pyjpboatrace.certification import check_login_status, login, logout
+from pyjpboatrace.exceptions import LoginFailException
+from pyjpboatrace.user_information import UserInformation
+
 from ._driver_fixutures import driver_not_http_get_driver  # noqa
+from ._utils import get_user_info
 
 
 @pytest.mark.skipif(

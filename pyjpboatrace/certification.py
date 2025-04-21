@@ -1,13 +1,13 @@
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 from logging import Logger, getLogger
 
-from .user_information import UserInformation
-from .const import BOATRACEJP_MAIN_URL
-from .const import BOATRACEJP_LOGIN_URL, BOATRACEJP_LOGOUT_URL
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
+
+from .const import BOATRACEJP_LOGIN_URL, BOATRACEJP_LOGOUT_URL, BOATRACEJP_MAIN_URL
 from .exceptions import LoginFailException
+from .user_information import UserInformation
 
 # TODO error handling : failed to read
 _logger: Logger = getLogger(__name__)

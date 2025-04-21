@@ -1,14 +1,13 @@
 import datetime
 from logging import Logger, getLogger
-from selenium import webdriver
 from typing import Any, Dict
 
+from selenium import webdriver
 
-from .base import BaseScraper
 from ..const import BOATRACEJP_BASE_URL
+from ..validator import validate_date, validate_race, validate_stadium
 from ._parser import parse_html_odds2tf
-from ..validator import validate_date, validate_stadium, validate_race
-
+from .base import BaseScraper
 
 _logger: Logger = getLogger(__name__)
 

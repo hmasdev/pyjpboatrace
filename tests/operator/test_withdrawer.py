@@ -1,12 +1,13 @@
 import logging
+from unittest.mock import MagicMock, Mock
+
 import pytest
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
-from unittest.mock import MagicMock, Mock
 
-from pyjpboatrace.exceptions import UnableActionException, ZeroDepositException
 from pyjpboatrace.drivers import HTTPGetDriver
+from pyjpboatrace.exceptions import UnableActionException, ZeroDepositException
 from pyjpboatrace.operator.withdrawer import WithdrawOperator
 from pyjpboatrace.user_information import UserInformation
 
