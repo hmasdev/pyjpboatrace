@@ -35,14 +35,18 @@ jobs:
       - name: Commit changes
         if: env.changes_detected == 'true'
         run: |
-          git checkout -b ${BRANCH_HEADER}${{ github.run_id }}
+          git checkout -b ${BRANCH_HEADER}${GITHUB_RUN_ID}
           git config --local user.name "github-actions[bot]"
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add README.md
           git commit -m "Update README.md"
+        env:
+          GITHUB_RUN_ID: ${{ github.run_id }}
       - name: Push changes
         if: env.changes_detected == 'true'
-        run: git push -u origin ${BRANCH_HEADER}${{ github.run_id }}
+        run: git push -u origin ${BRANCH_HEADER}${GITHUB_RUN_ID}
+        env:
+          GITHUB_RUN_ID: ${{ github.run_id }}
       - name: Create pull request
         if: env.changes_detected == 'true'
         run: |
@@ -50,9 +54,10 @@ jobs:
             --title "Update README.md" \
             --body "This PR updates the README.md file." \
             --base main \
-            --head ${BRANCH_HEADER}${{ github.run_id }} \
+            --head ${BRANCH_HEADER}${GITHUB_RUN_ID} \
             --reviewer hmasdev \
             --assignee hmasdev \
             --label "bot"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_RUN_ID: ${{ github.run_id }}

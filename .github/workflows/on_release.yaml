@@ -62,14 +62,11 @@ jobs:
           asset_content_type: application/octet-stream
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Init .pypirc
-        run: |
-          echo -e '[pypi]' >> ~/.pypirc
-          echo -e "username: ${{ secrets.PYPI_USERNAME }}" >> ~/.pypirc
-          echo -e "password: ${{ secrets.PYPI_PASSWORD }}" >> ~/.pypirc
       - name: Upload to PyPI
         run: |
           python -m twine upload --repository pypi dist/*
-      - name: Delete .pypirc
-        run: |
-          rm ~/.pypirc
+        env:
+          TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
+          TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
+          TWINE_REPOSITORY_URL: https://upload.pypi.org/legacy/
+          TWINE_SKIP_EXISTING: true
