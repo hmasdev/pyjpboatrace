@@ -38,10 +38,11 @@ jobs:
       - name: Install requirements
         run: |
           python -m pip install --upgrade pip wheel setuptools twine
-          python -m pip install -e .[dev]
+          python -m pip install uv
+          uv sync --dev
       - name: Build
         run: |
-          python setup.py sdist bdist_wheel
+          uv build
           echo "whl_name=$(ls dist/*whl | cut -d / -f 2)" >> $GITHUB_ENV
           echo "tar_name=$(ls dist/*tar.gz | cut -d / -f 2)" >> $GITHUB_ENV
       - name: Upload Wheel to GitHub
@@ -64,7 +65,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Upload to PyPI
         run: |
-          python -m twine upload --repository pypi dist/*
+          uv run python -m twine upload --repository pypi dist/*
         env:
           TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
           TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}

@@ -18,10 +18,12 @@ jobs:
         with:
           python-version: "3.11"
       - name: Install dependencies
-        run: pip install -e .[dev]
+        run: |
+          pip install uv
+          uv sync --dev
       - name: Run script
         run: |
-          python update_readme.py > README.md
+          uv run update_readme.py > README.md
       - name: Check if README.md has changed
         id: check_changes
         run: |

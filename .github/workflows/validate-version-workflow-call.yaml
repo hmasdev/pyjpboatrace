@@ -33,12 +33,13 @@ jobs:
       - name: Install requirements
         run: |
           python -m pip install --upgrade pip
-          python -m pip install -e .
+          python -m pip install uv
+          uv sync
       - name: Check Version
         run: |
           # Check if the tag is the same as pyjpboatrace.__version__
           export tag=$(echo "$INPUTS_GIT_REF" | cut -d / -f 3)
           echo "extracted tag from git-ref: $tag"
-          python -c "import os; import pyjpboatrace; assert pyjpboatrace.__version__ == os.getenv('tag'), (pyjpboatrace.__version__, os.getenv('tag'))"
+          uv run python -c "import os; import pyjpboatrace; assert pyjpboatrace.__version__ == os.getenv('tag'), (pyjpboatrace.__version__, os.getenv('tag'))"
         env:
           INPUTS_GIT_REF: ${{ inputs.git-ref }}
