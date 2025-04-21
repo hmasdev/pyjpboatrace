@@ -10,13 +10,14 @@ from .const import BOATRACEJP_LOGIN_URL, BOATRACEJP_LOGOUT_URL
 from .exceptions import LoginFailException
 
 # TODO error handling : failed to read
+_logger: Logger = getLogger(__name__)
 
 
 def login(
     driver: webdriver.remote.webdriver.WebDriver,
     user: UserInformation,
     timeout: int = 15,
-    logger: Logger = getLogger(__name__)
+    logger: Logger = _logger,
 ) -> bool:
     """Login to boatrace.jp
 
@@ -91,7 +92,7 @@ def login(
 
 def logout(
     driver: webdriver.remote.webdriver.WebDriver,
-    logger: Logger = getLogger(__name__)
+    logger: Logger = _logger,
 ) -> bool:
     """Logout from boatrace.jp
 
@@ -109,7 +110,7 @@ def logout(
 
 def check_login_status(
     driver: webdriver.remote.webdriver.WebDriver,
-    logger: Logger = getLogger(__name__),
+    logger: Logger = _logger,
 ) -> bool:
     """[summary]
 

@@ -10,6 +10,8 @@ from ._parser import parse_html_index
 from ..validator import validate_date
 
 
+_logger: Logger = getLogger(__name__)
+
 class StadiumsScraper(BaseScraper):
     """To get stadiums where races are/were held.
     """
@@ -19,7 +21,7 @@ class StadiumsScraper(BaseScraper):
     def __init__(
         self,
         driver: webdriver.remote.webdriver.WebDriver,
-        logger: Logger = getLogger(__name__),
+        logger: Logger = _logger,
     ):
         super().__init__(driver, parse_html_index, logger)
 

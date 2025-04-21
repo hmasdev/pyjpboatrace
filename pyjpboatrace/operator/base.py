@@ -6,6 +6,9 @@ from ..exceptions import UnableActionException
 from ..user_information import UserInformation
 
 
+_logger: Logger = getLogger(__name__)
+
+
 class BaseOperator(metaclass=ABCMeta):
     """Base class for operator
     """
@@ -14,7 +17,7 @@ class BaseOperator(metaclass=ABCMeta):
         self,
         user: UserInformation,
         driver: webdriver.remote.webdriver.WebDriver,
-        logger: Logger = getLogger(__name__),
+        logger: Logger = _logger,
     ):
         self._user = user
         self._driver = driver
@@ -31,8 +34,8 @@ class DriverCheckMixin:
         """Check whether self._driver is Chrome, Firefox or Edge
 
         Raises:
-            UnableActionException: Occurred when self._driver is not Chrome, Firefox or Edge  # noqa
-        """
+            UnableActionException: Occurred when self._driver is not Chrome, Firefox or Edge
+        """  # noqa
         if not (
             isinstance(self._driver, webdriver.Chrome)
             or isinstance(self._driver, webdriver.Firefox)

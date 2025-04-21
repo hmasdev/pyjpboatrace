@@ -5,6 +5,9 @@ from logging import Logger, getLogger
 from typing import Optional
 
 
+_logger: Logger = getLogger(__name__)
+
+
 class UserInformation:
     """ Use-information container class
 
@@ -22,7 +25,7 @@ class UserInformation:
         auth_pass: Optional[str] = None,
         vote_pass: Optional[str] = None,  # TODO rename vote_pass -> bet_pass
         json_file: Optional[str] = None,
-        logger: Logger = getLogger(__name__)
+        logger: Logger = _logger,
     ):
         # preparation
         self.userid: Optional[str] = None

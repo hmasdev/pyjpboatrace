@@ -10,6 +10,8 @@ from ._parser import parse_html_raceresult
 from ..validator import validate_date, validate_stadium, validate_race
 
 
+_logger: Logger = getLogger(__name__)
+
 class ResultScraper(BaseScraper):
     """To get race result
     """
@@ -19,7 +21,7 @@ class ResultScraper(BaseScraper):
     def __init__(
         self,
         driver: webdriver.remote.webdriver.WebDriver,
-        logger: Logger = getLogger(__name__),
+        logger: Logger = _logger,
     ):
         super().__init__(driver, parse_html_raceresult, logger)
 

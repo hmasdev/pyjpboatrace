@@ -100,10 +100,10 @@ class HTTPGetDriver:
         """
         try:
             self.__page_source = self.__get(url).text
-        except ConnectionError:
-            raise WebDriverException
-        except InvalidSchema:
-            raise InvalidArgumentException
+        except ConnectionError as e:
+            raise WebDriverException from e
+        except InvalidSchema as e:
+            raise InvalidArgumentException from e
         return None
 
     @property
