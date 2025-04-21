@@ -37,6 +37,8 @@ jobs:
       - name: Check Version
         run: |
           # Check if the tag is the same as pyjpboatrace.__version__
-          export tag=$(echo "${{ inputs.git-ref }}" | cut -d / -f 3)
+          export tag=$(echo "$INPUTS_GIT_REF" | cut -d / -f 3)
           echo "extracted tag from git-ref: $tag"
           python -c "import os; import pyjpboatrace; assert pyjpboatrace.__version__ == os.getenv('tag'), (pyjpboatrace.__version__, os.getenv('tag'))"
+        env:
+          INPUTS_GIT_REF: ${{ inputs.git-ref }}
