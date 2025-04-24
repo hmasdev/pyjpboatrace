@@ -10,6 +10,8 @@ jobs:
     uses: ./.github/workflows/validate-version-workflow-call.yaml
     with:
       git-ref: ${{ github.ref }}
+    permissions:
+      contents: read
   update-version:
     needs: [validate-version]
     if: ${{ failure() }}
