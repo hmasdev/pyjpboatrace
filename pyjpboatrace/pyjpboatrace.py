@@ -1,13 +1,16 @@
 import datetime
-from logging import getLogger, Logger
-from selenium import webdriver
+from logging import Logger, getLogger
 from typing import Any, Dict, Optional
 
-from . import scraper, operator
+from selenium import webdriver
+
+from . import operator, scraper
 from .drivers import create_httpget_driver
 from .exceptions import UserInformationNotGivenException
 from .user_information import UserInformation
 from .validator import validate_date, validate_race, validate_stadium
+
+_logger: Logger = getLogger(__name__)
 
 
 class PyJPBoatrace(object):
@@ -37,16 +40,16 @@ class PyJPBoatrace(object):
         driver: webdriver.remote.webdriver.WebDriver = create_httpget_driver(),  # type: ignore  # noqa
         user_information: Optional[UserInformation] = None,
         close_driver_when_closing_pyjpboatrace: bool = True,
-        logger: Logger = getLogger(__name__),
+        logger: Logger = _logger,
     ):
         """Python-based Japanese Boatrace Tools Class
 
         Args:
-            driver (webdriver.remote.webdriver.WebDriver, optional): webdriver. Defaults to create_httpget_driver().  # noqa
-            user_information (Optional[UserInformation], optional): user information. Defaults to None.  # noqa
-            close_driver_when_closing_pyjpboatrace (bool, optional): If True, close driver when calling self.close(). Defaults to True.  # noqa
-            logger (Logger, optional): logger. Defaults to getLogger(__name__).  # noqa
-        """
+            driver (webdriver.remote.webdriver.WebDriver, optional): webdriver. Defaults to create_httpget_driver().
+            user_information (Optional[UserInformation], optional): user information. Defaults to None.
+            close_driver_when_closing_pyjpboatrace (bool, optional): If True, close driver when calling self.close(). Defaults to True.
+            logger (Logger, optional): logger. Defaults to getLogger(__name__).
+        """  # noqa
         self.__driver = driver
         self.__user_information = user_information
         self.__close_driver_when_closing_pyjpboatrace = close_driver_when_closing_pyjpboatrace  # noqa
@@ -376,13 +379,13 @@ class PyJPBoatrace(object):
         self,
         stadium: int,
         race: int,
-        trifecta_betting_dict: Dict[str, int] = {},
-        trio_betting_dict: Dict[str, int] = {},
-        exacta_betting_dict: Dict[str, int] = {},
-        quinella_betting_dict: Dict[str, int] = {},
-        quinellaplace_betting_dict: Dict[str, int] = {},
-        win_betting_dict: Dict[str, int] = {},
-        placeshow_betting_dict: Dict[str, int] = {},
+        trifecta_betting_dict: Optional[Dict[str, int]] = None,
+        trio_betting_dict: Optional[Dict[str, int]] = None,
+        exacta_betting_dict: Optional[Dict[str, int]] = None,
+        quinella_betting_dict: Optional[Dict[str, int]] = None,
+        quinellaplace_betting_dict: Optional[Dict[str, int]] = None,
+        win_betting_dict: Optional[Dict[str, int]] = None,
+        placeshow_betting_dict: Optional[Dict[str, int]] = None,
     ) -> bool:
         """To bet money on the race.
 
@@ -391,31 +394,31 @@ class PyJPBoatrace(object):
             race (int): race no.
             trifecta_betting_dict (Dict[str, int], optional):
                 Betting dictionary for trifecta.
-                Defaults to {}.
+                Defaults to None, which means no bet.
                 e.g. {"1-2-3": 100, }
             trio_betting_dict (Dict[str, int], optional):
                 Betting dictionary for trio.
-                Defaults to {}.
+                Defaults to None, which means no bet.
                 e.g. {"1=2=3": 100, }
             exacta_betting_dict (Dict[str, int], optional):
                 Betting dictionary for exacta.
-                Defaults to {}.
+                Defaults to None, which means no bet.
                 e.g. {"1-2": 100, }
             quinella_betting_dict (Dict[str, int], optional):
                 Betting dictionary for quinella.
-                Defaults to {}.
+                Defaults to None, which means no bet.
                 e.g. {"1=2": 100, }
             quinellaplace_betting_dict (Dict[str, int], optional):
                 Betting dictionary for quinellaplace.
-                Defaults to {}.
+                Defaults to None, which means no bet.
                 e.g. {"1=3": 100, }
             win_betting_dict (Dict[str, int], optional):
                 Betting dictionary for win.
-                Defaults to {}.
+                Defaults to None, which means no bet.
                 e.g. {"1": 100, }
             placeshow_betting_dict (Dict[str, int], optional):
                 Betting dictionary for placeshow.
-                Defaults to {}.
+                Defaults to None, which means no bet.
                 e.g. {"1": 100, }
 
         Raises:
@@ -449,6 +452,15 @@ class PyJPBoatrace(object):
 
         TODO: to create the data structure for betting dict.
         """  # noqa
+        # preprocess
+        trifecta_betting_dict = trifecta_betting_dict or {}
+        trio_betting_dict = trio_betting_dict or {}
+        exacta_betting_dict = exacta_betting_dict or {}
+        quinella_betting_dict = quinella_betting_dict or {}
+        quinellaplace_betting_dict = quinellaplace_betting_dict or {}
+        win_betting_dict = win_betting_dict or {}
+        placeshow_betting_dict = placeshow_betting_dict or {}
+
         # create bet dict
         betdict = {
             'trifecta': trifecta_betting_dict,

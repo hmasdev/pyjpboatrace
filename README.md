@@ -1300,6 +1300,7 @@ The map between integers and stadiums is given by `STADIUMS_MAP` in `pyjpboatrac
 ### Requirement
 
 - Python >= 3.9
+  - uv
 - Chrome
 - Firefox
 - bash
@@ -1331,24 +1332,11 @@ git clone https://github.com/hmasdev/pyjpboatrace/
 cd pyjpboatrace
 ```
 
-Then, create a virtual environment for your development,
-and install the required libraries.
+Then, create your development environment with `uv`.
 
 ```bash
-python -m venv venv
-source venv/bin/activate  # for Linux or MacOS
-# venv\Scripts\activate  # for Windows
-pip install -e .[dev]
+uv sync --dev
 ```
-
-<details>
-<summary>[Deprecated] when using `pipenv`</summary>
-
-```bash
-pipenv sync --dev
-```
-
-</details>
 
 ### Test
 
@@ -1358,20 +1346,9 @@ You can do unit tests and integration tests as follows:
 
 ```bash
 ./download_html_for_test.sh  # Only 1 time
-pytest -m "not integrate and not spending_money" # unit tests
-pytest # unit tests and integration tests
+uv run pytest -m "not integrate and not spending_money" # unit tests
+uv run pytest # unit tests and integration tests
 ```
-
-<details>
-<summary>[Deprecated] when using `pipenv`</summary>
-
-```bash
-./download_html_for_test.sh  # Only 1 time
-pipenv run pytest -m "not integrate and not spending_money" # unit tests
-pipenv run pytest  # unit tests and integration tests
-```
-
-</details>
 
 `pytest` does not test depositing, withdrawing or betting.
 If you want to test them, make `.secrets.json` at first:
@@ -1388,17 +1365,8 @@ If you want to test them, make `.secrets.json` at first:
 Then, run
 
 ```bash
-pytest -m "spending_money"
+uv run pytest -m "spending_money"
 ```
-
-<details>
-<summary>[Deprecated] when using `pipenv`</summary>
-
-```bash
-pipenv run pytest -m "spending_money"
-```
-
-</details>
 
 WARNING: Tests with `spending_money` spend 700 yen.
 
@@ -1407,21 +1375,9 @@ WARNING: Tests with `spending_money` spend 700 yen.
 You should execute the following codes to check the format of code and static types:
 
 ```bash
-flake8 pyjpboatrace tests
-mypy pyjpboatrace tests
+uv run ruff check pyjpboatrace tests
+uv run mypy pyjpboatrace tests
 ```
-
-<details>
-<summary>[Deprecated] when using `pipenv`</summary>
-
-```bash
-pipenv run flake8 pyjpboatrace
-pipenv run flake8 tests
-pipenv run mypy pyjpboatrace
-pipenv run mypy tests
-```
-
-</details>
 
 ### How to Update README.md
 
@@ -1431,7 +1387,7 @@ Instead, make your changes to [README.md.j2](./README.md.j2).
 After making updates to `README.md.j2`, execute the following command to regenerate `README.md`:
 
 ```bash
-python update_readme.py > README.md
+uv run update_readme.py > README.md
 ```
 
 This process is necessary because README.md is dynamically generated from the README.md.j2 template.

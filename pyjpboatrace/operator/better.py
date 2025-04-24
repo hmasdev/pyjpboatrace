@@ -1,17 +1,18 @@
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 import time
 
-from .base import BaseOperator, DriverCheckMixin
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
+
 from ..exceptions import (
     InactiveRace,
     InactiveStadium,
     InsufficientDepositException,
     ZeroDepositException,
 )
+from ..validator import validate_race, validate_stadium
+from .base import BaseOperator, DriverCheckMixin
 from .static import get_bet_limit, visit_ibmbraceorjp
-from ..validator import validate_stadium, validate_race
 
 
 class BettingOperator(BaseOperator, DriverCheckMixin):

@@ -1,8 +1,9 @@
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from .base import BaseOperator, DriverCheckMixin
+from selenium.webdriver.support.ui import WebDriverWait
+
 from ..exceptions import ZeroDepositException
+from .base import BaseOperator, DriverCheckMixin
 from .static import get_bet_limit, visit_ibmbraceorjp
 
 

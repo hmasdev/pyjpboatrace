@@ -1,9 +1,10 @@
 from datetime import date
+
 from .const import NUM_RACES, NUM_STADIUMS
 
 
 def validate_date(d: date):
-    f"""Validate date.
+    """Validate date.
 
     Args:
         d (date)
@@ -16,7 +17,7 @@ def validate_date(d: date):
 
 
 def validate_stadium(stadium: int):
-    f"""Validate stadium ID
+    """Validate stadium ID
 
     Args:
         stadium (int)
@@ -32,7 +33,7 @@ def validate_stadium(stadium: int):
 
 
 def validate_race(race: int):
-    f"""Validate race no
+    """Validate race no
 
     Args:
         race (int)

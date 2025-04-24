@@ -1,20 +1,21 @@
-from unittest import mock
-import pytest
+import re
 import time
 from datetime import date, datetime, timedelta
 from typing import Any, Dict
-import re
+from unittest import mock
+
+import pytest
+
 from pyjpboatrace import PyJPBoatrace
 from pyjpboatrace.const import STADIUMS_MAP
-from pyjpboatrace.exceptions import RaceCancelledException, NoDataException
+from pyjpboatrace.exceptions import NoDataException, RaceCancelledException
 
 from ._driver_fixutures import chrome_driver  # noqa
-
 from ._utils import (
-    get_user_info,
-    is_boatrace_time,
     get_expected_json,
     get_mock_html,
+    get_user_info,
+    is_boatrace_time,
 )
 
 # TODO add test for get function of racer's basic info

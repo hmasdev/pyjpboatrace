@@ -1,8 +1,10 @@
 from abc import ABCMeta, abstractmethod
 from logging import Logger, getLogger
-from selenium import webdriver
 from typing import Any, Callable, Dict
 
+from selenium import webdriver
+
+_logger: Logger = getLogger(__name__)
 
 class BaseScraper(metaclass=ABCMeta):
     """Base class for scraper.
@@ -12,7 +14,7 @@ class BaseScraper(metaclass=ABCMeta):
         self,
         driver: webdriver.remote.webdriver.WebDriver,
         parser: Callable[[str, ], Dict[str, Any]],
-        logger: Logger = getLogger(__name__),
+        logger: Logger = _logger,
     ):
         self._driver = driver
         self._parser = parser

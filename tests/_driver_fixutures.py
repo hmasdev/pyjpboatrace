@@ -4,8 +4,8 @@ from selenium import webdriver
 from pyjpboatrace.drivers import (
     HTTPGetDriver,
     create_chrome_driver,
-    create_firefox_driver,
     create_edge_driver,
+    create_firefox_driver,
     create_httpget_driver,
 )
 

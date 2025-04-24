@@ -1,14 +1,14 @@
 from .base import BaseScraper
-from .stadiums_scraper import StadiumsScraper
-from .races_scraper import RacesScraper
-from .race_info_scraper import RaceInfoScraper
-from .just_before_info_scraper import JustBeforeInfoScraper
-from .win_placeshow_odds_scraper import WinPlaceshowOddsScraper
-from .quinellaplace_odds_scraper import QuinellaplaceOddsScraper
 from .exacta_quinella_odds_scraper import ExactaQuinellaOddsScraper
-from .trio_odds_scraper import TrioOddsScraper
-from .trifecta_odds_scraper import TrifectaOddsScraper
+from .just_before_info_scraper import JustBeforeInfoScraper
+from .quinellaplace_odds_scraper import QuinellaplaceOddsScraper
+from .race_info_scraper import RaceInfoScraper
+from .races_scraper import RacesScraper
 from .result_scraper import ResultScraper
+from .stadiums_scraper import StadiumsScraper
+from .trifecta_odds_scraper import TrifectaOddsScraper
+from .trio_odds_scraper import TrioOddsScraper
+from .win_placeshow_odds_scraper import WinPlaceshowOddsScraper
 
 __all__ = [
     BaseScraper.__name__,

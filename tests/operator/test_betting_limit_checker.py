@@ -1,12 +1,12 @@
-from unittest.mock import call
+from unittest.mock import MagicMock, Mock, call
+
 import pytest
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
-from unittest.mock import MagicMock, Mock
 
-from pyjpboatrace.exceptions import UnableActionException
 from pyjpboatrace.drivers import HTTPGetDriver
+from pyjpboatrace.exceptions import UnableActionException
 from pyjpboatrace.operator.betting_limit_checker import (
     BettingLimitCheckOperator,
 )

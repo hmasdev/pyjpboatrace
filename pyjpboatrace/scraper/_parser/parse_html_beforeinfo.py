@@ -1,4 +1,5 @@
 from bs4 import BeautifulSoup
+
 from ...utils import str2num
 
 

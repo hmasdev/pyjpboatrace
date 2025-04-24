@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
-from ...utils import str2num
+
 from ...exceptions import RaceCancelledException
+from ...utils import str2num
 from .scrape_odds_update_time import scrape_odds_update_time
 
 
@@ -12,7 +13,7 @@ def parse_html_oddsk(html: str):
         for i, tr in enumerate(trs):
             tds = tr.select('td')
             b2 = i + 2
-            for j, (tdo, tde) in enumerate(zip(tds[::2], tds[1::2])):
+            for j, (_, tde) in enumerate(zip(tds[::2], tds[1::2])):
                 b1 = j + 1
                 if b1 >= b2:  # invalid quinella-place
                     break

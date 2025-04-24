@@ -4,19 +4,18 @@ build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["pyjpboatrace"]
+include = ["pyjpboatrace", "pyjpboatrace.*"]
 
 [project]
 name = "pyjpboatrace"
 dynamic = ["version"]
-license = { file = "LICENSE" }
+license-files = ["LICENSE"]
 authors = [{ name = "hmasdev", email = "hmasuidev1com@gmail.com" }]
 description = "PyJPBoatrace: Python-based Japanese boatrace tools"
 readme = "README.md"
 keywords = ["kyotei", "boatrace", "data analysis"]
 classifiers = [
     "Development Status :: 2 - Pre-Alpha",
-    "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
@@ -37,26 +36,53 @@ Repository = "http://github.com/hmasdev/pyjpboatrace"
 
 [project.optional-dependencies]
 dev = [
-    "autopep8",
-    "flake8>=3.8.4",
-    "Jinja2",
-    "mypy>=0.812",
-    "pytest>=6.1.2",
-    "pytest-cov>=2.10.1",
-    "pytz",
-    "twine",
-    "types-pytz",
-    "wheel",
+    "autopep8>=2.3.1",
+    "jinja2>=3.1.5",
+    "mypy>=1.14.0",
+    "pytest>=8.3.4",
+    "pytest-cov>=6.0.0",
+    "pytz>=2024.2",
+    "ruff>=0.11.6",
+    "twine>=6.0.1",
+    "types-pytz>=2024.2.0.20241221",
+]
+
+[dependency-groups]
+dev = [
+    "autopep8>=2.3.1",
+    "jinja2>=3.1.5",
+    "mypy>=1.14.0",
+    "pytest>=8.3.4",
+    "pytest-cov>=6.0.0",
+    "pytz>=2024.2",
+    "ruff>=0.11.6",
+    "twine>=6.0.1",
+    "types-pytz>=2024.2.0.20241221",
 ]
 
 [tool.setuptools.dynamic]
 version = { attr = "pyjpboatrace.__version__" }
 
 [tool.pytest.ini_options]
-minversion = 6.0
+minversion = "6.0"
 addopts = "--cov=pyjpboatrace --cov-branch --cov-report=term-missing -m 'not spending_money'"
 testpaths = ["tests"]
 markers = [
     "integrate: integration test",
     "spending_money: test with spending money",
 ]
+
+[tool.mypy]
+# TBD
+# strict = true
+# warn_return_any = true
+# warn_unused_configs = true
+# show_error_codes = true
+pretty = true
+
+[tool.ruff]
+exclude = [".venv", "build", "dist"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B"]
+ignore = ["D100", "D101", "D102", "D103"]

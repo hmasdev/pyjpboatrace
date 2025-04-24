@@ -1,14 +1,15 @@
-import pytest
 import time
 
+import pytest
+
 from pyjpboatrace.operator import (
-    DepositOperator,
     BettingLimitCheckOperator,
+    DepositOperator,
     WithdrawOperator,
 )
 
 from .._driver_fixutures import chrome_driver  # noqa
-from .._utils import is_boatrace_time, get_user_info
+from .._utils import get_user_info, is_boatrace_time
 
 
 @pytest.mark.skipif(

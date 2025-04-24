@@ -1,22 +1,23 @@
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 from logging import Logger, getLogger
 
-from .user_information import UserInformation
-from .const import BOATRACEJP_MAIN_URL
-from .const import BOATRACEJP_LOGIN_URL, BOATRACEJP_LOGOUT_URL
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
+
+from .const import BOATRACEJP_LOGIN_URL, BOATRACEJP_LOGOUT_URL, BOATRACEJP_MAIN_URL
 from .exceptions import LoginFailException
+from .user_information import UserInformation
 
 # TODO error handling : failed to read
+_logger: Logger = getLogger(__name__)
 
 
 def login(
     driver: webdriver.remote.webdriver.WebDriver,
     user: UserInformation,
     timeout: int = 15,
-    logger: Logger = getLogger(__name__)
+    logger: Logger = _logger,
 ) -> bool:
     """Login to boatrace.jp
 
@@ -91,7 +92,7 @@ def login(
 
 def logout(
     driver: webdriver.remote.webdriver.WebDriver,
-    logger: Logger = getLogger(__name__)
+    logger: Logger = _logger,
 ) -> bool:
     """Logout from boatrace.jp
 
@@ -109,7 +110,7 @@ def logout(
 
 def check_login_status(
     driver: webdriver.remote.webdriver.WebDriver,
-    logger: Logger = getLogger(__name__),
+    logger: Logger = _logger,
 ) -> bool:
     """[summary]
 

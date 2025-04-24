@@ -1,10 +1,12 @@
-from bs4 import BeautifulSoup
 from logging import Logger, getLogger
 
+from bs4 import BeautifulSoup
+
+_logger: Logger = getLogger(__name__)
 
 def scrape_odds_update_time(
     soup: BeautifulSoup,
-    logger: Logger = getLogger(__name__),
+    logger: Logger = _logger,
 ) -> str:
 
     # case: after time-limit

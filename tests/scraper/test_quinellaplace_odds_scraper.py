@@ -1,12 +1,13 @@
 from datetime import date
-import pytest
 from unittest.mock import Mock
 
+import pytest
+
 from pyjpboatrace.drivers import HTTPGetDriver
+from pyjpboatrace.exceptions import RaceCancelledException
 from pyjpboatrace.scraper.quinellaplace_odds_scraper import (
     QuinellaplaceOddsScraper,
 )
-from pyjpboatrace.exceptions import RaceCancelledException
 
 from .._utils import get_expected_json, get_mock_html
 
