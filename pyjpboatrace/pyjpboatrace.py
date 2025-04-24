@@ -454,12 +454,12 @@ class PyJPBoatrace(object):
         """  # noqa
         # preprocess
         trifecta_betting_dict = trifecta_betting_dict or {}
-        trio_betting_dict = trifecta_betting_dict or {}
-        exacta_betting_dict = trifecta_betting_dict or {}
-        quinella_betting_dict = trifecta_betting_dict or {}
-        quinellaplace_betting_dict = trifecta_betting_dict or {}
-        win_betting_dict = trifecta_betting_dict or {}
-        placeshow_betting_dict = trifecta_betting_dict or {}
+        trio_betting_dict = trio_betting_dict or {}
+        exacta_betting_dict = exacta_betting_dict or {}
+        quinella_betting_dict = quinella_betting_dict or {}
+        quinellaplace_betting_dict = quinellaplace_betting_dict or {}
+        win_betting_dict = win_betting_dict or {}
+        placeshow_betting_dict = placeshow_betting_dict or {}
 
         # create bet dict
         betdict = {
