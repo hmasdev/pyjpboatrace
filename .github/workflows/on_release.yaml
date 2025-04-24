@@ -24,6 +24,8 @@ jobs:
   build:
     needs: [test, static-type-check, code-style-check, validate-version]
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v4
       - name: Set up Python 3.11
@@ -61,6 +63,8 @@ jobs:
   publish-to-github:
     needs: [build]
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Download the distribution files
         uses: actions/download-artifact@v4

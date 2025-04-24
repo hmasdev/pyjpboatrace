@@ -14,17 +14,15 @@ jobs:
     needs: [validate-version]
     if: ${{ failure() }}
     runs-on: ubuntu-latest
-    env:
-      PRIVATE_REPO_USER: "hmasdev"
-    strategy:
-      matrix:
-        python-version: [3.9]
+    permissions:
+      contents: write
+      pull-requests: write
     steps:
       - uses: actions/checkout@v4
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v1
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: "3.11"
       - name: Update Tags
         run: |
           # Get the latest tag
@@ -70,13 +68,11 @@ jobs:
             --assignee hmasdev \
             --reviewer hmasdev \
             --label "bot"
-
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Create a Draft Release
         shell: bash
         run: |
           gh release create $tag --title "Release $tag" --notes "Release $tag" --draft
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
