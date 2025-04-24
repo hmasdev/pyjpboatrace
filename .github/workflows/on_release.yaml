@@ -21,53 +21,58 @@ jobs:
     uses: ./.github/workflows/validate-version-workflow-call.yaml
     with:
       git-ref: ${{ github.ref }}
-  deploy:
+  build:
     needs: [test, static-type-check, code-style-check, validate-version]
     runs-on: ubuntu-latest
-    env:
-      PRIVATE_REPO_USER: "hmasdev"
-    strategy:
-      matrix:
-        python-version: [3.9]
+    permissions:
+      contents: read
     steps:
-      - uses: actions/checkout@v1
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v1
+      - uses: actions/checkout@v4
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
         with:
-          python-version: ${{ matrix.python-version }}
-      - name: Install requirements
+          python-version: "3.11"
+      - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip wheel setuptools twine
-          python -m pip install uv
-          uv sync --dev
-      - name: Build
+          python -m pip install --upgrade pip
+          pip install -U uv
+      - name: Build a binary wheel and a source tarball
         run: |
           uv build
-          echo "whl_name=$(ls dist/*whl | cut -d / -f 2)" >> $GITHUB_ENV
-          echo "tar_name=$(ls dist/*tar.gz | cut -d / -f 2)" >> $GITHUB_ENV
-      - name: Upload Wheel to GitHub
-        uses: actions/upload-release-asset@v1
+      - name: Store the distribution files as artifacts
+        uses: actions/upload-artifact@v4
         with:
-          upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./dist/*.whl
-          asset_name: ${{ env.whl_name }}
-          asset_content_type: application/octet-stream
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Upload tar.gz to GitHub
-        uses: actions/upload-release-asset@v1
+          name: python-package-distributions
+          path: dist/
+  publish-to-pypi:
+    needs: [build]
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/p/pyjpboatrace
+    permissions:
+      id-token: write
+    steps:
+      - name: Download the distribution files
+        uses: actions/download-artifact@v4
         with:
-          upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./dist/*.tar.gz
-          asset_name: ${{ env.tar_name }}
-          asset_content_type: application/octet-stream
+          name: python-package-distributions
+          path: dist/
+      - name: Publish distribution to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+  publish-to-github:
+    needs: [build]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download the distribution files
+        uses: actions/download-artifact@v4
+        with:
+          name: python-package-distributions
+          path: dist/
+      - name: Upload distribution files to GitHub
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Upload to PyPI
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          uv run python -m twine upload --repository pypi dist/*
-        env:
-          TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
-          TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
-          TWINE_REPOSITORY_URL: https://upload.pypi.org/legacy/
-          TWINE_SKIP_EXISTING: true
+          gh release upload "$GITHUB_REF_NAME" dist/* --repo "$GITHUB_REPOSITORY" --clobber
