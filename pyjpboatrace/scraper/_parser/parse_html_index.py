@@ -7,6 +7,9 @@ grade_mapper = {
     'is-G3b': 'G3',
     'is-G2b': 'G2',
     'is-G1b': 'G1',
+    'is-G3a': 'G3',
+    'is-G2a': 'G2',
+    'is-G1a': 'G1',
     'is-SGa': "SG",
     'is-lady': 'lady',
     'is-venus': 'venus',
@@ -20,6 +23,8 @@ timeframe_mapper = {
     'is-summer': 'summer',
     'is_nighter': 'nighter',
     'is-nighter': 'nighter',
+    'is_midnight': 'midnight',
+    'is-midnight': 'midnight',
 }
 
 
