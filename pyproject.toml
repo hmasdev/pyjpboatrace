@@ -40,7 +40,9 @@ dev = [
     "pytz>=2024.2",
     "ruff>=0.11.6",
     "twine>=6.0.1",
+    "types-beautifulsoup4",
     "types-pytz>=2024.2.0.20241221",
+    "types-requests",
 ]
 
 [dependency-groups]
@@ -53,7 +55,9 @@ dev = [
     "pytz>=2024.2",
     "ruff>=0.11.6",
     "twine>=6.0.1",
+    "types-beautifulsoup4",
     "types-pytz>=2024.2.0.20241221",
+    "types-requests",
 ]
 
 [tool.setuptools.dynamic]
