@@ -122,3 +122,37 @@ def test_get_for_unfinished_race(mock_html_file):
             stadium=1,  # dummy
             race=1,  # dummy
         )
+
+
+@pytest.mark.parametrize(
+    "mock_html_file",
+    [
+        "issue107_insufficient_grid_units.html",
+    ]
+)
+def test_get_for_issue107_insufficient_grid_units(mock_html_file):
+    """Test for Issue #107: Parse error when insufficient grid_units are present.
+
+    This test simulates the situation where the race result page temporarily
+    shows incomplete HTML structure (fewer than 4 grid_units) right after
+    the race result is confirmed. The parser should raise NoDataException
+    with appropriate message instead of IndexError.
+    """
+    # preparation
+    mock_driver = Mock(HTTPGetDriver)
+    mock_driver.page_source = get_mock_html(mock_html_file)
+    scraper = ResultScraper(driver=mock_driver)
+
+    # assert
+    with pytest.raises(NoDataException) as exc_info:
+        scraper.get(
+            date.today(),  # dummy
+            stadium=1,  # dummy
+            race=1,  # dummy
+        )
+
+    # Verify the specific error message for Issue #107
+    error_message = str(exc_info.value)
+    assert "Race result data is not yet fully available" in error_message
+    assert "Please wait a moment and try again" in error_message
+    assert "https://github.com/hmasdev/pyjpboatrace/issues" in error_message

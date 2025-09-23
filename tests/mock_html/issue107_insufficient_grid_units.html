@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head></head>
+  <body>
+    <main class="l-main">
+      <div class="l-mainWrap is-type3">
+        <div class="l-mainInner">
+          <div class="contentsFrame1">
+            <div class="contentsFrame1_inner">
+              <!-- This simulates the situation described in Issue107 -->
+              <!-- where only payoff table is present right after race result confirmation -->
+              <div class="grid is-type2 h-clear">
+                <div class="grid_unit">
+                  <!-- Only one grid_unit with payoff table, missing other required tables -->
+                  <div class="table1">
+                    <table class="is-w495">
+                      <colgroup span="1" style="width:88px;"></colgroup>
+                      <colgroup span="1" style="width:180px;"></colgroup>
+                      <colgroup span="1" style="width:133px;"></colgroup>
+                      <colgroup span="1" style="width:92px;"></colgroup>
+                      <thead>
+                        <tr class="is-fs14">
+                          <th>勝式</th>
+                          <th>組番</th>
+                          <th>払戻金</th>
+                          <th>人気</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>三連単</td>
+                          <td>1-2-3</td>
+                          <td>¥730</td>
+                          <td>2</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <!-- Missing grid_unit[1], grid_unit[2], grid_unit[3] that are expected -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>
