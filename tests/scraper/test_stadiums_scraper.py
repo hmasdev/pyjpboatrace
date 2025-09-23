@@ -57,6 +57,10 @@ def test_get(d: date):
             "today_index.html",
             "expected_today_index.json"
         ),
+        (
+            "today_index_with_day_before_sales.html",
+            "expected_today_index_with_day_before_sales.json"
+        ),
     ]
 )
 def test_get_for_today(mock_html_file, expected_file):

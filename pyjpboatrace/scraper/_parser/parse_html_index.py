@@ -44,6 +44,9 @@ def parse_html_index(html: str):
             next_race = int(tds.pop().get_text().replace('R', ''))
             next_vote_limit = trs[1].select_one('td').get_text()
             tds.pop()  # ignore vote button
+        elif "前日" in status.text:
+            # case : pre-sales is ongoing or completed
+            tds.pop()  # ignore vote button
 
         grade = tds.pop()['class']
         timeframe = tds.pop().get("class", "")
