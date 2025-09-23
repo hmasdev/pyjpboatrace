@@ -1,22 +1,27 @@
-class NoDataException(Exception):
+class BasePyJPBoatraceException(Exception):
+    """Base class for all pyjpboatrace-specific exceptions."""
     pass
 
 
-class RaceCancelledException(Exception):
+class NoDataException(BasePyJPBoatraceException):
+    pass
+
+
+class RaceCancelledException(BasePyJPBoatraceException):
     def __init__(self, msg=None):
         super().__init__(msg)
 
 
-class UnableActionException(Exception):
+class UnableActionException(BasePyJPBoatraceException):
     def __init__(self, msg=None):
         super().__init__(msg)
 
 
-class LoginFailException(Exception):
+class LoginFailException(BasePyJPBoatraceException):
     pass
 
 
-class InsufficientDepositException(Exception):
+class InsufficientDepositException(BasePyJPBoatraceException):
     pass
 
 
@@ -24,21 +29,37 @@ class ZeroDepositException(InsufficientDepositException):
     pass
 
 
-class VoteNotInTimeException(Exception):
+class VoteNotInTimeException(BasePyJPBoatraceException):
     pass
 
 
-class InactiveStadium(Exception):
+class InactiveStadium(BasePyJPBoatraceException):
     pass
 
 
-class InactiveRace(Exception):
+class InactiveRace(BasePyJPBoatraceException):
     pass
 
 
-class UserInformationNotGivenException(Exception):
+class UserInformationNotGivenException(BasePyJPBoatraceException):
     pass
 
 
-class UnexpectedException(Exception):
+class UnexpectedException(BasePyJPBoatraceException):
     pass
+
+
+__all__ = [
+    "BasePyJPBoatraceException",
+    "NoDataException",
+    "RaceCancelledException",
+    "UnableActionException",
+    "LoginFailException",
+    "InsufficientDepositException",
+    "ZeroDepositException",
+    "VoteNotInTimeException",
+    "InactiveStadium",
+    "InactiveRace",
+    "UserInformationNotGivenException",
+    "UnexpectedException",
+]
