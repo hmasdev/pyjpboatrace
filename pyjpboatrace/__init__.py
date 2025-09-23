@@ -12,7 +12,7 @@ from . import (
 )
 from .pyjpboatrace import PyJPBoatrace
 
-__version__ = 'v0.4.2'
+__version__ = 'v0.5.0'
 
 __all__ = [
     PyJPBoatrace.__name__,
