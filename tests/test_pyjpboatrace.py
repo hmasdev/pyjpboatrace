@@ -57,15 +57,32 @@ def test_get_stadiums(d: date, boatrace_tools: PyJPBoatrace):
 
 
 @mock.patch('selenium.webdriver.Chrome')
-def test_get_stadiums_today(mock_chrome):
+@pytest.mark.parametrize(
+    "mock_html,expected_json",
+    [
+        (
+            "today_index.html",
+            "expected_today_index.json",
+        ),
+        (
+            "today_index_with_day_before_sales.html",
+            "expected_today_index_with_day_before_sales.json",
+        ),
+    ]
+)
+def test_get_stadiums_today(
+    mock_chrome,
+    mock_html: str,
+    expected_json: str,
+):
     # TODAY (=2020/11/30) CASE #
     # preparation
     d = date(2020, 11, 30)
     # set mock
-    mock_chrome.page_source = get_mock_html("today_index.html")
+    mock_chrome.page_source = get_mock_html(mock_html)
 
     # expectation
-    expected = get_expected_json('expected_today_index.json')
+    expected = get_expected_json(expected_json)
     expected.update(date=d.strftime("%Y-%m-%d"))
 
     # actual
