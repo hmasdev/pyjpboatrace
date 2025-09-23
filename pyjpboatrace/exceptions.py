@@ -38,3 +38,7 @@ class InactiveRace(Exception):
 
 class UserInformationNotGivenException(Exception):
     pass
+
+
+class UnexpectedException(Exception):
+    pass

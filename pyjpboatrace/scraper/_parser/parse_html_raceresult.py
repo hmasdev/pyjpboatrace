@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 
 from ...const import BOATS_GEN
-from ...exceptions import NoDataException, RaceCancelledException
+from ...exceptions import NoDataException, RaceCancelledException, UnexpectedException
 from ...utils import str2num
 
 
@@ -296,6 +296,13 @@ def parse_html_raceresult(html: str):
 
     # table
     grid_units = soup.select('div.grid.is-type2.h-clear > div.grid_unit')  # probably 4 units # noqa
+    if len(grid_units) < 4:
+        raise NoDataException(
+            "Race result data is not yet fully available. "
+            "Please wait a moment and try again. "
+            "If the issue persists, please report it as a bug at "
+            "https://github.com/hmasdev/pyjpboatrace/issues"
+        )
     ranks_table = grid_units[0].select('div.table1 > table > tbody')
     starts_table = grid_units[1].select('div.table1 > table > tbody > tr > td')
     payoff_table = grid_units[2].select('div.table1 > table > tbody')
@@ -303,6 +310,14 @@ def parse_html_raceresult(html: str):
     inner_grid_units = grid_units[3].select(
         'div.grid.is-type6.h-clear > div.grid_unit'
     )  # probably 2 units
+
+    if len(inner_grid_units) < 2:
+        raise UnexpectedException(
+            "Unexpected HTML structure encountered while parsing race results. "
+            "Please report this as a bug at "
+            "https://github.com/hmasdev/pyjpboatrace/issues"
+        )
+
     weather_table = inner_grid_units[0].select(
         'div.weather1 > div.weather1_body > div.weather1_bodyUnit'
     )
