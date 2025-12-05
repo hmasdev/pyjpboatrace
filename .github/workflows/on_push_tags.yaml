@@ -6,7 +6,27 @@ on:
       - "*.*.*"
 
 jobs:
+  check-tag-format:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Validate Tag Format
+        run: |
+          tag="${{ github.ref_name }}"
+          echo "Validating tag: $tag"
+
+          # Check if tag matches vMAJOR.MINOR.PATCH format
+          if [[ ! "$tag" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Error: Tag '$tag' does not match the expected format"
+            echo "Expected format: vMAJOR.MINOR.PATCH"
+            echo "Examples of valid tags: v1.0.0, v2.3.4, v10.20.30"
+            exit 1
+          fi
+
+          echo "Tag format is valid: $tag"
   validate-version:
+    needs: [check-tag-format]
     uses: ./.github/workflows/validate-version-workflow-call.yaml
     with:
       git-ref: ${{ github.ref }}
