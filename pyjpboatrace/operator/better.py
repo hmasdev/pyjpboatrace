@@ -159,8 +159,11 @@ class BettingOperator(BaseOperator, DriverCheckMixin):
 
                 amount = amount + amt
 
-        # complete input
-        self._driver.find_element(By.CLASS_NAME, 'btnSubmit').click()
+        # complete input (target the "投票入力完了" button inside .inputCompletion;
+        # plain CLASS_NAME 'btnSubmit' also matches hidden password-change forms)
+        self._driver.find_element(
+            By.CSS_SELECTOR, '.inputCompletion .btnSubmit a'
+        ).click()
 
         # insufficient depost
         if amount > limit:
@@ -170,7 +173,10 @@ class BettingOperator(BaseOperator, DriverCheckMixin):
                 f'but your current deposit is {limit}.'
             )
 
-        # confirmation
+        # confirmation page — wait for the betconf DOM to appear
+        WebDriverWait(self._driver, timeout).until(
+            EC.presence_of_element_located((By.ID, 'pass'))
+        )
         self._driver.find_element(By.ID, 'amount').send_keys(str(amount))
         self._driver.find_element(By.ID, 'pass').send_keys(self._user.vote_pass)  # noqa
         self._driver.find_element(By.ID, 'submitBet').click()
