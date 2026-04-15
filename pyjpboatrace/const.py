@@ -12,7 +12,7 @@ BOATRACEJP_BASE_URL = f"{BOATRACEJP_MAIN_URL}owpc/pc/race"
 
 IBMBRACEORJP = ''.join([
     f'{BOATRACEJP_MAIN_URL}',
-    'owpc/VoteBridgeNew.jsp?',
+    'owpc/VoteBridgeNew.xhtml?',
     'param=H0JS00000stContens'
     '&kbn=1'
     '&voteActionUrl=/owpc/pc/site/index.html'
